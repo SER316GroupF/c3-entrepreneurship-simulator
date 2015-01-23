@@ -1,12 +1,12 @@
 package edu.asu.c3simulator;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class C3Simulator extends ApplicationAdapter
+public class C3Simulator extends Game
 {
 	SpriteBatch batch;
 	Texture img;
@@ -21,6 +21,10 @@ public class C3Simulator extends ApplicationAdapter
 	@Override
 	public void render()
 	{
+		super.render();
+		
+		// Below is an example of graphic usage
+		// TODO: remove from main code and relocate to different package
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
