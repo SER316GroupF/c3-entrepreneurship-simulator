@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.widgets.CornerAdvisor;
+
 /**
  * Allows the user to select the game difficulty. Each available difficulty is displayed
  * along with the details of the difficulty. Clicking an option will transition the player
@@ -68,6 +70,7 @@ public class DifficultySelectionScreen implements Screen
 		//@formatter:on
 	}
 	
+	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
@@ -98,6 +101,13 @@ public class DifficultySelectionScreen implements Screen
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
+		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
+		float padding = 0.01f * DESIGN_HEIGHT;
+		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+		advisor.setPosition(advisorLeft, advisorBottom);
+		
+		stage.addActor(advisor);
 		stage.addActor(choices);
 	}
 	
