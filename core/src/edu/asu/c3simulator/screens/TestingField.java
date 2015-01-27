@@ -9,13 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.util.Observer;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.Padding;
+import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 import edu.asu.c3simulator.widgets.TextAreaX;
 
 /**
- * Development screen to test new features and graphic elements before using them in
- * production code.
+ * Development screen to play with and test new features and graphic elements before using
+ * them in production code.
  * 
  * This class should not be deployed.
  * 
@@ -43,7 +47,56 @@ public class TestingField implements Screen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		// sandboxTestAreaX();
-		sandboxCornerAdvisor();
+		// sandboxCornerAdvisor();
+		// sandboxPlayerStatusDisplay();
+	}
+	
+	private void sandboxPlayerStatusDisplay()
+	{
+		PlayerStatusDisplay display = new PlayerStatusDisplay(new Player() {
+			
+			@Override
+			public void registerObserver(Observer<Player> observer)
+			{
+				
+			}
+			
+			@Override
+			public String getStatus()
+			{
+				return "testStatus";
+			}
+			
+			@Override
+			public C3Simulation getSimulation()
+			{
+				return new C3Simulation() {
+					@Override
+					public String getSimulationDate()
+					{
+						return "5 Jan, Year TEST";
+					}
+				};
+			}
+			
+			@Override
+			public int getNetWorth()
+			{
+				return 1000000;
+			}
+			
+			@Override
+			public int getCapital()
+			{
+				return 100000;
+			}
+		});
+		
+		display.left().bottom();
+		float displayX = display.getX() + 30;
+		float displayY = DESIGN_HEIGHT - display.getPrefHeight() - 20;
+		display.setPosition(displayX, displayY);
+		stage.addActor(display);
 	}
 	
 	private void sandboxCornerAdvisor()
