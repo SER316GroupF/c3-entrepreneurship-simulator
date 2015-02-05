@@ -3,6 +3,8 @@ package edu.asu.c3simulator.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,6 +18,7 @@ import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.Padding;
 import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 import edu.asu.c3simulator.widgets.TextAreaX;
+import edu.asu.c3simulator.widgets.WidgetFactory;
 
 /**
  * Development screen to play with and test new features and graphic elements before using
@@ -49,6 +52,17 @@ public class TestingField implements Screen
 		// sandboxTestAreaX();
 		// sandboxCornerAdvisor();
 		// sandboxPlayerStatusDisplay();
+		sandboxBulletedList();
+	}
+	
+	private void sandboxBulletedList()
+	{
+		String texturePath = "images/bullet_white.png";
+		Texture bulletTexture = new Texture(texturePath);
+		Actor list = WidgetFactory.createBulletedList(bulletTexture, "Item 1", "Item 2", "Item 3");
+		
+		list.setPosition(500, 500);
+		stage.addActor(list);
 	}
 	
 	private void sandboxPlayerStatusDisplay()
