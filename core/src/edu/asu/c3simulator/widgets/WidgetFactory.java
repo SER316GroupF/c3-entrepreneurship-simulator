@@ -1,7 +1,9 @@
 package edu.asu.c3simulator.widgets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,7 +22,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
  */
 public class WidgetFactory
 {
+	public static final Skin DEFAULT_SKIN = createSkin("skins/default/uiskin.json");
+	private static final boolean DEFAULT_TRANSFORM_SETTING = false;
 	private Skin skin;
+	
+	/** Used as the argument for {@link Group#setTransform(boolean)} */
+	private boolean transformSetting;
 	
 	/**
 	 * @param skin
@@ -34,9 +41,23 @@ public class WidgetFactory
 	{
 		super();
 		this.skin = skin;
+		this.transformSetting = DEFAULT_TRANSFORM_SETTING;
 		
 		if (skin == null)
 			throw new IllegalArgumentException("Provided skin must be non-null");
+	}
+	
+	/**
+	 * Creates a WidgetFactory using the skin specified by {@link #DEFAULT_SKIN}
+	 */
+	public WidgetFactory()
+	{
+		this(DEFAULT_SKIN);
+	}
+	
+	private static Skin createSkin(String skinPath)
+	{
+		return new Skin(Gdx.files.internal(skinPath));
 	}
 	
 	/**
@@ -58,6 +79,7 @@ public class WidgetFactory
 		float bulletDimention = listItem.getPrefHeight();
 		bulletCell.size(bulletDimention, bulletDimention);
 		
+		bulletedItem.setTransform(DEFAULT_TRANSFORM_SETTING);
 		return bulletedItem;
 	}
 	
@@ -82,6 +104,7 @@ public class WidgetFactory
 			bulletList.addActor(bulletedItem);
 		}
 		
+		bulletList.setTransform(DEFAULT_TRANSFORM_SETTING);
 		return bulletList;
 	}
 	
@@ -102,20 +125,21 @@ public class WidgetFactory
 			verticalList.addActor(line);
 		}
 		
+		verticalList.setTransform(transformSetting);
 		return verticalList;
 	}
 	
 	/**
 	 * Calls {@link #createVerticalList(String...)} followed by
-	 * {@link #createVerticalListTitled(String, Actor)}
+	 * {@link #prependTitle(String, Actor)}
 	 * 
-	 * @see WidgetFactory#createVerticalListTitled(String, Actor)
+	 * @see WidgetFactory#prependTitle(String, Actor)
 	 */
 	public Actor createVerticalListTitled(String title, String... listItems)
 	{
 		Actor listBody = createVerticalList(listItems);
 		
-		return createVerticalListTitled(title, listBody);
+		return prependTitle(title, listBody);
 	}
 	
 	/**
@@ -128,7 +152,7 @@ public class WidgetFactory
 	 *            An actor to be used as the body of the list
 	 * @return A new component, containing a title component stacked above listBody
 	 */
-	public Actor createVerticalListTitled(String title, Actor listBody)
+	public Actor prependTitle(String title, Actor listBody)
 	{
 		VerticalGroup verticalList = new VerticalGroup();
 		Actor listTitle = createTitle(verticalList, title);
@@ -136,7 +160,7 @@ public class WidgetFactory
 		verticalList.addActor(listTitle);
 		verticalList.addActor(listBody);
 		
-		verticalList.setTransform(true);
+		verticalList.setTransform(transformSetting);
 		
 		return verticalList;
 	}
@@ -151,12 +175,22 @@ public class WidgetFactory
 	 *            The text to display
 	 * @return A new component, as described above
 	 */
-	private Actor createTitle(Layout parent, String titleText)
+	public Actor createTitle(Layout parent, String titleText)
 	{
 		TextButton title = new StretchTextButton(titleText, skin, parent);
 		title.align(Align.center);
 		title.setDisabled(true);
+		title.setTransform(transformSetting);
 		
 		return title;
+	}
+	
+	public Actor createBulletedListTitled(String title, Texture bulletTexture,
+			String[] descriptionItems)
+	{
+		Actor listBody = WidgetFactory
+				.createBulletedList(bulletTexture, descriptionItems);
+		
+		return prependTitle(title, listBody);
 	}
 }
