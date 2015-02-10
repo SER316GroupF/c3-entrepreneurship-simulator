@@ -12,9 +12,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Industry;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.util.Observer;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.widgets.IndustrySelector;
 import edu.asu.c3simulator.widgets.Padding;
 import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 import edu.asu.c3simulator.widgets.TextAreaX;
@@ -52,17 +54,61 @@ public class TestingField implements Screen
 		// sandboxTestAreaX();
 		// sandboxCornerAdvisor();
 		// sandboxPlayerStatusDisplay();
-		sandboxBulletedList();
+		sandboxIndustrySelector();
 	}
 	
 	private void sandboxBulletedList()
 	{
 		String texturePath = "images/bullet_white.png";
 		Texture bulletTexture = new Texture(texturePath);
-		Actor list = WidgetFactory.createBulletedList(bulletTexture, "Item 1", "Item 2", "Item 3");
+		Actor list = WidgetFactory.createBulletedList(bulletTexture, "Item 1", "Item 2",
+				"Item 3");
 		
 		list.setPosition(500, 500);
 		stage.addActor(list);
+	}
+	
+	private void sandboxIndustrySelector()
+	{
+		class IndustryStub implements Industry
+		{
+			String name;
+			
+			public IndustryStub(String name)
+			{
+				this.name = name;
+			}
+			
+			@Override
+			public String getName()
+			{
+				return this.name;
+			}
+			
+			@Override
+			public String[] getDescription()
+			{
+				return new String[] { item(" 1"), item(" 2"), item(" 3") };
+			}
+			
+			private String item(String suffix)
+			{
+				return name + suffix;
+			}
+			
+		}
+		
+		IndustrySelector selector = new IndustrySelector();
+		selector.add(new IndustryStub("Industry A"));
+		selector.add(new IndustryStub("Industry B"));
+		selector.add(new IndustryStub("Industry C"));
+		selector.add(new IndustryStub("Industry D"));
+		selector.add(new IndustryStub("Industry E"));
+		
+		selector.setPosition(200, 200);
+		selector.setSize(600, 200);
+		
+		stage.addActor(selector);
 	}
 	
 	private void sandboxPlayerStatusDisplay()
