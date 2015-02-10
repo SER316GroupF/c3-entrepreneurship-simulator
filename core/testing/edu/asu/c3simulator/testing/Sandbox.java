@@ -1,6 +1,7 @@
-package edu.asu.c3simulator.screens;
+package edu.asu.c3simulator.testing;
 
-import com.badlogic.gdx.Game;
+import java.text.DateFormat;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Industry;
 import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 import edu.asu.c3simulator.util.Observer;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.IndustrySelector;
@@ -31,22 +33,27 @@ import edu.asu.c3simulator.widgets.WidgetFactory;
  * @author Moore, Zachary
  * 
  */
-public class TestingField implements Screen
+public class Sandbox implements Screen
 {
+	/**
+	 * Width and Height at which this screen was designed. Can be used in resize
+	 * operations.
+	 */
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	
-	@SuppressWarnings("unused")
-	private Game game;
-	
+	/** Handles all components of this screen (rendering, updating, resizing, etc) */
 	private Stage stage;
+	
+	/** Specifies textures to use for default widgets such as Buttons and Labels */
 	@SuppressWarnings("unused")
 	private Skin skin;
 	
-	public TestingField(Game game)
+	/**
+	 * @param game
+	 */
+	public Sandbox()
 	{
-		this.game = game;
-		
 		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
@@ -57,6 +64,11 @@ public class TestingField implements Screen
 		sandboxIndustrySelector();
 	}
 	
+	/**
+	 * Contains a bulleted list component on the screen, with multiple bullet items.
+	 * Manufactures the list using
+	 * {@link WidgetFactory#createBulletedList(Texture, String...)}
+	 */
 	private void sandboxBulletedList()
 	{
 		String texturePath = "images/bullet_white.png";
@@ -68,6 +80,9 @@ public class TestingField implements Screen
 		stage.addActor(list);
 	}
 	
+	/**
+	 * Contains a single IndustrySelector instance using an Industry stub as the content
+	 */
 	private void sandboxIndustrySelector()
 	{
 		class IndustryStub implements Industry
@@ -111,6 +126,9 @@ public class TestingField implements Screen
 		stage.addActor(selector);
 	}
 	
+	/**
+	 * Contains a single PlayerStatusDisplay drawn in the top left corner
+	 */
 	private void sandboxPlayerStatusDisplay()
 	{
 		PlayerStatusDisplay display = new PlayerStatusDisplay(new Player() {
@@ -122,9 +140,9 @@ public class TestingField implements Screen
 			}
 			
 			@Override
-			public String getStatus()
+			public SocioeconomicStatus getStatus()
 			{
-				return "testStatus";
+				return SocioeconomicStatus.TEST_STATUS;
 			}
 			
 			@Override
@@ -132,9 +150,25 @@ public class TestingField implements Screen
 			{
 				return new C3Simulation() {
 					@Override
-					public String getSimulationDate()
+					public String getSimulationDateString()
 					{
 						return "5 Jan, Year TEST";
+					}
+					
+					@Override
+					public String getSimulationDateString(String format)
+					{
+						// TODO Auto-generated method stub return null;
+						throw new UnsupportedOperationException(
+								"The method is not implemented yet.");
+					}
+					
+					@Override
+					public String getSimulationDateString(DateFormat format)
+					{
+						// TODO Auto-generated method stub return null;
+						throw new UnsupportedOperationException(
+								"The method is not implemented yet.");
 					}
 				};
 			}
@@ -150,6 +184,12 @@ public class TestingField implements Screen
 			{
 				return 100000;
 			}
+			
+			@Override
+			public String getID()
+			{
+				return "test";
+			}
 		});
 		
 		display.left().bottom();
@@ -159,6 +199,9 @@ public class TestingField implements Screen
 		stage.addActor(display);
 	}
 	
+	/**
+	 * Contains a CornerAdvisor object with placeholder text spanning multiple lines.
+	 */
 	private void sandboxCornerAdvisor()
 	{
 		String text = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
@@ -170,7 +213,10 @@ public class TestingField implements Screen
 		stage.addActor(advisor);
 	}
 	
-	private void sandboxTestAreaX()
+	/**
+	 * Contains a TextAreaX object with placeholder text spanning multiple lines.
+	 */
+	private void sandboxTextAreaX()
 	{
 		String text = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
 		TextAreaX textArea = new TextAreaX(text, 200, 0.5f);
@@ -191,25 +237,44 @@ public class TestingField implements Screen
 		stage.addActor(textArea2);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
 	@Override
 	public void dispose()
 	{
 		stage.dispose();
-		this.game = null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#pause()
+	 */
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
+		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#render(float)
+	 */
 	@Override
 	public void render(float delta)
 	{
@@ -217,18 +282,33 @@ public class TestingField implements Screen
 		stage.draw();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 */
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resume()
+	 */
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
 	@Override
 	public void show()
 	{

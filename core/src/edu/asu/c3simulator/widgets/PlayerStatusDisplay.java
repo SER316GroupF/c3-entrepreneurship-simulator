@@ -125,12 +125,12 @@ public class PlayerStatusDisplay extends Table implements Observer<Player>
 	{
 		disableUpdates();
 		{ // START 	non-updating block
-			setField(Field.STATUS, player.getStatus());
+			setField(Field.STATUS, player.getStatus().asString());
 			setField(Field.CAPITAL, "$" + player.getCapital());
 			setField(Field.NET_WORTH, "$" + player.getNetWorth());
 			
 			C3Simulation simulation = player.getSimulation();
-			String simulationDate = simulation.getSimulationDate();
+			String simulationDate = simulation.getSimulationDateString();
 			setField(Field.DATE, simulationDate);
 		} // END 	non-updating block
 		enableUpdates();
