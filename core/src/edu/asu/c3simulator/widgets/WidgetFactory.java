@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
@@ -69,15 +71,8 @@ public class WidgetFactory
 	 */
 	public static Actor createBulletedItem(Texture bulletTexture, String item)
 	{
-		Table bulletedItem = new Table();
-		Image bullet = new Image(bulletTexture);
-		Cell<Image> bulletCell = bulletedItem.add(bullet);
+		BulletedItem bulletedItem = new BulletedItem(bulletTexture, item);
 		
-		SimpleTextField listItem = new SimpleTextField(item);
-		bulletedItem.add(listItem);
-		
-		float bulletDimention = listItem.getPrefHeight();
-		bulletCell.size(bulletDimention, bulletDimention);
 		
 		bulletedItem.setTransform(DEFAULT_TRANSFORM_SETTING);
 		return bulletedItem;
@@ -96,7 +91,7 @@ public class WidgetFactory
 	 */
 	public static Actor createBulletedList(Texture bulletTexture, String... listItems)
 	{
-		VerticalGroup bulletList = new VerticalGroup();
+		VerticalMaintenanceGroup bulletList = new VerticalMaintenanceGroup();
 		
 		for (String item : listItems)
 		{
@@ -116,7 +111,7 @@ public class WidgetFactory
 	 */
 	public Actor createVerticalList(String... listItems)
 	{
-		VerticalGroup verticalList = new VerticalGroup();
+		VerticalMaintenanceGroup verticalList = new VerticalMaintenanceGroup();
 		
 		for (String item : listItems)
 		{
@@ -154,7 +149,7 @@ public class WidgetFactory
 	 */
 	public Actor prependTitle(String title, Actor listBody)
 	{
-		VerticalGroup verticalList = new VerticalGroup();
+		VerticalMaintenanceGroup verticalList = new VerticalMaintenanceGroup();
 		Actor listTitle = createTitle(verticalList, title);
 		
 		verticalList.addActor(listTitle);
@@ -192,5 +187,96 @@ public class WidgetFactory
 				.createBulletedList(bulletTexture, descriptionItems);
 		
 		return prependTitle(title, listBody);
+	}
+	
+	public static class VerticalMaintenanceGroup extends VerticalGroup
+	{
+		@Override
+		public void setSize(float width, float height)
+		{
+			super.setSize(width, height);
+			System.out.println(getWidth());
+			
+			for (Actor child : getChildren())
+			{
+				if (child instanceof WidgetGroup)
+				{
+					child.setSize(width, height / getChildren().size);
+				}
+			}
+		}
+	}
+	
+	public static class TableMaintenanceGroup extends Table
+	{
+		@Override
+		public void setSize(float width, float height)
+		{
+			super.setSize(width, height);
+			System.out.println(getWidth());
+			
+			for (Actor child : getChildren())
+			{
+				if (child instanceof WidgetGroup)
+				{
+					child.setSize(width, height);
+				}
+			}
+		}
+	}
+	
+	public static class ContainerMaintenanceGroup<T extends Actor> extends Container<T>
+	{
+		@Override
+		public void setSize(float width, float height)
+		{
+			super.setSize(width, height);
+			System.out.println(getWidth());
+			
+			for (Actor child : getChildren())
+			{
+				if (child instanceof WidgetGroup)
+				{
+					child.setSize(width, height);
+				}
+			}
+		}
+	}
+	
+	public static class BulletedItem extends Table
+	{
+		private SimpleTextField listItem;
+		
+		public BulletedItem(Texture bulletTexture, String text)
+		{
+			Image bullet = new Image(bulletTexture);
+			Cell<Image> bulletCell = add(bullet);
+			
+			this.listItem = new SimpleTextField(text);
+			add(listItem);
+			
+			float bulletDimention = listItem.getPrefHeight();
+			bulletCell.size(bulletDimention, bulletDimention);
+		}
+		
+		@Override
+		public void setSize(float width, float height)
+		{
+			super.setSize(width, height);
+			System.out.println(getWidth());
+			
+			Cell<?> bulletCell = this.getCells().get(0);
+			listItem.setSize(width - height, height);
+			float bulletDimention = listItem.getPrefHeight();
+			bulletCell.size(bulletDimention, bulletDimention);
+			
+			for (Actor child : getChildren())
+			{
+				if (child instanceof WidgetGroup)
+				{
+					child.setSize(width, height);
+				}
+			}
+		}
 	}
 }

@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import edu.asu.c3simulator.simulation.Industry;
 import edu.asu.c3simulator.util.Association;
+import edu.asu.c3simulator.widgets.WidgetFactory.ContainerMaintenanceGroup;
 
 public class IndustrySelector extends Widget
 {
@@ -44,18 +44,18 @@ public class IndustrySelector extends Widget
 	
 	private List<Association<Actor, Industry>> contents;
 	private int currentSelectionIndex;
-	private Container<Actor> leftSelectionDisplay;
-	private Container<Actor> middleSelectionDisplay;
-	private Container<Actor> rightSelectionDisplay;
+	private ContainerMaintenanceGroup<Actor> leftSelectionDisplay;
+	private ContainerMaintenanceGroup<Actor> middleSelectionDisplay;
+	private ContainerMaintenanceGroup<Actor> rightSelectionDisplay;
 	
 	public IndustrySelector()
 	{
 		super();
 		this.contents = new ArrayList<>();
 		this.currentSelectionIndex = 0;
-		this.leftSelectionDisplay = new Container<>();
-		this.middleSelectionDisplay = new Container<>();
-		this.rightSelectionDisplay = new Container<>();
+		this.leftSelectionDisplay = new ContainerMaintenanceGroup<>();
+		this.middleSelectionDisplay = new ContainerMaintenanceGroup<>();
+		this.rightSelectionDisplay = new ContainerMaintenanceGroup<>();
 		
 		leftSelectionDisplay.debug();
 		middleSelectionDisplay.debug();
