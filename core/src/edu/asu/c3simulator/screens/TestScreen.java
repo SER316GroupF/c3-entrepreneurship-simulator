@@ -12,7 +12,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.RandomEvent;
-
+/* 
+* @author Olono, Shantal
+* 
+*/
 public class TestScreen implements Screen
 { 
 	private static final int DESIGN_WIDTH = 1280;
@@ -36,6 +39,7 @@ public class TestScreen implements Screen
 		RandomEvent rand = new RandomEvent();
 		Label employee1 = new Label("test", skin);
 		String newText = "";
+		
 		while(newText.equals("")){
 			newText = rand.getEvent(10);
 			employee1.setText(newText);

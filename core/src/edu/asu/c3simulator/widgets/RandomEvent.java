@@ -3,7 +3,10 @@ package edu.asu.c3simulator.widgets;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/* 
+* @author Olono, Shantal
+* 
+*/
 public class RandomEvent //extends Actor
 {
 	float runTime;

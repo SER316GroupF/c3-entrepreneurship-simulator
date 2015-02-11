@@ -5,7 +5,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
+/* 
+* @author Reigel, Justin
+* 
+*/
 public class HomeButton extends Table{
 	
 	private Image homeIcon;

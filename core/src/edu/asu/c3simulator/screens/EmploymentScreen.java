@@ -1,6 +1,5 @@
 package edu.asu.c3simulator.screens;
 
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,15 +7,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,8 +20,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 
+//import edu.asu.c3simulator.widgets.HomeButton;
+
 /*
- * @author Krogstad, Nick 
+ * @author Krogstad, Nick
+ * Framework: Moore, Zachary 
  */
 //import edu.asu.c3simulator.screens.DifficultySelectionScreen.Button2;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
@@ -56,6 +55,8 @@ public class EmploymentScreen implements Screen
  private static final int DESIGN_HEIGHT = 720;
  private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
  private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
+ private static final int ROSTER_OFFSET = 400;
+ private static final int PAY = 10000;
  
  private Game game;
  private Skin skin;
@@ -72,27 +73,32 @@ public class EmploymentScreen implements Screen
   Table roster = new Table();
   
   Actor employeePane = createEmployeePane();
+  Actor employeeModel = createEmployeeModel();
   
   roster.add(employeePane).top();
   roster.add(employeePane).top().spaceLeft(75);
+  
+  roster.add(employeeModel).top();
+  roster.add(employeeModel).top().spaceRight(75);
   
   roster.setTransform(true);
   roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
   
   /*
    * CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT); float padding = 0.01f
-   * * DESIGN_HEIGHT; float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() -
+   * DESIGN_HEIGHT; float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() -
    * padding; float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
    * padding; advisor.setPosition(advisorLeft, advisorBottom);
    */
-	CornerAdvisor advisor = new CornerAdvisor("test scren");
-	float padding = 0.01f * DESIGN_HEIGHT;
-	float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-	float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-	employeePane.setPosition(DESIGN_WIDTH/2, DESIGN_HEIGHT/2);
-	advisor.setPosition(advisorLeft, advisorBottom);
+  CornerAdvisor advisor = new CornerAdvisor("test scren");
+  float padding = 0.01f * DESIGN_HEIGHT;
+  float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+  float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+  employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET, DESIGN_HEIGHT / 2);
+  roster.setPosition( ROSTER_OFFSET, DESIGN_HEIGHT / 2);
+  advisor.setPosition(advisorLeft, advisorBottom);
   HomeButton home = new HomeButton();
-	
+  
   stage.addActor(home);
   stage.addActor(advisor);
   stage.addActor(roster);
@@ -126,6 +132,22 @@ public class EmploymentScreen implements Screen
   return employeePane;
  }
  
+ private Actor createEmployeeModel()
+ {
+  
+  Table employeeModel = new Table();
+  
+  Label employeeName = new Label("Frank Tucker", skin);
+  Label employeePay = new Label("Pay: " + PAY, skin);
+  employeeName.setAlignment(Align.left);
+  employeePay.setAlignment(Align.left);
+  employeeModel.add(employeeName);
+  employeeModel.row();
+  employeeModel.add(employeePay);
+  
+  return employeeModel;
+ }
+ 
  private Actor createEmploymentTitle(Layout parent, String titleText)
  {
   TextButton title = new Button2(titleText, skin, parent);
@@ -135,50 +157,50 @@ public class EmploymentScreen implements Screen
   return title;
  }
  
-	@Override
-	public void dispose()
-	{
-		stage.dispose();
-		this.game = null;
-	}
-	
-	@Override
-	public void hide()
-	{
-		Gdx.input.setInputProcessor(null);
-	}
-	
-	@Override
-	public void pause()
-	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("The method is not implemented yet.");
-	}
-	
-	@Override
-	public void render(float delta)
-	{
-		stage.act(delta);
-		stage.draw();
-	}
-	
-	@Override
-	public void resize(int width, int height)
-	{
-		stage.getViewport().update(width, height);
-	}
-	
-	@Override
-	public void resume()
-	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("The method is not implemented yet.");
-	}
-	
-	@Override
-	public void show()
-	{
-		Gdx.input.setInputProcessor(stage);
-	}
+ @Override
+ public void dispose()
+ {
+  stage.dispose();
+  this.game = null;
+ }
+ 
+ @Override
+ public void hide()
+ {
+  Gdx.input.setInputProcessor(null);
+ }
+ 
+ @Override
+ public void pause()
+ {
+  // TODO Auto-generated method stub
+  throw new UnsupportedOperationException("The method is not implemented yet.");
+ }
+ 
+ @Override
+ public void render(float delta)
+ {
+  stage.act(delta);
+  stage.draw();
+ }
+ 
+ @Override
+ public void resize(int width, int height)
+ {
+  stage.getViewport().update(width, height);
+ }
+ 
+ @Override
+ public void resume()
+ {
+  // TODO Auto-generated method stub
+  throw new UnsupportedOperationException("The method is not implemented yet.");
+ }
+ 
+ @Override
+ public void show()
+ {
+  Gdx.input.setInputProcessor(stage);
+ }
  
 }

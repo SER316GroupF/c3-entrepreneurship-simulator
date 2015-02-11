@@ -11,7 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-
+/* 
+* @author Alyahya, Mohammed
+* 
+*/
 public class BusinessDirectonScreen extends BusinessCreationGuide 
 {
 	public BusinessDirectonScreen()
