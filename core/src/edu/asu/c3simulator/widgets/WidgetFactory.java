@@ -4,17 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
+
+import edu.asu.c3simulator.widgets.groups.BulletedItem;
+import edu.asu.c3simulator.widgets.groups.VerticalMaintenanceGroup;
 
 /**
  * Factory for producing various GUI component combinations, such as lists, bulleted
@@ -72,7 +69,6 @@ public class WidgetFactory
 	public static Actor createBulletedItem(Texture bulletTexture, String item)
 	{
 		BulletedItem bulletedItem = new BulletedItem(bulletTexture, item);
-		
 		
 		bulletedItem.setTransform(DEFAULT_TRANSFORM_SETTING);
 		return bulletedItem;
@@ -180,6 +176,20 @@ public class WidgetFactory
 		return title;
 	}
 	
+	/**
+	 * Creates a bulleted list, and prepends a title to it. This function is equivalent to
+	 * {@link #createBulletedList(Texture, String...)} followed by
+	 * {@link #prependTitle(String, Actor)}
+	 * 
+	 * @param title
+	 *            The title to be displayed above the list
+	 * @param bulletTexture
+	 *            Texture to display to the left of each bulleted item
+	 * @param descriptionItems
+	 *            Contents of the list. Items will be displayed with the first list item
+	 *            on the top of the list, and the last item on the bottom.
+	 * @return
+	 */
 	public Actor createBulletedListTitled(String title, Texture bulletTexture,
 			String[] descriptionItems)
 	{
@@ -187,96 +197,5 @@ public class WidgetFactory
 				.createBulletedList(bulletTexture, descriptionItems);
 		
 		return prependTitle(title, listBody);
-	}
-	
-	public static class VerticalMaintenanceGroup extends VerticalGroup
-	{
-		@Override
-		public void setSize(float width, float height)
-		{
-			super.setSize(width, height);
-			System.out.println(getWidth());
-			
-			for (Actor child : getChildren())
-			{
-				if (child instanceof WidgetGroup)
-				{
-					child.setSize(width, height / getChildren().size);
-				}
-			}
-		}
-	}
-	
-	public static class TableMaintenanceGroup extends Table
-	{
-		@Override
-		public void setSize(float width, float height)
-		{
-			super.setSize(width, height);
-			System.out.println(getWidth());
-			
-			for (Actor child : getChildren())
-			{
-				if (child instanceof WidgetGroup)
-				{
-					child.setSize(width, height);
-				}
-			}
-		}
-	}
-	
-	public static class ContainerMaintenanceGroup<T extends Actor> extends Container<T>
-	{
-		@Override
-		public void setSize(float width, float height)
-		{
-			super.setSize(width, height);
-			System.out.println(getWidth());
-			
-			for (Actor child : getChildren())
-			{
-				if (child instanceof WidgetGroup)
-				{
-					child.setSize(width, height);
-				}
-			}
-		}
-	}
-	
-	public static class BulletedItem extends Table
-	{
-		private SimpleTextField listItem;
-		
-		public BulletedItem(Texture bulletTexture, String text)
-		{
-			Image bullet = new Image(bulletTexture);
-			Cell<Image> bulletCell = add(bullet);
-			
-			this.listItem = new SimpleTextField(text);
-			add(listItem);
-			
-			float bulletDimention = listItem.getPrefHeight();
-			bulletCell.size(bulletDimention, bulletDimention);
-		}
-		
-		@Override
-		public void setSize(float width, float height)
-		{
-			super.setSize(width, height);
-			System.out.println(getWidth());
-			
-			Cell<?> bulletCell = this.getCells().get(0);
-			listItem.setSize(width - height, height);
-			float bulletDimention = listItem.getPrefHeight();
-			bulletCell.size(bulletDimention, bulletDimention);
-			
-			for (Actor child : getChildren())
-			{
-				if (child instanceof WidgetGroup)
-				{
-					child.setSize(width, height);
-				}
-			}
-		}
 	}
 }

@@ -80,7 +80,7 @@ public class DifficultySelectionScreen implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
+				// TODO: Instantiate simulation
 				System.out.println("Easy");
 			}
 		});
@@ -91,7 +91,7 @@ public class DifficultySelectionScreen implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
+				// TODO: Instantiate simulation
 				System.out.println("Hard");
 			}
 		});
