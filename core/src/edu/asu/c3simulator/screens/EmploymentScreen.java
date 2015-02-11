@@ -21,6 +21,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.widgets.HomeButton;
+
+/*
+ * @author Krogstad, Nick 
+ */
 //import edu.asu.c3simulator.screens.DifficultySelectionScreen.Button2;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 
@@ -79,8 +85,18 @@ public class EmploymentScreen implements Screen
    * padding; float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
    * padding; advisor.setPosition(advisorLeft, advisorBottom);
    */
-  
+	CornerAdvisor advisor = new CornerAdvisor("test scren");
+	float padding = 0.01f * DESIGN_HEIGHT;
+	float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+	float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+	employeePane.setPosition(DESIGN_WIDTH/2, DESIGN_HEIGHT/2);
+	advisor.setPosition(advisorLeft, advisorBottom);
+  HomeButton home = new HomeButton();
+	
+  stage.addActor(home);
+  stage.addActor(advisor);
   stage.addActor(roster);
+  stage.addActor(employeePane);
   
  }
  
@@ -119,53 +135,50 @@ public class EmploymentScreen implements Screen
   return title;
  }
  
- @Override
- public void render(float delta)
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void resize(int width, int height)
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void show()
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void hide()
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void pause()
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void resume()
- {
-  // TODO Auto-generated method stub
-  
- }
- 
- @Override
- public void dispose()
- {
-  // TODO Auto-generated method stub
-  
- }
+	@Override
+	public void dispose()
+	{
+		stage.dispose();
+		this.game = null;
+	}
+	
+	@Override
+	public void hide()
+	{
+		Gdx.input.setInputProcessor(null);
+	}
+	
+	@Override
+	public void pause()
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void render(float delta)
+	{
+		stage.act(delta);
+		stage.draw();
+	}
+	
+	@Override
+	public void resize(int width, int height)
+	{
+		stage.getViewport().update(width, height);
+	}
+	
+	@Override
+	public void resume()
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void show()
+	{
+		Gdx.input.setInputProcessor(stage);
+	}
  
 }

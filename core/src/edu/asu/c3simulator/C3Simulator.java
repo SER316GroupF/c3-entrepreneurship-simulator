@@ -13,7 +13,7 @@ public class C3Simulator extends Game
 	{
 		Screen firstScreen = new DifficultySelectionScreen(this);
 		Screen secondScreen = new EmploymentScreen(this);
-		this.setScreen(secondScreen);
+		this.setScreen(firstScreen);
 	}
 	
 	@Override
