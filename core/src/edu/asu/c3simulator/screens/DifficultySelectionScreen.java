@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.widgets.HomeButton;
 
 /**
  * Allows the user to select the game difficulty. Each available difficulty is displayed
@@ -107,6 +108,9 @@ public class DifficultySelectionScreen implements Screen
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
 		
+		HomeButton home = new HomeButton();
+		
+		stage.addActor(home);
 		stage.addActor(advisor);
 		stage.addActor(choices);
 	}

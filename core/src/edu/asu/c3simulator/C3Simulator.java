@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
 import edu.asu.c3simulator.screens.DifficultySelectionScreen;
+import edu.asu.c3simulator.screens.EmploymentScreen;
 
 public class C3Simulator extends Game
 {
@@ -11,7 +12,8 @@ public class C3Simulator extends Game
 	public void create()
 	{
 		Screen firstScreen = new DifficultySelectionScreen(this);
-		this.setScreen(firstScreen);
+		Screen secondScreen = new EmploymentScreen(this);
+		this.setScreen(secondScreen);
 	}
 	
 	@Override
