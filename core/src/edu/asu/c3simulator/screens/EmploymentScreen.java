@@ -6,13 +6,16 @@ import java.util.List;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -57,7 +60,7 @@ public class EmploymentScreen implements Screen
 	private Skin skin;
 	private Stage stage;
 
-	public EmploymentScreen(Game game)
+	public EmploymentScreen(final Game game)
 	{
 		this.game = game;
 
@@ -87,7 +90,7 @@ public class EmploymentScreen implements Screen
 		 * - advisor.getPrefHeight() - padding; advisor.setPosition(advisorLeft,
 		 * advisorBottom);
 		 */
-		CornerAdvisor advisor = new CornerAdvisor("test scren");
+		CornerAdvisor advisor = new CornerAdvisor("This screen is designed to show employee information.");
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
@@ -96,6 +99,17 @@ public class EmploymentScreen implements Screen
 		roster.setPosition(ROSTER_OFFSET, DESIGN_HEIGHT / 2);
 		advisor.setPosition(advisorLeft, advisorBottom);
 		HomeButton home = new HomeButton();
+		home.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				// TODO: Transition to main hub
+				// TODO: Instantiate game instance
+				game.setScreen(new DifficultySelectionScreen(game));
+			}
+		}
+		
+		);
 
 		stage.addActor(home);
 		stage.addActor(advisor);
@@ -179,7 +193,8 @@ public class EmploymentScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
-		stage.act(delta);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
 
