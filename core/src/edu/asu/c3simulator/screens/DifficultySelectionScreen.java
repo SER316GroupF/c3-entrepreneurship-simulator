@@ -107,9 +107,7 @@ public class DifficultySelectionScreen implements Screen
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
-		HomeButton home = new HomeButton();
-		
-		stage.addActor(home);
+
 		stage.addActor(advisor);
 		stage.addActor(choices);
 	}
