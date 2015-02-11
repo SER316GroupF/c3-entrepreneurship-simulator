@@ -3,9 +3,12 @@ package edu.asu.c3simulator.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,10 +26,10 @@ public class BusinessCreationGuide implements Screen
 {
 	private class navigationButtonListener extends ClickListener
 	{
-		Screen targetedScreen;
+		BusinessCreationGuideScreens targetedScreen;
 		String screenName;
 		
-		public navigationButtonListener(Screen targetedScreen, String screenName)
+		public navigationButtonListener(BusinessCreationGuideScreens targetedScreen, String screenName)
 		{
 			this.targetedScreen = targetedScreen;
 			this.screenName = screenName;
@@ -36,15 +39,53 @@ public class BusinessCreationGuide implements Screen
 		public void clicked(InputEvent event, float x, float y)
 		{
 			System.out.println(screenName);
-			game.setScreen(targetedScreen);
+			currentScreen.hideScreen(stage);
+			showScreen(targetedScreen);
 		}
 	}
 	
-	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
-	protected Game game;
-	protected Stage stage;
-	protected Skin skin;
-	protected static Screen industryScreen, directonScreen, fundingScreen, tasksScreen;
+	private class progressButtonListener extends ClickListener
+	{
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			if(currentScreen == industryScreen)
+			{
+				System.out.println("Transitioning to Direction Screen");
+				//game.setScreen(directionScreen);
+				industryScreen.hideScreen(stage);
+				showScreen(directionScreen);
+			}
+			else if(currentScreen == directionScreen)
+			{
+				System.out.println("Transitioning to funding Screen");
+				//game.setScreen(fundingScreen);
+				directionScreen.hideScreen(stage);
+				showScreen(fundingScreen);
+			}
+			else if(currentScreen == fundingScreen)
+			{
+				System.out.println("Transitioning to tasks Screen");
+				//game.setScreen(tasksScreen);
+				fundingScreen.hideScreen(stage);
+				showScreen(tasksScreen);
+			}
+			else if(currentScreen == tasksScreen)
+			{
+				System.out.println("Transitioning to Home Screen");
+				//resetBusinessCreationGuide();
+				// TODO: Transition to main hub
+				// TODO: pass user choices to data layer
+			}
+		}
+	}
+	
+	private static final String ADVISOR_TEXT = "Test";
+	private Game game;
+	private Stage stage;
+	private Skin skin;
+	private BusinessCreationGuideScreens industryScreen, directionScreen, fundingScreen, tasksScreen, currentScreen;
+	TextButton progressButton;
 	
 	public BusinessCreationGuide(Game game)
 	{
@@ -52,18 +93,10 @@ public class BusinessCreationGuide implements Screen
 		this.stage = new Stage();
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
-		industryScreen = new BusinessDirectonScreen(); //IndustryScreen();
-		directonScreen = new BusinessDirectonScreen();
-		fundingScreen = new BusinessDirectonScreen(); //FundingScreen();
-		tasksScreen = new BusinessDirectonScreen(); //TasksScreen();
-		
-		this.game.setScreen(directonScreen);
-	}
-	
-	public BusinessCreationGuide()
-	{
-		this.stage = new Stage();
-		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		industryScreen = new IndustryScreen(stage); //IndustryScreen();
+		directionScreen = new BusinessDirectonScreen(stage);
+		fundingScreen = new FundingScreen(stage); //FundingScreen();
+		tasksScreen = new TasksScreen(stage); //TasksScreen();
 		
 		TextButton industryButton = new TextButton("Industry", skin);
 		TextButton directonButton = new TextButton("Directon", skin);
@@ -71,57 +104,30 @@ public class BusinessCreationGuide implements Screen
 		TextButton tasksButton = new TextButton("Tasks", skin);
 		
 		industryButton.addListener(new navigationButtonListener(industryScreen, "Industry"));
-		directonButton.addListener(new navigationButtonListener(directonScreen, "Directon"));
+		directonButton.addListener(new navigationButtonListener(directionScreen, "Directon"));
 		fundingButton.addListener(new navigationButtonListener(fundingScreen, "Funding"));
 		tasksButton.addListener(new navigationButtonListener(tasksScreen, "Tasks"));
 		
-		VerticalGroup navigationButtons = new VerticalGroup();
-		navigationButtons.addActor(industryButton);
-		navigationButtons.addActor(directonButton);
-		navigationButtons.addActor(fundingButton);
-		navigationButtons.addActor(tasksButton);
+		Table navigationButtons = new Table();
+		navigationButtons.add(industryButton).fillX().padTop(10);
+		navigationButtons.row();
+		navigationButtons.add(directonButton).fillX().padTop(10);
+		navigationButtons.row();
+		navigationButtons.add(fundingButton).fillX().padTop(10);
+		navigationButtons.row();
+		navigationButtons.add(tasksButton).fillX().padTop(10);
 		
 		navigationButtons.center();
-		navigationButtons.space(10);
 		
 		float navigationButtonsLeft = 0.05f * stage.getWidth();
 		float navigationButtonsBottom = (stage.getHeight()/2) + (navigationButtons.getPrefHeight());
 		navigationButtons.setTransform(true);
 		navigationButtons.setPosition(navigationButtonsLeft, navigationButtonsBottom);
 		
-		TextButton continueButton;
-		if(this instanceof BusinessDirectonScreen) //TasksScreen)
-		{
-			continueButton = new TextButton("Done >", skin);
-			continueButton.addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y)
-				{
-					resetBusinessCreationGuide();
-					// TODO: Transition to main hub
-					// TODO: pass user choices to data layer
-				}
-			});
-		}
-		else
-		{
-			continueButton = new TextButton("Continue >", skin);
-			continueButton.addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y)
-				{
-					System.out.println("Continue Pressed");
-					if(game.getScreen() == industryScreen)
-						game.setScreen(directonScreen);
-					if(game.getScreen() == directonScreen)
-						game.setScreen(fundingScreen);
-					if(game.getScreen() == fundingScreen)
-						game.setScreen(tasksScreen);
-				}
-			});
-		}
+		progressButton = new TextButton("Continue >", skin);
+		progressButton.addListener(new progressButtonListener());
 		
-		continueButton.setPosition(stage.getWidth()-continueButton.getPrefWidth() - (0.01f * stage.getWidth()),(0.01f * stage.getWidth()));
+		progressButton.setPosition(stage.getWidth()-progressButton.getPrefWidth() - (0.01f * stage.getWidth()),(0.01f * stage.getWidth()));
 		
 		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
 		float padding = 0.01f * stage.getHeight();
@@ -131,22 +137,41 @@ public class BusinessCreationGuide implements Screen
 		
 		stage.addActor(advisor);
 		stage.addActor(navigationButtons);
-		stage.addActor(continueButton);
+		stage.addActor(progressButton);
+		
+		showScreen(industryScreen);
+	}
+	
+	void showScreen(BusinessCreationGuideScreens requestedScreen)
+	{
+		requestedScreen.showScreen(stage);
+		currentScreen = requestedScreen;
+		displayAppropriateProgressButton();
+	}
+	
+	void displayAppropriateProgressButton()
+	{
+		if(currentScreen == tasksScreen)
+			progressButton.setText("Done >");
+		else
+			progressButton.setText("Continue >");
 	}
 	
 	void resetBusinessCreationGuide()
 	{
 		industryScreen = null;
-		directonScreen = null;
+		directionScreen = null;
 		fundingScreen = null;
 		tasksScreen = null;
+		currentScreen = null;
 	}
 
 	@Override
 	public void render(float delta)
 	{
-		stage.act(delta);
-		stage.draw();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    stage.act(Gdx.graphics.getDeltaTime());
+	    stage.draw();
 	}
 
 	@Override
