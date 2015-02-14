@@ -1,8 +1,7 @@
-package edu.asu.c3simulator.testing;
+package edu.asu.c3simulator.testing.automated;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import sun.misc.Launcher;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
@@ -19,17 +18,15 @@ import edu.asu.c3simulator.widgets.SimpleTextField;
  * @author Moore, Zachary
  * 
  */
-public class TestWidget extends Launcher implements WidgetTest
+public class TestWidget implements GLTest
 {
 	protected Widget widget;
 	
 	public TestWidget()
 	{
-		System.out.println("2");
 		widget = new SimpleTextField("Test");
 	}
 	
-	@Override
 	public void testResizingZero()
 	{
 		widget.setSize(0, 0);
@@ -39,7 +36,6 @@ public class TestWidget extends Launcher implements WidgetTest
 		assertEquals(0, widget.getHeight(), 0);
 	}
 	
-	@Override
 	public void testResizingNegative()
 	{
 		widget.setSize(-10, -10);
@@ -49,7 +45,6 @@ public class TestWidget extends Launcher implements WidgetTest
 		assertTrue(widget.getHeight() < 0);
 	}
 	
-	@Override
 	public void testResizingBoundaryUpper()
 	{
 		float value = Float.POSITIVE_INFINITY;
@@ -61,7 +56,6 @@ public class TestWidget extends Launcher implements WidgetTest
 		assertEquals(value, widget.getHeight(), 0);
 	}
 	
-	@Override
 	public void testResizingBoundaryLower()
 	{
 		float value = Float.NEGATIVE_INFINITY;
@@ -73,7 +67,6 @@ public class TestWidget extends Launcher implements WidgetTest
 		assertEquals(value, widget.getHeight(), 0);
 	}
 	
-	@Override
 	public void testResizingPrecisionUpper()
 	{
 		float value = Float.MAX_VALUE;
@@ -85,7 +78,6 @@ public class TestWidget extends Launcher implements WidgetTest
 		assertEquals(value, widget.getHeight(), 0);
 	}
 	
-	@Override
 	public void testResizingPrecisionLower()
 	{
 		float value = Float.MIN_VALUE;
@@ -95,6 +87,48 @@ public class TestWidget extends Launcher implements WidgetTest
 		
 		assertEquals(value, widget.getWidth(), 0);
 		assertEquals(value, widget.getHeight(), 0);
+	}
+
+	@Override
+	public void render(float delta)
+	{
+		
+	}
+
+	@Override
+	public void resize(int width, int height)
+	{
+		
+	}
+
+	@Override
+	public void show()
+	{
+		
+	}
+
+	@Override
+	public void hide()
+	{
+		
+	}
+
+	@Override
+	public void pause()
+	{
+		
+	}
+
+	@Override
+	public void resume()
+	{
+		
+	}
+
+	@Override
+	public void dispose()
+	{
+		
 	}
 	
 }
