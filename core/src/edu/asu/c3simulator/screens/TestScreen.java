@@ -64,7 +64,6 @@ public class TestScreen implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
 				game.setScreen(new DifficultySelectionScreen(game));
 			}
 		});
@@ -73,7 +72,6 @@ public class TestScreen implements Screen
 
 		stage.addActor(home);
 		stage.addActor(employee1);
-		// this.stage.add(rand);
 	}
 
 	@Override

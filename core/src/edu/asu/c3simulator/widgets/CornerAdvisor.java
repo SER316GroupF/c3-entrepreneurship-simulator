@@ -2,7 +2,10 @@ package edu.asu.c3simulator.widgets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -23,6 +26,23 @@ public class CornerAdvisor extends Table
 		this.text = text;
 		this.textBubble = new TextAreaX(text, 200, 0.5f);
 		this.textBubble.setBackground("images/text-bubble-white.png");
+		this.textBubble.setBorderPadding(new Padding(20, 50, 15, 10));
+		
+		this.setTransform(true);
+		
+		add(this.textBubble);
+		add(advisorIcon).size(textBubble.getPrefHeight() * 1.3f);
+	}
+	public CornerAdvisor(String text, Color color)
+	{
+		super();
+		
+		FileHandle iconLocation = Gdx.files.internal("images/placeholder-advisor-icon.png");
+		Texture iconTexture = new Texture(iconLocation);
+		this.advisorIcon = new Image(iconTexture);
+		this.text = text;
+		this.textBubble = new TextAreaX(text, 200, 0.5f, color);
+		this.textBubble.setBackground("images/text-bubble.png");
 		this.textBubble.setBorderPadding(new Padding(20, 50, 15, 10));
 		
 		this.setTransform(true);

@@ -22,9 +22,21 @@ public class TextAreaX extends Widget
 	private float linePadding;
 	private Texture background;
 	private Padding borderPadding;
+	private Color color;
+	
+	public TextAreaX(String text, float width, float fontScale, Color color)
+	{
+		this.color = color;
+		font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
+		font.setScale(fontScale);
+		linePadding = 1.2f;
+		borderPadding = new Padding();
+		setText(text, width);
+	}
 	
 	public TextAreaX(String text, float width, float fontScale)
 	{
+		color = Color.WHITE;
 		font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
 		font.setScale(fontScale);
 		linePadding = 1.2f;
@@ -127,7 +139,7 @@ public class TextAreaX extends Widget
 			batch.draw(this.background, getX(), getY(), getPrefWidth(), getPrefHeight());
 		}
 		
-		Color color = Color.WHITE;
+
 		font.setColor(color.r, color.g, color.b, parentAlpha);
 		
 		for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++)

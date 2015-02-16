@@ -104,7 +104,6 @@ public class EmploymentScreen implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
 				game.setScreen(new DifficultySelectionScreen(game));
 			}
 		}

@@ -10,14 +10,10 @@ import edu.asu.c3simulator.screens.*;
 public class C3Simulator extends Game
 {
 	DifficultySelectionScreen firstScreen;
-	EmploymentScreen secondScreen;
-	TestScreen thirdScreen;
 	@Override
 	public void create()
 	{
 		firstScreen = new DifficultySelectionScreen(this);
-		secondScreen = new EmploymentScreen(this);
-		thirdScreen = new TestScreen(this);
 		this.setScreen(firstScreen);
 	}
 }
