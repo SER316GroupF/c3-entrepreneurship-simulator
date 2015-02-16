@@ -39,7 +39,6 @@ public class BusinessCreationGuide implements Screen
 		public void clicked(InputEvent event, float x, float y)
 		{
 			System.out.println(screenName);
-			currentScreen.hideScreen(stage);
 			showScreen(targetedScreen);
 		}
 	}
@@ -52,22 +51,16 @@ public class BusinessCreationGuide implements Screen
 			if(currentScreen == industryScreen)
 			{
 				System.out.println("Transitioning to Direction Screen");
-				//game.setScreen(directionScreen);
-				industryScreen.hideScreen(stage);
 				showScreen(directionScreen);
 			}
 			else if(currentScreen == directionScreen)
 			{
 				System.out.println("Transitioning to funding Screen");
-				//game.setScreen(fundingScreen);
-				directionScreen.hideScreen(stage);
 				showScreen(fundingScreen);
 			}
 			else if(currentScreen == fundingScreen)
 			{
 				System.out.println("Transitioning to tasks Screen");
-				//game.setScreen(tasksScreen);
-				fundingScreen.hideScreen(stage);
 				showScreen(tasksScreen);
 			}
 			else if(currentScreen == tasksScreen)
@@ -144,6 +137,7 @@ public class BusinessCreationGuide implements Screen
 	
 	void showScreen(BusinessCreationGuideScreens requestedScreen)
 	{
+		currentScreen.hideScreen();
 		requestedScreen.showScreen(stage);
 		currentScreen = requestedScreen;
 		displayAppropriateProgressButton();
