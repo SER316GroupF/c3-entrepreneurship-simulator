@@ -7,12 +7,12 @@ import java.util.Random;
 * @author Olono, Shantal
 * 
 */
-public class RandomEvents //extends Actor
+public class RandomEvent //extends Actor
 {
 	float runTime;
 	ArrayList<String> events; 
- 
-	public RandomEvents()
+	
+	public RandomEvent()
 	{
 		events = new ArrayList<String>();
 		events.add("You went bankrupt");
@@ -41,7 +41,9 @@ public class RandomEvents //extends Actor
 			}
 		}
 		return label;
- 
+	
 	}
- 
+	
+	
 }
+
