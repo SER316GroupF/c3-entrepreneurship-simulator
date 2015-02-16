@@ -7,11 +7,11 @@ import java.util.Random;
 * @author Olono, Shantal
 * 
 */
-public class RandomEvents //extends Actor
+public class RandomEvents
 {
 	float runTime;
 	ArrayList<String> events; 
- 
+	
 	public RandomEvents()
 	{
 		events = new ArrayList<String>();
@@ -41,7 +41,9 @@ public class RandomEvents //extends Actor
 			}
 		}
 		return label;
- 
+	
 	}
- 
+	
+	
 }
+

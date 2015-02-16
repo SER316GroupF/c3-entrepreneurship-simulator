@@ -2,6 +2,7 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,14 +16,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.RandomEvent;
+import edu.asu.c3simulator.widgets.RandomEvents;
+import edu.asu.c3simulator.widgets.RenameCompany;
 
 /* 
  * @author Olono, Shantal
  * 
  */
-public class TestScreen implements Screen
+public class TestScreen implements Screen, TextInputListener
 {
+	String text;
 	private static final String ADVISOR_TEXT = "This screen is designed to test the Random Event Generator";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
@@ -42,7 +45,9 @@ public class TestScreen implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		RandomEvent rand = new RandomEvent();
+		RandomEvents rand = new RandomEvents();
+		//RenameCompany rename = new RenameCompany();
+		//stage.addAction(rename);
 		Label employee1 = new Label("test", skin);
 		String newText = "";
 
@@ -75,13 +80,16 @@ public class TestScreen implements Screen
 		stage.addActor(employee1);
 		// this.stage.add(rand);
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		if(Gdx.input.justTouched())
+			Gdx.input.getTextInput(this, "Title", "default text");
+		Gdx.app.log("Text", text);
 	}
 
 	@Override
@@ -122,5 +130,17 @@ public class TestScreen implements Screen
 	{
 		stage.dispose();
 		this.game = null;
+	}
+
+	@Override
+	public void input(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void canceled() {
+		// TODO Auto-generated method stub
+		
 	}
 }
