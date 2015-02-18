@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -129,6 +130,8 @@ public class DifficultySelectionScreen implements Screen
 			{
 				// TODO: Transition to main hub
 				// TODO: Instantiate game instance
+				Screen firstScreen = new BusinessCreationGuide(game);
+				game.setScreen(firstScreen);
 				System.out.println("Easy");
 			}
 		});
@@ -236,8 +239,9 @@ public class DifficultySelectionScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
-		stage.act(delta);
-		stage.draw();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	    stage.act(Gdx.graphics.getDeltaTime());
+	    stage.draw();
 	}
 	
 	@Override

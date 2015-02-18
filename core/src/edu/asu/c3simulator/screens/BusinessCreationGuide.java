@@ -132,6 +132,7 @@ public class BusinessCreationGuide implements Screen
 		stage.addActor(navigationButtons);
 		stage.addActor(progressButton);
 		
+		currentScreen = industryScreen;
 		showScreen(industryScreen);
 	}
 	
