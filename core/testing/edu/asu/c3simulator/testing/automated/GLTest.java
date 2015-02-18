@@ -1,8 +1,8 @@
 package edu.asu.c3simulator.testing.automated;
 
-import com.badlogic.gdx.Screen;
+import java.util.List;
 
-public interface GLTest extends Screen
+public interface GLTest
 {
-	
+	public List<GLTestUnit> getTestUnits();
 }
