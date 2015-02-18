@@ -3,6 +3,7 @@ package edu.asu.c3simulator.testing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -36,6 +37,9 @@ public class Sandbox implements Screen
 	@SuppressWarnings("unused")
 	private Skin skin;
 	
+	@SuppressWarnings("unused")
+	private SpriteBatch batch = new SpriteBatch();
+	
 	/**
 	 * @param game
 	 */
@@ -64,44 +68,24 @@ public class Sandbox implements Screen
 		stage.addActor(list);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
 	@Override
 	public void dispose()
 	{
 		stage.dispose();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#hide()
-	 */
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
 	@Override
 	public void pause()
 	{
 		
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#render(float)
-	 */
 	@Override
 	public void render(float delta)
 	{
@@ -109,33 +93,18 @@ public class Sandbox implements Screen
 		stage.draw();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
-	 */
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#show()
-	 */
 	@Override
 	public void show()
 	{
