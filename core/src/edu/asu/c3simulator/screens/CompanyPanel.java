@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,9 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.widgets.NavigationPanel;
 
 public class CompanyPanel implements Screen
 {
@@ -53,9 +57,9 @@ public class CompanyPanel implements Screen
 		mainTable.add(lowerSection).expand().fill();
 		
 		mainTable.setPosition(stage.getWidth()/2 - mainTable.getWidth()/2, stage.getHeight()/2 - mainTable.getHeight()/2);
-		upperSection.debug();
-		lowerSection.debug();
-		mainTable.debugTable();
+		//upperSection.debug();
+		//lowerSection.debug();
+		//mainTable.debugTable();
 		
 		CornerAdvisor advisor = new CornerAdvisor("Test");
 		float padding = 0.01f * stage.getHeight();
@@ -63,6 +67,20 @@ public class CompanyPanel implements Screen
 		float advisorBottom = stage.getHeight() - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
 		
+		//TODO add screens
+		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
+		navigationPanel.addButton("Advising", new DifficultySelectionScreen(game));
+		navigationPanel.addButton("Company", new DifficultySelectionScreen(game));
+		navigationPanel.addSubButton("Company", "Business", new DifficultySelectionScreen(game));
+		navigationPanel.addSubButton("Company", "Assets", new DifficultySelectionScreen(game));
+		navigationPanel.addButton("Tasks", new DifficultySelectionScreen(game));
+		
+		float navigationButtonsLeft = 0.01f * stage.getWidth();
+		float navigationButtonsBottom = (stage.getHeight()/2) - (navigationPanel.getPanelHeight()/2);
+		navigationPanel.setTransform(true);
+		navigationPanel.setPosition(navigationButtonsLeft, navigationButtonsBottom);
+		
+		stage.addActor(navigationPanel);
 		stage.addActor(advisor);
 		stage.addActor(mainTable);
 	}
@@ -75,9 +93,7 @@ public class CompanyPanel implements Screen
 		businessSelectionBox = new SelectBox<String>(skin);
 		updateBusinessSelection();
 		
-		businessSelectionBox.setItems("No Business Selected", "Windows1", "Linux1", "OSX1", "Android2", "Windows2", "Linux2", "OSX2", "Android3",
-				"Windows3", "Linux3", "OSX3", "Android4", "Windows4", "Linux4", "OSX4", "Android5", "Windows5", "Linux5", "OSX5",
-				"Android6", "Windows6", "Linux6", "OSX6", "Android7", "Windows7", "Linux7", "OSX7");
+		businessSelectionBox.setItems("No Business Selected", "Business 1", "Business 2", "Business 3");
 		businessSelectionBox.setSelected("No Business Selected");
 		
 		businessSelection.addActor(businessSelectionLabel);
@@ -92,6 +108,8 @@ public class CompanyPanel implements Screen
 	{
 		//TODO add items to the list
 		//TODO test how to manipulate it
+		
+		//businessSelectionBox.setItems(C3Simulator.getBusinesses());
 	}
 	
 	private Actor createBusinessInfo()
