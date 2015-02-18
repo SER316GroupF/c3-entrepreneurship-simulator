@@ -1,11 +1,13 @@
 package edu.asu.c3simulator.testing.automated;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import java.util.LinkedList;
+import java.util.List;
 
-import edu.asu.c3simulator.widgets.SimpleTextField;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * A template for testing classes that extend {@link Widget}.
@@ -18,117 +20,100 @@ import edu.asu.c3simulator.widgets.SimpleTextField;
  * @author Moore, Zachary
  * 
  */
-public class TestWidget implements GLTest
+public abstract class TestWidget<T extends Actor> implements GLTest, Disposable
 {
-	protected Widget widget;
+	protected abstract T createTargetInstance();
 	
-	public TestWidget()
+	private abstract class StreamlinedUnitTest extends BasicActorUnitTest<T>
 	{
-		widget = new SimpleTextField("Test");
-	}
-	
-	public void testResizingZero()
-	{
-		widget.setSize(0, 0);
-		widget.validate();
-		
-		assertEquals(0, widget.getWidth(), 0);
-		assertEquals(0, widget.getHeight(), 0);
+		public StreamlinedUnitTest(String name)
+		{
+			super(name, createTargetInstance());
+		}
 	}
 	
-	public void testResizingNegative()
+	private class TestResizing extends StreamlinedUnitTest
 	{
-		widget.setSize(-10, -10);
-		widget.validate();
+		private float valueX;
+		private float valueY;
+		private float valueExpectedX;
+		private float valueExpectedY;
 		
-		assertTrue(widget.getWidth() < 0);
-		assertTrue(widget.getHeight() < 0);
+		public TestResizing(String name, float valueX, float valueY, float expectedX,
+				float expectedY)
+		{
+			super(name);
+			this.valueX = valueX;
+			this.valueY = valueY;
+			this.valueExpectedX = expectedX;
+			this.valueExpectedY = expectedY;
+		}
+		
+		public TestResizing(String name, float valueXY, float expectedXY)
+		{
+			this(name, valueXY, valueXY, expectedXY, expectedXY);
+		}
+		
+		public TestResizing(float valueX, float valueY, float expectedX, float expectedY)
+		{
+			this("Test resizing to (" + valueX + "," + valueY + "}", valueX, valueY,
+					expectedX, expectedY);
+		}
+		
+		@SuppressWarnings("unused")
+		public TestResizing(float valueXY, float expectedXY)
+		{
+			this(valueXY, valueXY, expectedXY, expectedXY);
+		}
+		
+		@Override
+		public void validate()
+		{
+			assertTrue(testTarget.getWidth() == valueExpectedX);
+			assertTrue(testTarget.getHeight() == valueExpectedY);
+		}
+		
+		@Override
+		public void performTestFunctionality()
+		{
+			testTarget.setSize(valueX, valueY);
+		}
 	}
 	
-	public void testResizingBoundaryUpper()
-	{
-		float value = Float.POSITIVE_INFINITY;
-		
-		widget.setSize(value, value);
-		widget.validate();
-		
-		assertEquals(value, widget.getWidth(), 0);
-		assertEquals(value, widget.getHeight(), 0);
-	}
-	
-	public void testResizingBoundaryLower()
-	{
-		float value = Float.NEGATIVE_INFINITY;
-		
-		widget.setSize(value, value);
-		widget.validate();
-		
-		assertEquals(value, widget.getWidth(), 0);
-		assertEquals(value, widget.getHeight(), 0);
-	}
-	
-	public void testResizingPrecisionUpper()
-	{
-		float value = Float.MAX_VALUE;
-		
-		widget.setSize(value, value);
-		widget.validate();
-		
-		assertEquals(value, widget.getWidth(), 0);
-		assertEquals(value, widget.getHeight(), 0);
-	}
-	
-	public void testResizingPrecisionLower()
-	{
-		float value = Float.MIN_VALUE;
-		
-		widget.setSize(value, value);
-		widget.validate();
-		
-		assertEquals(value, widget.getWidth(), 0);
-		assertEquals(value, widget.getHeight(), 0);
-	}
-
-	@Override
-	public void render(float delta)
-	{
-		
-	}
-
-	@Override
-	public void resize(int width, int height)
-	{
-		
-	}
-
-	@Override
-	public void show()
-	{
-		
-	}
-
-	@Override
-	public void hide()
-	{
-		
-	}
-
-	@Override
-	public void pause()
-	{
-		
-	}
-
-	@Override
-	public void resume()
-	{
-		
-	}
-
 	@Override
 	public void dispose()
 	{
 		
+	}
+	
+	@Override
+	public List<GLTestUnit> getTestUnits()
+	{
+		List<GLTestUnit> testUnits = new LinkedList<>();
+		
+		String testName = "Test resizing zero";
+		
+		testUnits.add(new TestResizing(testName, 0, 0));
+		
+		testName = "Test resizing negative";
+		testUnits.add(new TestResizing(testName, -10, -10));
+		testName = "Test resizing normal";
+		testUnits.add(new TestResizing(testName, 200, 200));
+		
+		testName = "Test resizing presision high";
+		testUnits.add(new TestResizing(testName, Float.MAX_VALUE, Float.MAX_VALUE));
+		
+		testName = "Test resizing presision low";
+		testUnits.add(new TestResizing(testName, Float.MIN_VALUE, Float.MIN_VALUE));
+		
+		testName = "Test resize boundry positive";
+		testUnits.add(new TestResizing(testName, Float.POSITIVE_INFINITY,
+				Float.POSITIVE_INFINITY));
+		
+		testName = "Test resize boundry negative";
+		testUnits.add(new TestResizing(testName, Float.NEGATIVE_INFINITY,
+				Float.NEGATIVE_INFINITY));
+		return testUnits;
 	}
 	
 }
