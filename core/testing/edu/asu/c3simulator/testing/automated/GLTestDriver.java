@@ -1,11 +1,14 @@
 package edu.asu.c3simulator.testing.automated;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
+import edu.asu.c3simulator.widgets.SimpleTextField;
 
 /**
  * Executes unit tests while simulating an environment using OpenGL and LibGDX.
@@ -24,12 +27,34 @@ public class GLTestDriver implements ApplicationListener
 {
 	private Queue<GLTestUnit> currentTests;
 	private Queue<GLTestUnit> futureTests;
+	private List<GLTestUnit> completedTests;
 	
 	@Override
 	public void create()
 	{
 		this.currentTests = new LinkedList<>();
 		this.futureTests = new LinkedList<>();
+		this.completedTests = new LinkedList<>();
+		
+		GLTest test = new TestWidget<Actor>() {
+			
+			@Override
+			protected Actor createTargetInstance()
+			{
+				return new SimpleTextField("Test");
+			}
+		};
+		
+		registerTest(test);
+	}
+	
+	private void registerTest(GLTest test)
+	{
+		for (GLTestUnit unit : test.getTestUnits())
+		{
+			unit.performTestFunctionality();
+			this.currentTests.add(unit);
+		}
 	}
 	
 	@Override
@@ -47,8 +72,7 @@ public class GLTestDriver implements ApplicationListener
 			unit.tick();
 			if (unit.isComplete())
 			{
-				unit.validate();
-				unit.dispose();
+				completeUnitTest(unit);
 			}
 			else
 			{
@@ -64,6 +88,24 @@ public class GLTestDriver implements ApplicationListener
 		{
 			end();
 		}
+	}
+	
+	private void completeUnitTest(GLTestUnit unit)
+	{
+		try
+		{
+			System.out.println("Completed: " + unit.getName());
+			unit.validate();
+		}
+		catch (Exception e)
+		{
+			Failure failure = new Failure(e);
+			GLAssertionResult result = new GLAssertionResult(e.getMessage(), failure);
+			
+			unit.registerGLAssertionResult(result);
+		}
+		unit.dispose();
+		completedTests.add(unit);
 	}
 	
 	@Override
@@ -95,6 +137,9 @@ public class GLTestDriver implements ApplicationListener
 		futureTests = null;
 	}
 	
+	/**
+	 * Closes the application and frees system resources
+	 */
 	private void end()
 	{
 		Gdx.app.exit();
