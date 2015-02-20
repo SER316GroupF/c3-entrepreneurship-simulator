@@ -23,6 +23,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
+/**
+ * This class displays the company - businesses tab in the council section of the game. 
+ * 
+ * @author Alyahya, Mohammed
+ */
 public class CompanyPanel implements Screen
 {
 	private Game game;
@@ -69,16 +74,14 @@ public class CompanyPanel implements Screen
 		
 		//TODO add screens
 		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Advising", new DifficultySelectionScreen(game));
-		navigationPanel.addButton("Company", new DifficultySelectionScreen(game));
-		navigationPanel.addSubButton("Company", "Business", new DifficultySelectionScreen(game));
-		navigationPanel.addSubButton("Company", "Assets", new DifficultySelectionScreen(game));
-		navigationPanel.addButton("Tasks", new DifficultySelectionScreen(game));
+		//navigationPanel.addButton("Advising", null);
+		navigationPanel.addButton("Company", null);
+		navigationPanel.addSubButton("Company", "Business", null);
+		navigationPanel.addSubButton("Company", "Assets", null);
+		navigationPanel.addButton("Tasks", null);
+		navigationPanel.showSubButtonsFor("Company");
 		
-		float navigationButtonsLeft = 0.01f * stage.getWidth();
-		float navigationButtonsBottom = (stage.getHeight()/2) - (navigationPanel.getPanelHeight()/2);
-		navigationPanel.setTransform(true);
-		navigationPanel.setPosition(navigationButtonsLeft, navigationButtonsBottom);
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight() - (0.3f * stage.getHeight()));
 		
 		stage.addActor(navigationPanel);
 		stage.addActor(advisor);
