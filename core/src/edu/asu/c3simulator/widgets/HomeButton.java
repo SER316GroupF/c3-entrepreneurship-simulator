@@ -38,7 +38,6 @@ public class HomeButton extends Table{
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO: Transition to main hub
 				game.setScreen(new MainHub(game));
 			}
 		});

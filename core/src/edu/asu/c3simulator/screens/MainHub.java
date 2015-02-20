@@ -23,8 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 /**
  * This class displays the main hub, allowing the player to navigate to their Businesses. After: DifficultySelection, HomeButton. 
  * 
@@ -77,9 +79,9 @@ public class MainHub implements Screen
 	private CornerAdvisor advisor;
 	private Table choices;
 	private Actor company;
-	private Actor difficultyChoiceHard;
 	private NavigationPanel navigation;
 	private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
+	public PlayerStatusDisplay player;
 
 	public MainHub(Game game)
 	{
@@ -142,6 +144,7 @@ public class MainHub implements Screen
 		companyLeft = DESIGN_WIDTH * 8/10 - companyIcon.getPrefWidth()/2;
 		companyBottom = companyIcon.getHeight() * 4/5;
 		company.setPosition(companyLeft, companyBottom);
+		company.align(Align.top);
 
 		return company;
 	}
