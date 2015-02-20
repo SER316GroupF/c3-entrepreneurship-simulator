@@ -27,7 +27,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.widgets.CornerAdvisor;
-
+import edu.asu.c3simulator.widgets.NavigationPanel;
+/**
+ * This class displays the main hub, allowing the player to navigate to their Businesses. After: DifficultySelection, HomeButton. 
+ * 
+ * @author Reigel, Justin
+ */
 public class MainHub implements Screen
 {
 	private static class Button2 extends TextButton
@@ -76,6 +81,8 @@ public class MainHub implements Screen
 	private Table choices;
 	private Actor company;
 	private Actor difficultyChoiceHard;
+	private NavigationPanel navigation;
+	private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
 
 	public MainHub(Game game)
 	{
@@ -93,7 +100,18 @@ public class MainHub implements Screen
 		
 		//choices.add(difficultyChoiceHard).top().spaceLeft(75);
 		advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
+		navigation = new NavigationPanel(game, skin);
 
+		navigation.addButton("Businesses", game.getScreen() );
+		navigation.addButton("Manage", game.getScreen());
+		navigation.addButton("Council", game.getScreen());
+		navigation.addSubButton("Businesses", "1.Create New", game.getScreen() );
+		navigation.addSubButton("Businesses", "2.Create New", game.getScreen() );
+		navigation.addSubButton("Businesses", "3.Create New", game.getScreen() );
+		
+		Label playerLabel = new Label( ("Player"), new Label.LabelStyle(font, new Color(Color.DARK_GRAY)) );
+		playerLabel.setPosition(50, 680);
+		
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
@@ -101,65 +119,18 @@ public class MainHub implements Screen
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
+		navigation.setPosition(navigation.getWidth()/2 - padding, 500);
+		
+		stage.addActor(playerLabel);
 		stage.addActor(advisor);
 		stage.addActor(company);
+		stage.addActor(navigation);
 		stage.addActor(Council());
 		stage.addActor(playerInfo());
 		
 
 	}
-
-	private Actor createDifficultyChoiceEasy()
-	{
-		// REFACTOR: Combine with #createDifficultyChoiceHard
-		VerticalGroup difficultyChoiceEasy = new VerticalGroup();
-		Actor descriptionEasy = createDifficultyChoiceDescriptionEasy();
-		Actor titleEasy = createDifficultyTitle(difficultyChoiceEasy, "Easy");
-
-		difficultyChoiceEasy.addActor(titleEasy);
-		difficultyChoiceEasy.addActor(descriptionEasy);
-
-		difficultyChoiceEasy.setTransform(true);
-
-		difficultyChoiceEasy.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
-				System.out.println("Easy");
-				//game.setScreen(new TestScreen(game));
-			}
-		});
-
-		return difficultyChoiceEasy;
-	}
-
-	private Actor createDifficultyChoiceHard()
-	{
-		VerticalGroup difficultyChoiceHard = new VerticalGroup();
-		Actor descriptionHard = createDifficultyChoiceDescriptionHard();
-		Actor titleHard = createDifficultyTitle(difficultyChoiceHard, "Hard");
-
-		difficultyChoiceHard.addActor(titleHard);
-		difficultyChoiceHard.addActor(descriptionHard);
-
-		difficultyChoiceHard.setTransform(true);
-
-		difficultyChoiceHard.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
-				System.out.println("Hard");
-				game.setScreen(new EmploymentScreen(game));
-			}
-		});
-
-		return difficultyChoiceHard;
-	}
-	
+	//Creates the business image in the middle of the screen. (Note: not meant to be clickable)
 	private Actor Company()
 	{
 		Table company = new Table();
@@ -169,13 +140,15 @@ public class MainHub implements Screen
 		FileHandle iconLocation = Gdx.files.internal("images/CompanyIcon.png");
 		Texture iconTexture = new Texture(iconLocation);
 		companyIcon = new Image(iconTexture);
-		company.add(companyIcon).size(750, 400);
+		company.add(companyIcon).size(800, 520);
+		//sets the height and width. Estimated that the image has 1/5 of white space on bottom, so actual image is upper 4/5. 
 		companyLeft = DESIGN_WIDTH * 8/10 - companyIcon.getPrefWidth()/2;
 		companyBottom = companyIcon.getHeight() * 4/5;
 		company.setPosition(companyLeft, companyBottom);
 
 		return company;
 	}
+	//Creates the council image in the bottom left of the screen. (Note: not meant to be clickable)
 	private Actor Council()
 	{
 		Table council = new Table();
@@ -185,9 +158,10 @@ public class MainHub implements Screen
 		FileHandle iconLocation = Gdx.files.internal("images/Council.png");
 		Texture iconTexture = new Texture(iconLocation);
 		companyIcon = new Image(iconTexture);
-		council.add(companyIcon).size(150);
-		councilLeft = companyIcon.getPrefWidth()/2;
-		councilBottom = companyIcon.getHeight() * 4/5;
+		council.add(companyIcon).size(200);
+		//sets the image to the bottom left then shifts 50 pixels to the right
+		councilLeft = companyIcon.getPrefWidth()/2 + 50;
+		councilBottom = companyIcon.getHeight();
 		council.setPosition(councilLeft, councilBottom);
 
 		return council;
@@ -199,7 +173,7 @@ public class MainHub implements Screen
 		// REFACTOR: Load lines from file
 		//Every second label is a description related to the first
 		
-		BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
+		
 		Label line1 = new Label(String.format("%-20s %s", "Status: ",  "Plebian"), new Label.LabelStyle(font, new Color(Color.BLACK)));
 		Label line2 = new Label(String.format("%-21s %s", "Net Worth: ",  "8000"), new Label.LabelStyle(font, new Color(Color.BLACK)));
 		//TODO: Fix formatting. As the year increases, the label will push the text to the left of the screen and ruin the formatting.
@@ -210,7 +184,7 @@ public class MainHub implements Screen
 		//iterate through the labels and place every second label on the right
 		for (int i = 0; i < lines.size(); i++)
 		{
-			lines.get(i).setAlignment(Align.center);
+			lines.get(i).setAlignment(Align.left);
 			playerInfo.add(lines.get(i));
 			playerInfo.row();
 		}
