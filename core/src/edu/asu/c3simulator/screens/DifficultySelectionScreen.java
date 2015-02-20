@@ -103,6 +103,8 @@ public class DifficultySelectionScreen implements Screen
 
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
+		
+		HomeButton home = new HomeButton(game);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;

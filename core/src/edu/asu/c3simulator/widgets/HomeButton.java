@@ -1,12 +1,20 @@
 package edu.asu.c3simulator.widgets;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-/* 
-* @author Reigel, Justin
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import edu.asu.c3simulator.screens.DifficultySelectionScreen;
+import edu.asu.c3simulator.screens.MainHub;
+/**
+ * This class creates a Home button actor, places it in the bottom left of the screen. Changes the screen to MainHub when clicked.
+ * 
+* @author Reigel, Justin 
 * 
 */
 public class HomeButton extends Table{
@@ -15,7 +23,7 @@ public class HomeButton extends Table{
 	public float homeLeft;
 	public float homeBottom;
 	
-	public HomeButton()
+	public HomeButton(final Game game)
 	{
 		super();
 		
@@ -26,6 +34,14 @@ public class HomeButton extends Table{
 		homeLeft = this.getPrefWidth()/2;
 		homeBottom = this.getPrefHeight()/2;
 		this.setPosition(homeLeft, homeBottom);
+		this.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				// TODO: Transition to main hub
+				game.setScreen(new MainHub(game));
+			}
+		});
 	}
 
 }

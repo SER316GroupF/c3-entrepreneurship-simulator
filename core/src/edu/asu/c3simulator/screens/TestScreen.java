@@ -53,7 +53,7 @@ public class TestScreen implements Screen
 		}
 
 		employee1.setPosition(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2);
-		HomeButton home = new HomeButton();
+		HomeButton home = new HomeButton(game);
 		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
