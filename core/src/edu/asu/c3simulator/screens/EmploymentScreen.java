@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
  * @author Krogstad, Nick Framework: Moore, Zachary
@@ -98,18 +99,10 @@ public class EmploymentScreen implements Screen
 				DESIGN_HEIGHT / 2);
 		roster.setPosition(ROSTER_OFFSET, DESIGN_HEIGHT / 2);
 		advisor.setPosition(advisorLeft, advisorBottom);
-		HomeButton home = new HomeButton();
-		home.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				// TODO: Transition to main hub
-				game.setScreen(new DifficultySelectionScreen(game));
-			}
-		}
-		
-		);
+		HomeButton home = new HomeButton(game);
+		SellCompany sell = new SellCompany(game, skin);
 
+		stage.addActor(sell);
 		stage.addActor(home);
 		stage.addActor(advisor);
 		stage.addActor(roster);
