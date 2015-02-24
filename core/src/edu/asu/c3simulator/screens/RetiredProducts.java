@@ -3,7 +3,6 @@ package edu.asu.c3simulator.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,15 +18,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
-import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
+import edu.asu.c3simulator.widgets.SellCompany;
 
 public class RetiredProducts implements Screen
 {
 	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
-	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
-	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
 
 	@SuppressWarnings("unused")
 	private Game game;
@@ -48,10 +45,6 @@ public class RetiredProducts implements Screen
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 
-		//difficultyChoiceEasy = createDifficultyChoiceEasy();
-		//difficultyChoiceHard = createDifficultyChoiceHard();
-		
-		//choices.add(difficultyChoiceHard).top().spaceLeft(75);
 		advisor = new CornerAdvisor(ADVISOR_TEXT);
 		navigation = new NavigationPanel(game, skin);
 
@@ -66,9 +59,9 @@ public class RetiredProducts implements Screen
 		navigation.addSubButton("Growth", "Demand", game.getScreen() );
 		
 		table = new Table();
-		table.debug();
+		table.setSize(600, 500);
 		table.add(ProductPane()).fill().expand();
-		table.setPosition(300, 0);
+		table.setPosition(300, 50);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
@@ -77,26 +70,41 @@ public class RetiredProducts implements Screen
 		navigation.setPosition(navigation.getWidth()/2 - padding, 500);
 		
 		HomeButton home = new HomeButton(game);
-		
+		SellCompany sell = new SellCompany(game, skin);
+
+		stage.addActor(sell);
 		stage.addActor(home);
-		stage.addActor(ProductPane().debug());
 		stage.addActor(advisor);
 		stage.addActor(navigation);
-		//stage.addActor(table);
+		stage.addActor(table);
 		
 
 	}
-	private ScrollPane ProductPane()
+	private Actor ProductPane()
 	{
+		Label text = new Label("Designs", skin);
+		//text color can be changed if screen color is changed (default is white)
+		//text.setColor(0.5f, 0.5f, 0.5f, 1.0f); 
 		Table productTable = new Table();
-		final Label text = new Label("Designs", skin);
-		text.setAlignment(Align.left);
-		text.setWrap(true);
-		productTable.add(text);
+		productTable.add(new HomeButton(game));
+		productTable.add(new HomeButton(game));
+		productTable.add(new HomeButton(game));
 		productTable.row();
-		final ScrollPane scroller = new ScrollPane(productTable);
-		scroller.setPosition(100,100);
-		return scroller;
+		productTable.add(new HomeButton(game));
+		productTable.add(new HomeButton(game));
+		productTable.row();
+		productTable.add(new HomeButton(game));
+		productTable.row();
+		productTable.add(new HomeButton(game));
+		
+		ScrollPane chosenTasksScroll = new ScrollPane(productTable, skin); 
+
+		Table leftSection = new Table();
+		leftSection.debug();
+		leftSection.add(text).fillX().align(Align.center);
+		leftSection.row();
+		leftSection.add(chosenTasksScroll).expand().fill().center();
+		return leftSection;
 	}
 	@Override
 	public void dispose()

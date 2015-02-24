@@ -52,7 +52,7 @@ public class SellCompany extends Table
 		});
         button = new TextButton("Sell", skin);
         add(button);
-		this.setPosition(700, 500);
+		this.setPosition(1100, 500);
 		font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
 		button.addListener(new ClickListener(){
 			@Override
@@ -67,7 +67,7 @@ public class SellCompany extends Table
 				t.add(continueButton).height(window.getPadTop());
 				t.add(cancelButton).height(window.getPadTop());
 				window.add(t);
-				window.setDebug(true);
+				//window.setDebug(true);
 				window.getButtonTable().right().bottom();
 				window.setPosition(200f, 200f);
 				window.setSize(550f, 200f);
