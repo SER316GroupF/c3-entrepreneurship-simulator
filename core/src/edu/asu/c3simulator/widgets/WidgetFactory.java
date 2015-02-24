@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
 import edu.asu.c3simulator.widgets.groups.BulletedItem;
+import edu.asu.c3simulator.widgets.groups.TableMaintenanceGroup;
 import edu.asu.c3simulator.widgets.groups.VerticalMaintenanceGroup;
 
 /**
@@ -57,6 +58,16 @@ public class WidgetFactory
 	private static Skin createSkin(String skinPath)
 	{
 		return new Skin(Gdx.files.internal(skinPath));
+	}
+	
+	public static Actor createLabeledCounter(String label, Counter counter)
+	{
+		TableMaintenanceGroup table = new TableMaintenanceGroup();
+		SimpleTextField labelField = new SimpleTextField(label);
+		table.add(labelField).align(Align.left);
+		table.add(counter).align(Align.right);
+		
+		return table;
 	}
 	
 	/**
