@@ -29,7 +29,6 @@ public class BulletedItem extends Table
 	public void setSize(float width, float height)
 	{
 		super.setSize(width, height);
-		System.out.println(getWidth());
 		
 		Cell<?> bulletCell = this.getCells().get(0);
 		listItem.setSize(width - height, height);

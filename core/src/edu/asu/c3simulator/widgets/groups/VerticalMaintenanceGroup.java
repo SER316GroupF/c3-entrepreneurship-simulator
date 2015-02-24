@@ -10,7 +10,6 @@ public class VerticalMaintenanceGroup extends VerticalGroup
 	public void setSize(float width, float height)
 	{
 		super.setSize(width, height);
-		System.out.println(getWidth());
 		
 		for (Actor child : getChildren())
 		{

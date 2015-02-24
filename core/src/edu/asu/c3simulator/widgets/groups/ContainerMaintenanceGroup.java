@@ -10,7 +10,6 @@ public class ContainerMaintenanceGroup<T extends Actor> extends Container<T>
 	public void setSize(float width, float height)
 	{
 		super.setSize(width, height);
-		System.out.println(getWidth());
 		
 		for (Actor child : getChildren())
 		{
