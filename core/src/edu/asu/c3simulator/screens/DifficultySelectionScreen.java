@@ -1,26 +1,18 @@
 package edu.asu.c3simulator.screens;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.widgets.WidgetFactory;
 
 /**
  * Allows the user to select the game difficulty. Each available difficulty is displayed
@@ -32,56 +24,31 @@ import edu.asu.c3simulator.widgets.CornerAdvisor;
  */
 public class DifficultySelectionScreen implements Screen
 {
-	private static class Button2 extends TextButton
-	{
-		Layout parent;
-		
-		public Button2(String text, Skin skin, Layout parent)
-		{
-			super(text, skin);
-			this.parent = parent;
-		}
-		
-		public float getPrefWidth()
-		{
-			if (parent == null)
-				return super.getPrefWidth();
-			else
-				return parent.getPrefWidth();
-		}
-		
-		//@formatter:off
-		/*
-		private float getMaxWidth(Table table)
-		{
-			float width = 0.0f;
-			
-			for (Cell<?> cell : table.getCells())
-			{
-				if (cell.getActor() instanceof Button2)
-					continue;
-				if (cell.getPrefWidth() > width)
-					width = cell.getPrefWidth();
-			}
-			
-			return width;
-		}
-		*/
-		//@formatter:on
-	}
-	
-	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
+	/**
+	 * Width and Height at which this screen was designed. Can be used in resize
+	 * operations
+	 */
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
+	
+	/** Convenience constants */
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
 	
+	/** Used to transition to other game screens */
 	@SuppressWarnings("unused")
 	private Game game;
 	
+	/** Handles all components of this screen (rendering, updating, resizing, etc) */
 	private Stage stage;
+	
+	/** Specifies textures to use for default widgets such as Buttons and Labels */
 	private Skin skin;
 	
+	/**
+	 * @param game
+	 *            Will be used to call {@link Game#setScreen(Screen)} when transitioning
+	 */
 	public DifficultySelectionScreen(Game game)
 	{
 		this.game = game;
@@ -92,8 +59,39 @@ public class DifficultySelectionScreen implements Screen
 		
 		Table choices = new Table();
 		
-		Actor difficultyChoiceEasy = createDifficultyChoiceEasy();
-		Actor difficultyChoiceHard = createDifficultyChoiceHard();
+		// REFACTOR: load from file
+		String[] descriptionEasy = new String[] { "$8 000 startup", "Tips Display",
+				"Modified Competition" };
+		String[] descriptionHard = new String[] { "$2 000 startup",
+				"Realistic Competition" };
+		
+		WidgetFactory factory = new WidgetFactory(skin);
+		Actor difficultyChoiceEasy = factory.createVerticalListTitled("Easy",
+				descriptionEasy);
+		Actor difficultyChoiceHard = factory.createVerticalListTitled("Hard",
+				descriptionHard);
+		
+		// REFACTOR: Generalize these listeners, and/or outsource them to a factory
+		difficultyChoiceEasy.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				// TODO: Transition to main hub
+				// TODO: Instantiate simulation
+				System.out.println("Easy");
+			}
+		});
+		
+		// REFACTOR: Generalize these listeners, and/or outsource them to a factory
+		difficultyChoiceHard.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				// TODO: Transition to main hub
+				// TODO: Instantiate simulation
+				System.out.println("Hard");
+			}
+		});
 		
 		choices.add(difficultyChoiceEasy).top();
 		choices.add(difficultyChoiceHard).top().spaceLeft(75);
@@ -101,118 +99,14 @@ public class DifficultySelectionScreen implements Screen
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
-		float padding = 0.01f * DESIGN_HEIGHT;
-		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		advisor.setPosition(advisorLeft, advisorBottom);
-		
-		stage.addActor(advisor);
 		stage.addActor(choices);
 	}
 	
-	private Actor createDifficultyChoiceEasy()
-	{
-		// REFACTOR: Combine with #createDifficultyChoiceHard
-		VerticalGroup difficultyChoiceEasy = new VerticalGroup();
-		Actor descriptionEasy = createDifficultyChoiceDescriptionEasy();
-		Actor titleEasy = createDifficultyTitle(difficultyChoiceEasy, "Easy");
-		
-		difficultyChoiceEasy.addActor(titleEasy);
-		difficultyChoiceEasy.addActor(descriptionEasy);
-		
-		difficultyChoiceEasy.setTransform(true);
-		
-		difficultyChoiceEasy.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
-				System.out.println("Easy");
-			}
-		});
-		
-		return difficultyChoiceEasy;
-	}
-	
-	private Actor createDifficultyChoiceHard()
-	{
-		VerticalGroup difficultyChoiceHard = new VerticalGroup();
-		Actor descriptionHard = createDifficultyChoiceDescriptionHard();
-		Actor titleHard = createDifficultyTitle(difficultyChoiceHard, "Hard");
-		
-		difficultyChoiceHard.addActor(titleHard);
-		difficultyChoiceHard.addActor(descriptionHard);
-		
-		difficultyChoiceHard.setTransform(true);
-		
-		difficultyChoiceHard.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				// TODO: Transition to main hub
-				// TODO: Instantiate game instance
-				System.out.println("Hard");
-			}
-		});
-		
-		return difficultyChoiceHard;
-	}
-	
-	private Actor createDifficultyChoiceDescriptionEasy()
-	{
-		// REFACTOR: Combine with #createDifficultyChoiceDescriptionHard
-		Table difficultyChoiceDescriptionEasy = new Table();
-		
-		List<Label> lines = new LinkedList<>();
-		// REFACTOR: Load lines from file
-		Label line1 = new Label("$8 000 startup", skin);
-		Label line2 = new Label("Tips Display", skin);
-		Label line3 = new Label("Modified Competition", skin);
-		lines.add(line1);
-		lines.add(line2);
-		lines.add(line3);
-		
-		for (Label line : lines)
-		{
-			line.setAlignment(Align.center);
-			difficultyChoiceDescriptionEasy.add(line);
-			difficultyChoiceDescriptionEasy.row();
-		}
-		
-		return difficultyChoiceDescriptionEasy;
-	}
-	
-	private Actor createDifficultyChoiceDescriptionHard()
-	{
-		Table difficultyChoiceDescriptionHard = new Table();
-		
-		List<Label> lines = new LinkedList<>();
-		Label line1 = new Label("$2 000 startup", skin);
-		Label line2 = new Label("Realistic Competition", skin);
-		lines.add(line1);
-		lines.add(line2);
-		
-		for (Label line : lines)
-		{
-			line.setAlignment(Align.center);
-			difficultyChoiceDescriptionHard.add(line);
-			difficultyChoiceDescriptionHard.row();
-		}
-		
-		return difficultyChoiceDescriptionHard;
-	}
-	
-	private Actor createDifficultyTitle(Layout parent, String titleText)
-	{
-		TextButton title = new Button2(titleText, skin, parent);
-		title.align(Align.center);
-		title.setDisabled(true);
-		
-		return title;
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
 	@Override
 	public void dispose()
 	{
@@ -220,19 +114,34 @@ public class DifficultySelectionScreen implements Screen
 		this.game = null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
 	@Override
 	public void hide()
+	{
+		// Do not register input if this screen is not active
+		Gdx.input.setInputProcessor(null);
+	}
+	
+	/*
+	 * (non-Javadoc) Disables input detection for this screen
+	 * 
+	 * @see com.badlogic.gdx.Screen#pause()
+	 */
+	@Override
+	public void pause()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
 	
-	@Override
-	public void pause()
-	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("The method is not implemented yet.");
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#render(float)
+	 */
 	@Override
 	public void render(float delta)
 	{
@@ -240,19 +149,33 @@ public class DifficultySelectionScreen implements Screen
 		stage.draw();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 */
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resume()
+	 */
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+		Gdx.input.setInputProcessor(stage);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
 	@Override
 	public void show()
 	{

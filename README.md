@@ -11,4 +11,7 @@ C3 is a software project for SER316. The goal is to design and implement a simul
 --Commit classpath changes when including new dependecies and resources (refer to dependency above)
 
 ####Commit Policy
-TBA
+Master is where all currently deployable code can be found. Partially tested code can be found in master_testing, and all other code meeting minium stability requirenments can be found in a branch with "share" in its name. 
+
+Code in development branches is generally considered unstable, and should only be used for development collaboration.
+The complete quality policy can be found [here](https://sites.google.com/site/cubiccoins/codelines-and-flow).
