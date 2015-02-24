@@ -1,5 +1,4 @@
-import java.awt.Dimension;
-
+package edu.asu.c3simulator.desktop.testing.launchers;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -7,10 +6,7 @@ import edu.asu.c3simulator.desktop.DesktopLauncher;
 import edu.asu.c3simulator.testing.automated.GLTestDriver;
 
 public class TestingLauncher extends DesktopLauncher
-{
-	public static final Dimension RESOLUTION_720p = new Dimension(1280, 720);
-	public static final int DEFAULT_FRAMERATE = 60;
-	
+{	
 	public static void main(String[] arg)
 	{
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
