@@ -28,9 +28,14 @@ public interface Observable<T>
 	void registerObserver(Observer<T> observer);
 	
 	/**
+	 * The default implementation returns the objects hash code.
+	 * 
 	 * @return An ID unique to this object. Note: two instances may share the same ID,
 	 *         however this implies that both instances represent the same object (but one
 	 *         may be a copy of the other - depending on the specification of <T>)
 	 */
-	String getID();
+	default String getID()
+	{
+		return Integer.toString(hashCode());
+	}
 }
