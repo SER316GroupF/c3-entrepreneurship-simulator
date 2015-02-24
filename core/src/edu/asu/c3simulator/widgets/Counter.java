@@ -68,11 +68,22 @@ public class Counter extends Widget
 	 */
 	private SimpleTextField countDisplay;
 	
-	/** Holds the {@link Texture} and image bounds of the plus button */
+	/** Holds the {@link Texture} and image bounds (absolute) of the plus button */
 	private Association<Texture, Rectangle> plusButton;
 	
-	/** Holds the {@link Texture} and image bounds of the minus button */
+	/** Holds the {@link Texture} and image bounds (absolute) of the minus button */
 	private Association<Texture, Rectangle> minusButton;
+	
+	/**
+	 * LibGDX alters this object's x and y values using package-access to reflect
+	 * different values for draw and event calls. (Event calls are relative, and draw
+	 * calls have absolute positioning). {@link #drawnX} and {@link #drawnY} reflect the
+	 * absolute positioning on the screen.
+	 */
+	private float drawnX;
+	
+	/** @see #drawnX */
+	private float drawnY;
 	
 	public Counter()
 	{
@@ -101,11 +112,10 @@ public class Counter extends Widget
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				System.out.println("Fired");
 				Rectangle plusBounds = plusButton.getValue();
 				Rectangle minusBounds = minusButton.getValue();
-				float screenX = getX() + x;
-				float screenY = getY() + y;
+				float screenX = drawnX + x;
+				float screenY = drawnY + y;
 				
 				if (plusBounds.contains(screenX, screenY))
 					changeCount(incrementAmount);
@@ -191,26 +201,16 @@ public class Counter extends Widget
 	}
 	
 	@Override
-	protected void positionChanged()
-	{
-		this.countDisplay.setPosition(getX(), getY());
-		recalculateButtonBounds();
-	}
-	
-	@Override
-	protected void sizeChanged()
-	{
-		super.sizeChanged();
-		countDisplay.setSize(getWidth(), getHeight());
-		countDisplay.validate();
-		recalculateButtonBounds();
-	}
-	
-	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
 		super.draw(batch, parentAlpha);
+		this.drawnX = getX();
+		this.drawnY = getY();
+		
+		countDisplay.setPosition(getX(), getY());
 		countDisplay.draw(batch, parentAlpha);
+		
+		recalculateButtonBounds();
 		
 		// TODO: honour parentAlpha
 		Rectangle bounds = plusButton.getValue();
