@@ -11,32 +11,51 @@ import org.junit.Test;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import edu.asu.c3simulator.testing.SandboxApplication;
+import edu.asu.c3simulator.testing.automated.integrated.IntegratedTest;
 import edu.asu.c3simulator.widgets.SimpleTextField;
 
+/**
+ * Template to test units that require an OpenGL or LibGDX context. All calls that use an
+ * OpenGL context should be made using {@link IntegratedTest}
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class TestTemplate
 {
-	private Object synch;
-	private boolean run;
+	/**
+	 * Subject of these tests
+	 */
 	private Widget testTarget;
-	private static LwjglApplication app;
 	
+	/**
+	 * Create an Application that will give access to an OpenGL context as well as a
+	 * LibGDX context
+	 * 
+	 * @throws Exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 1280;
 		cfg.height = 720;
-		app = new LwjglApplication(new SandboxApplication(), cfg);
+		new LwjglApplication(new SandboxApplication(), cfg);
 	}
 	
+	/**
+	 * Cleanup the application object
+	 * 
+	 * @throws Exception
+	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception
 	{
 		Gdx.app.exit();
-		app.exit();
 	}
 	
 	@Before
@@ -49,45 +68,31 @@ public class TestTemplate
 	{
 	}
 	
+	/**
+	 * Basic test case to test {@link Actor#setSize(float, float)}
+	 * 
+	 * Example to show how to use {@link IntegratedTest}
+	 */
 	@Test
-	public void test()
+	public void testSample()
 	{
-		run = false;
-		synch = new Object();
-		
-		Gdx.app.postRunnable(new Runnable() {
+		new IntegratedTest() {
 			
 			@Override
-			public void run()
+			protected void runGLCode()
 			{
 				testTarget = new SimpleTextField("Test");
 				testTarget.setSize(0, 0);
 				testTarget.validate();
-				System.out.println("run");
-				run = true;
-				
-				synchronized (synch)
-				{
-					synch.notify();
-				}
 			}
-		});
-		
-		synchronized (synch)
-		{
-			try
+			
+			@Override
+			protected void runAssertions()
 			{
-				synch.wait();
+				assertTrue(testTarget.getWidth() == 0);
+				assertTrue(testTarget.getHeight() == 0);
 			}
-			catch (InterruptedException e)
-			{
-				
-			}
-		}
-		
-		System.out.println("end loop");
-		assertTrue(testTarget.getWidth() == 0);
-		assertTrue(testTarget.getHeight() == 0);
+		};
 		
 	}
 	
