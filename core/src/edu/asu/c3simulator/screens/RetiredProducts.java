@@ -1,9 +1,11 @@
 package edu.asu.c3simulator.screens;
 
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -59,9 +62,10 @@ public class RetiredProducts implements Screen
 		navigation.addSubButton("Growth", "Demand", game.getScreen() );
 		
 		table = new Table();
-		table.setSize(600, 500);
+		table.setSize(900, 500);
 		table.add(ProductPane()).fill().expand();
 		table.setPosition(300, 50);
+		table.add(ProductInfo()).size(300, 500);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
@@ -77,12 +81,16 @@ public class RetiredProducts implements Screen
 		stage.addActor(advisor);
 		stage.addActor(navigation);
 		stage.addActor(table);
+		//stage.addActor(ProductInfo());
 		
 
 	}
 	private Actor ProductPane()
 	{
-		Label text = new Label("Designs", skin);
+		TextButton text = new TextButton("Designs", skin); 
+		text.setDisabled(true); 
+		text.setColor(0.5f, 0.5f, 0.5f, 1.0f); 
+
 		//text color can be changed if screen color is changed (default is white)
 		//text.setColor(0.5f, 0.5f, 0.5f, 1.0f); 
 		Table productTable = new Table();
@@ -105,6 +113,31 @@ public class RetiredProducts implements Screen
 		leftSection.row();
 		leftSection.add(chosenTasksScroll).expand().fill().center();
 		return leftSection;
+	}
+	private Actor ProductInfo(){
+        
+		Table productInfo = new Table(skin);
+		Label text = new Label("Production cost: ", skin);
+		productInfo.add(text).left().row();
+		Label text2 = new Label("Labor: ", skin);
+		productInfo.add(text2).left().row();
+		Label text3 = new Label("Design employee", skin);
+		productInfo.add(text3).left().row();
+		//TODO: dropdown box
+		Label text4 = new Label("Materials", skin);
+		productInfo.add(text4).left().row();
+		Label text5 = new Label("Quality", skin);
+		//TODO: sideScrolling Bar
+		productInfo.add(text5).left().row();
+		Label text6 = new Label("Efficiency", skin);
+		productInfo.add(text6).left().row();
+		Label text7 = new Label("Selling Price", skin);
+		productInfo.add(text7).left().row();
+		//TODO: edit button
+		//TODO: relaunch button
+		ScrollPane productPane = new ScrollPane(productInfo.top(), skin );
+
+		return productPane;
 	}
 	@Override
 	public void dispose()

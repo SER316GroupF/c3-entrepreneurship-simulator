@@ -144,7 +144,6 @@ public class MainHub implements Screen
 		companyLeft = DESIGN_WIDTH * 8/10 - companyIcon.getPrefWidth()/2;
 		companyBottom = companyIcon.getHeight() * 4/5;
 		company.setPosition(companyLeft, companyBottom);
-		company.align(Align.top);
 
 		return company;
 	}
