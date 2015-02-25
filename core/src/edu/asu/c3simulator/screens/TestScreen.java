@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -46,19 +47,21 @@ public class TestScreen implements Screen, TextInputListener
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		
 		RandomEvents rand = new RandomEvents();
 		//RenameCompany rename = new RenameCompany();
 		//stage.addAction(rename);
-		Label employee1 = new Label("test", skin);
+		
 		String newText = "";
 
 		while (newText.equals(""))
 		{
 			newText = rand.getEvent(10);
-			employee1.setText(newText);
 		}
+		Window ranEventWin = new Window(newText, skin);
+		ranEventWin.setPosition(400,500);
+		ranEventWin.setSize(300,200);
 
-		employee1.setPosition(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2);
 		HomeButton home = new HomeButton();
 		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
 		float padding = 0.01f * DESIGN_HEIGHT;
@@ -76,13 +79,14 @@ public class TestScreen implements Screen, TextInputListener
 		});
 
 		TextButton renameButton = new TextButton("Rename", skin);
+		
 		renameButton.setPosition(700,200);
 		stage.addActor(renameButton);
 	
 		stage.addActor(advisor);
 
 		stage.addActor(home);
-		stage.addActor(employee1);
+		stage.addActor(ranEventWin);
 		// this.stage.add(rand);
 	}
 	
