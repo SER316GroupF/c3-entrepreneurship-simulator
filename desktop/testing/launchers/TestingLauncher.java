@@ -1,9 +1,9 @@
-package edu.asu.c3simulator.desktop.testing.launchers;
+package launchers;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import edu.asu.c3simulator.desktop.DesktopLauncher;
-import edu.asu.c3simulator.testing.automated.GLTestDriver;
+import edu.asu.retired.testing.automated.GLTestDriver;
 
 public class TestingLauncher extends DesktopLauncher
 {	

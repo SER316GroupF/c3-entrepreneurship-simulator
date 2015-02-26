@@ -1,4 +1,4 @@
-package edu.asu.c3simulator.desktop.testing.launchers;
+package launchers;
 import java.awt.Dimension;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

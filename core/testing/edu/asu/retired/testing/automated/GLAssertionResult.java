@@ -1,4 +1,4 @@
-package edu.asu.c3simulator.testing.automated;
+package edu.asu.retired.testing.automated;
 
 public class GLAssertionResult
 {

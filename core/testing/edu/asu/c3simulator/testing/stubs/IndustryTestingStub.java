@@ -1,4 +1,4 @@
-package edu.asu.c3simulator.testing;
+package edu.asu.c3simulator.testing.stubs;
 
 import edu.asu.c3simulator.simulation.Industry;
 

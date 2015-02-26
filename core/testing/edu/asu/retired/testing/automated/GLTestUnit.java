@@ -1,4 +1,4 @@
-package edu.asu.c3simulator.testing.automated;
+package edu.asu.retired.testing.automated;
 
 import junit.framework.Test;
 

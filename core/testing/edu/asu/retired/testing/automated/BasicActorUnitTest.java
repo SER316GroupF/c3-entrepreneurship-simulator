@@ -1,4 +1,4 @@
-package edu.asu.c3simulator.testing.automated;
+package edu.asu.retired.testing.automated;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -105,7 +105,7 @@ public abstract class BasicActorUnitTest<T extends Actor> implements GLTestUnit
 	 * Renders the {@link #testTarget} and decrements {@link #remainingTicks}. If
 	 * {@link #remainingTicks} < 0, this test will be marked as complete.
 	 * 
-	 * @see edu.asu.c3simulator.testing.automated.GLTestUnit#tick()
+	 * @see edu.asu.retired.testing.automated.GLTestUnit#tick()
 	 */
 	@Override
 	public void tick()
