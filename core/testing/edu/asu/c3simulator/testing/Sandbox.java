@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.testing.stubs.IndustryTestingStub;
+import edu.asu.c3simulator.testing.stubs.PlayerTestingStub;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.IndustrySelector;
 import edu.asu.c3simulator.widgets.Padding;
