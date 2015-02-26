@@ -7,13 +7,21 @@ public class Employee
 	public int employeePay;
 	public int employeePref;
 	public int employeeMorale;
+	public int netSalary;
+	public float averageAnnualRaise;
+	public float averageAnnualBonus;
+	public int netBonuses;
 	
-	public Employee(String name, int pay, int pref, int morale)
+	public Employee(String name, int pay, int pref, int morale, int net_salary, float annualRaise, float annualBonus, int net_bonus)
 	{
 		employeeName = name;
 		employeePay = pay;
 		employeePref = pref;
 		employeeMorale = morale;
+		netSalary = net_salary;
+		averageAnnualRaise = annualRaise;
+		averageAnnualBonus = annualBonus;
+		netBonuses = net_bonus;
 	}
 	
 	@Override
@@ -30,26 +38,42 @@ public class Employee
 	
 	public int getNetSalary()
 	{
-		//TODO: Implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		return netSalary;
+	}
+	
+	public void setNetSalary(int netSalary)
+	{
+		this.netSalary = netSalary;
 	}
 	
 	public float getAverageAnnualRaise()
 	{
-		//TODO: Implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		return averageAnnualRaise;
+	}
+	
+	public void setAverageAnnualRaise(float averageAnnualRaise)
+	{
+		this.averageAnnualRaise = averageAnnualRaise;
 	}
 	
 	public float getAverageAnnualBonus()
 	{
-		//TODO: Implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		return averageAnnualBonus;
+	}
+	
+	public void setAverageAnnualBonus(float averageAnnualBonus)
+	{
+		this.averageAnnualBonus = averageAnnualBonus;
 	}
 	
 	public int getNetBonuses()
 	{
-		//TODO: Implement
-		throw new UnsupportedOperationException("Not yet implemented");
+		return netBonuses;
+	}
+	
+	public void setNetBonuses(int netBonuses)
+	{
+		this.netBonuses = netBonuses;
 	}
 	
 	public String getEmployeeName()

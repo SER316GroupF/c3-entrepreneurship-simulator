@@ -81,6 +81,10 @@ public class EmploymentScreen implements Screen
 			employeePay.setText("Pay: $" + employee.getEmployeePay() + " / hr");
 			employeePref.setText("Income Preference: $" + employee.getEmployeePref() + " / hr");
 			employeeMorale.setText("Morale: " + employee.getEmployeeMorale() + " / 10");
+			netSalary.setText("Net Salary: " + employee.getNetSalary());
+			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus() + "%");
+			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise() + "%");
+			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
 		}
 	}
 	
@@ -93,6 +97,10 @@ public class EmploymentScreen implements Screen
 	private Label employeePay;
 	private Label employeePref;
 	private Label employeeMorale;
+	private Label netSalary;
+	private Label averageAnnualBonus;
+	private Label averageAnnualRaise;
+	private Label netBonuses;
 	private List<Employee> employees;
 	
 	private Game game;
@@ -145,8 +153,8 @@ public class EmploymentScreen implements Screen
 	
 	private Actor createEmployeePane()
 	{
-		Employee employee1 = new Employee("Jason Richards", 14, 11, 10);
-		Employee employee2 = new Employee("Janet Wilmore", 8, 8, 7);
+		Employee employee1 = new Employee("Jason Richards", 14, 11, 10,1600, 15.6f, 3.2f, 150);
+		Employee employee2 = new Employee("Janet Wilmore", 8, 8, 7, 1000, 6.7f, 1.2f, 35);
 		String newEmp = "New Employee";
 		VerticalGroup employeeTable = new VerticalGroup();
 		
@@ -184,17 +192,26 @@ public class EmploymentScreen implements Screen
 	{
 		
 		Table employeeModel = new Table(skin);
+		//VerticalGroup employeeModel = new VerticalGroup();
 		
 		employeeName = new Label("", skin);
 		employeePay = new Label("", skin);
 		employeePref = new Label("", skin);
 		employeeMorale = new Label("", skin);
+		netSalary = new Label("", skin);
+		averageAnnualBonus = new Label("", skin);
+		averageAnnualRaise = new Label("", skin);
+		netBonuses = new Label("", skin);
 		
 		employeeName.setAlignment(Align.left);
 		employeePay.setAlignment(Align.left);
 		employeePref.setAlignment(Align.left);
 		employeeMorale.setAlignment(Align.left);
-		
+		netSalary.setAlignment(Align.left);
+		averageAnnualBonus.setAlignment(Align.left);
+		averageAnnualRaise.setAlignment(Align.left);
+		netBonuses.setAlignment(Align.left);
+
 		//TODO: Implement VerticalGroup
 		employeeModel.add(employeeName);
 		employeeModel.row();
@@ -203,6 +220,14 @@ public class EmploymentScreen implements Screen
 		employeeModel.add(employeePref);
 		employeeModel.row();
 		employeeModel.add(employeeMorale);
+		employeeModel.row();
+		employeeModel.add(netSalary);
+		employeeModel.row();
+		employeeModel.add(averageAnnualBonus);
+		employeeModel.row();
+		employeeModel.add(averageAnnualRaise);
+		employeeModel.row();
+		employeeModel.add(netBonuses);
 		
 		return employeeModel;
 	}
