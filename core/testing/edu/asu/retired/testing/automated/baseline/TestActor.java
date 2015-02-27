@@ -16,11 +16,14 @@ import edu.asu.retired.testing.automated.IntegratedGLTestDriver;
  * (for instance an OpenGL context).
  * 
  * This test is intended to be run from a thread with an OpenGL context. See
- * {@link IntegratedGLTestDriver} for this functionality
+ * {@link IntegratedGLTestDriver} for this functionality. Note: if run through the default
+ * JUnit thread, this test will fail.
  * 
- * For a working test infrastructure, see {@link IntegratedTest}
+ * For a working test infrastructure that does work in the default JUnit thread, see
+ * {@link IntegratedTest}
  * 
  * @author Moore, Zachary
+ * @deprecated replaced by {@link IntegratedTest}
  * @see IntegratedTest
  *
  */
