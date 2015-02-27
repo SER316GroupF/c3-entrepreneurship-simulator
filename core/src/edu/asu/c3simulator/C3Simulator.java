@@ -5,6 +5,12 @@ import com.badlogic.gdx.Screen;
 
 import edu.asu.c3simulator.screens.DifficultySelectionScreen;
 
+/**
+ * Main driver for C3 program.
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class C3Simulator extends Game
 {
 	@Override
