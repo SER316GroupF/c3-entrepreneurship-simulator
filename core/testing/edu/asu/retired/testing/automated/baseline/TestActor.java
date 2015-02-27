@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
-import edu.asu.c3simulator.testing.automated.integrated.IntegratedTest;
+import edu.asu.c3simulator.testing.automated.IntegratedTest;
 import edu.asu.c3simulator.widgets.SimpleTextField;
 import edu.asu.retired.testing.automated.IntegratedGLTestDriver;
 
