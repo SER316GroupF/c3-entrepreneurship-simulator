@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import edu.asu.c3simulator.testing.SandboxApplication;
-import edu.asu.c3simulator.testing.automated.integrated.IntegratedTest;
+import edu.asu.c3simulator.testing.automated.IntegratedTest;
 import edu.asu.c3simulator.widgets.SimpleTextField;
 
 /**

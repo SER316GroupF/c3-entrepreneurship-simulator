@@ -4,7 +4,7 @@ import org.junit.runner.JUnitCore;
 
 import com.badlogic.gdx.ApplicationListener;
 
-import edu.asu.c3simulator.testing.automated.integrated.IntegratedTest;
+import edu.asu.c3simulator.testing.automated.IntegratedTest;
 import edu.asu.retired.testing.automated.baseline.TestActor;
 
 /**
