@@ -2,9 +2,7 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.asu.c3simulator.widgets.Location;
 
@@ -22,14 +20,10 @@ public class TasksScreen extends BusinessCreationGuideScreens
 	{
 		this.stage = stage;
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		Table directions = new Table();
 		
-		Label ScreenDiscription = new Label("Tasks Screen", skin);
-		
-		directions.add(ScreenDiscription);
-		
-		directions.setTransform(true);
-		
-		addActor(directions, new Location(stage.getWidth()/2, stage.getHeight()/2));
+		TaskManagement taskManagementComponents = new TaskManagement(stage, skin);
+		float taskManagementX = stage.getWidth()/2 - taskManagementComponents.getWidth()/2;
+		float taskManagementY = stage.getHeight()/2 - taskManagementComponents.getHeight()/2;
+		addActor(taskManagementComponents, new Location(taskManagementX, taskManagementY));
 	}
 }
