@@ -79,6 +79,8 @@ public class CompanyPanel implements Screen
 		navigationPanel.addSubButton("Company", "Business", null);
 		navigationPanel.addSubButton("Company", "Assets", null);
 		navigationPanel.addButton("Tasks", null);
+		navigationPanel.addSubButton("Tasks", "Manage", null);
+		navigationPanel.addSubButton("Tasks", "Completed", null);
 		navigationPanel.showSubButtonsFor("Company");
 		
 		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight() - (0.3f * stage.getHeight()));
