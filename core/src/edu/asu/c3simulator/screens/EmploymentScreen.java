@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.Employee;
 
-
 //import edu.asu.c3simulator.widgets.HomeButton;
 
 /*
@@ -78,12 +77,16 @@ public class EmploymentScreen implements Screen
 		public void clicked(InputEvent event, float x, float y)
 		{
 			employeeName.setText("Name: " + employee.getEmployeeName());
+			employeePosition.setText("Position: " + employee.getEmployeePosition());
 			employeePay.setText("Pay: $" + employee.getEmployeePay() + " / hr");
-			employeePref.setText("Income Preference: $" + employee.getEmployeePref() + " / hr");
+			employeePref.setText("Income Preference: $" + employee.getEmployeePref()
+					+ " / hr");
 			employeeMorale.setText("Morale: " + employee.getEmployeeMorale() + " / 10");
 			netSalary.setText("Net Salary: " + employee.getNetSalary());
-			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus() + "%");
-			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise() + "%");
+			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
+					+ "%");
+			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
+					+ "%");
 			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
 		}
 	}
@@ -94,6 +97,7 @@ public class EmploymentScreen implements Screen
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
 	private static final int ROSTER_OFFSET = 500;
 	private Label employeeName;
+	private Label employeePosition;
 	private Label employeePay;
 	private Label employeePref;
 	private Label employeeMorale;
@@ -126,7 +130,8 @@ public class EmploymentScreen implements Screen
 		roster.setTransform(true);
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		CornerAdvisor advisor = new CornerAdvisor("You can manage your employees on this screen.");
+		CornerAdvisor advisor = new CornerAdvisor(
+				"You can manage your employees on this screen.");
 		float padding = 0.01f * DESIGN_HEIGHT;
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
@@ -153,8 +158,9 @@ public class EmploymentScreen implements Screen
 	
 	private Actor createEmployeePane()
 	{
-		Employee employee1 = new Employee("Jason Richards", 14, 11, 10,1600, 15.6f, 3.2f, 150);
-		Employee employee2 = new Employee("Janet Wilmore", 8, 8, 7, 1000, 6.7f, 1.2f, 35);
+		Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11, 10, 1600, 15.6f,
+				3.2f, 150);
+		Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 7, 1000, 6.7f, 1.2f, 35);
 		String newEmp = "New Employee";
 		VerticalGroup employeeTable = new VerticalGroup();
 		
@@ -192,9 +198,10 @@ public class EmploymentScreen implements Screen
 	{
 		
 		Table employeeModel = new Table(skin);
-		//VerticalGroup employeeModel = new VerticalGroup();
+		// VerticalGroup employeeModel = new VerticalGroup();
 		
 		employeeName = new Label("", skin);
+		employeePosition = new Label("", skin);
 		employeePay = new Label("", skin);
 		employeePref = new Label("", skin);
 		employeeMorale = new Label("", skin);
@@ -211,9 +218,11 @@ public class EmploymentScreen implements Screen
 		averageAnnualBonus.setAlignment(Align.left);
 		averageAnnualRaise.setAlignment(Align.left);
 		netBonuses.setAlignment(Align.left);
-
-		//TODO: Implement VerticalGroup
+		
+		// TODO: Implement VerticalGroup
 		employeeModel.add(employeeName);
+		employeeModel.row();
+		employeeModel.add(employeePosition);
 		employeeModel.row();
 		employeeModel.add(employeePay);
 		employeeModel.row();
