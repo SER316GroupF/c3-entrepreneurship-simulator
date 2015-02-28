@@ -18,14 +18,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.util.PlayerImp;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 import edu.asu.c3simulator.widgets.SellCompany;
 
+/**
+ * @author Reigel, Justin
+ *
+ */
 public class RetiredProducts implements Screen
 {
-	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
+	private static final String ADVISOR_TEXT = "This is a test of the Retired Products Screen";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 
@@ -36,8 +44,8 @@ public class RetiredProducts implements Screen
 	private Skin skin;
 	private CornerAdvisor advisor;
 	private Table table;
-	private NavigationPanel navigation;
 	private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
+	private ManagePanel manage;
 	
 	public RetiredProducts(Game game)
 	{
@@ -49,17 +57,6 @@ public class RetiredProducts implements Screen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 
 		advisor = new CornerAdvisor(ADVISOR_TEXT);
-		navigation = new NavigationPanel(game, skin);
-
-		navigation.addButton("Products", game.getScreen() );
-		navigation.addButton("Growth", game.getScreen());
-		navigation.addButton("Employment", game.getScreen());
-		navigation.addButton("Marketing", game.getScreen());
-		navigation.addSubButton("Products", "Pre-Market", game.getScreen() );
-		navigation.addSubButton("Products", "Current Products", game.getScreen() );
-		navigation.addSubButton("Products", "Retired Products", game.getScreen() );
-		navigation.addSubButton("Growth", "Current Products", game.getScreen() );
-		navigation.addSubButton("Growth", "Demand", game.getScreen() );
 		
 		table = new Table();
 		table.setSize(900, 500);
@@ -71,19 +68,20 @@ public class RetiredProducts implements Screen
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
-		navigation.setPosition(navigation.getWidth()/2 - padding, 500);
+		
 		
 		HomeButton home = new HomeButton(game);
 		SellCompany sell = new SellCompany(game, skin);
-
+		
+		
 		stage.addActor(sell);
 		stage.addActor(home);
 		stage.addActor(advisor);
-		stage.addActor(navigation);
 		stage.addActor(table);
-		//stage.addActor(ProductInfo());
-		
-
+	}
+	public void initialize(){
+		manage = new ManagePanel(game);
+		stage.addActor(manage);
 	}
 	private Actor ProductPane()
 	{
@@ -136,7 +134,6 @@ public class RetiredProducts implements Screen
 		//TODO: edit button
 		//TODO: relaunch button
 		ScrollPane productPane = new ScrollPane(productInfo.top(), skin );
-
 		return productPane;
 	}
 	@Override
