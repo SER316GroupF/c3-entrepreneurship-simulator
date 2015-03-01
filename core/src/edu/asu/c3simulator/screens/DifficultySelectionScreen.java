@@ -3,6 +3,7 @@ package edu.asu.c3simulator.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -65,7 +66,8 @@ public class DifficultySelectionScreen implements Screen
 		String[] descriptionHard = new String[] { "$2 000 startup",
 				"Realistic Competition" };
 		
-		WidgetFactory factory = new WidgetFactory(skin);
+		FileHandle skinHandle = Gdx.files.internal("skins/default/uiskin.json");
+		WidgetFactory factory = new WidgetFactory(skinHandle);
 		Actor difficultyChoiceEasy = factory.createVerticalListTitled("Easy",
 				descriptionEasy);
 		Actor difficultyChoiceHard = factory.createVerticalListTitled("Hard",

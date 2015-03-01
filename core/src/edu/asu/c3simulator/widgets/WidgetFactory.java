@@ -1,6 +1,7 @@
 package edu.asu.c3simulator.widgets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -21,9 +22,10 @@ import edu.asu.c3simulator.widgets.groups.VerticalMaintenanceGroup;
  */
 public class WidgetFactory
 {
-	public static final Skin DEFAULT_SKIN = createSkin("skins/default/uiskin.json");
+	public static final FileHandle DEFAULT_SKIN = createSkinHandle("skins/default/uiskin.json");
 	private static final boolean DEFAULT_TRANSFORM_SETTING = false;
 	private Skin skin;
+	private FileHandle skinFile;
 	
 	/** Used as the argument for {@link Group#setTransform(boolean)} */
 	private boolean transformSetting;
@@ -36,10 +38,11 @@ public class WidgetFactory
 	 * @throws IllegalArgumentException
 	 *             if skin is null
 	 */
-	public WidgetFactory(Skin skin)
+	public WidgetFactory(FileHandle skinFile)
 	{
 		super();
-		this.skin = skin;
+		this.skinFile = skinFile;
+		this.skin = new Skin(skinFile);
 		this.transformSetting = DEFAULT_TRANSFORM_SETTING;
 		
 		if (skin == null)
@@ -54,9 +57,9 @@ public class WidgetFactory
 		this(DEFAULT_SKIN);
 	}
 	
-	private static Skin createSkin(String skinPath)
+	private static FileHandle createSkinHandle(String skinPath)
 	{
-		return new Skin(Gdx.files.internal(skinPath));
+		return Gdx.files.internal(skinPath);
 	}
 	
 	/**
@@ -168,7 +171,7 @@ public class WidgetFactory
 	 */
 	public Actor createTitle(Layout parent, String titleText)
 	{
-		TextButton title = new StretchTextButton(titleText, skin, parent);
+		TextButton title = new StretchTextButton(titleText, new Skin(skinFile), parent);
 		title.align(Align.center);
 		title.setDisabled(true);
 		title.setTransform(transformSetting);
