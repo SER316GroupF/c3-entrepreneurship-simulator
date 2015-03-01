@@ -63,6 +63,8 @@ public class ProductDesigns
 		newProductPopupWindow = new Window("Choose New Product Design", skin);
 		newProductPopupWindow.setSize(0.40f*stage.getWidth(), 0.80f*stage.getHeight());
 		newProductPopupWindow.setPosition(stage.getWidth()/2 - (0.40f*stage.getWidth())/2, stage.getHeight()/2 - (0.80f*stage.getHeight())/2);
+		newProductPopupWindow.setMovable(false);
+		newProductPopupWindow.setResizable(false);
 	}
 	
 	public void displayProductDesignOptions()
