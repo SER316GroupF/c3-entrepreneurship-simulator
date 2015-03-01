@@ -10,7 +10,7 @@ public class Employee
 	public String randomEmployeePosition;
 	public int employeePay;
 	public int employeePref;
-	public int employeeMorale;
+	public int employeeMorale = 10;
 	public int netSalary;
 	public float averageAnnualRaise;
 	public float averageAnnualBonus;
@@ -157,8 +157,47 @@ public class Employee
 		this.employeePref = employeePref;
 	}
 	
+	/*
+	 * Employee Morale is determined by the difference between their pay
+	 * preference and their actual pay. If their morale reaches zero, the
+	 * employee quits and is removed from the active roster.
+	 */
+	
 	public int getEmployeeMorale()
 	{
+		int employeeMorale = 10;
+		int payDifference = employeePref - employeePay;
+		
+		if (payDifference == 1)
+		{
+			employeeMorale -= 2;
+		}
+		
+		else if (payDifference == 2)
+		{
+			employeeMorale -= 4;
+		}
+		
+		else if (payDifference == 3)
+		{
+			employeeMorale -= 6;
+		}
+		
+		else if (payDifference == 4)
+		{
+			employeeMorale -= 8;
+		}
+		
+		else
+		{
+			employeeMorale = 0;
+		}
+		
+		if (employeePay >= employeePref)
+		{
+			employeeMorale = 10;
+		}
+		
 		return employeeMorale;
 	}
 	

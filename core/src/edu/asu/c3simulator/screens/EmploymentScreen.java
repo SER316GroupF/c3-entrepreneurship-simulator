@@ -160,7 +160,7 @@ public class EmploymentScreen implements Screen
 	{
 		Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11, 10, 1600, 15.6f,
 				3.2f, 150);
-		Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 7, 1000, 6.7f, 1.2f, 35);
+		Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 10, 1000, 6.7f, 1.2f, 35);
 		String newEmp = "New Employee";
 		VerticalGroup employeeTable = new VerticalGroup();
 		
