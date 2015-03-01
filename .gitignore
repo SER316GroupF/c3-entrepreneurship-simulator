@@ -30,6 +30,7 @@ out/
 com_crashlytics_export_strings.xml
 
 ## Eclipse
+core\.classpath
 .classpath
 .project
 .metadata
@@ -61,3 +62,5 @@ build/
 
 ## OS Specific
 .DS_Store
+
+desktop/.classpath
