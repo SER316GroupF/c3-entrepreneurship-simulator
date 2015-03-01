@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.screens.DifficultySelectionScreen;
-import edu.asu.c3simulator.screens.MainHub;
+//import edu.asu.c3simulator.screens.MainHub;
 /**
  * This class creates a Home button actor, places it in the bottom left of the screen. Changes the screen to MainHub when clicked.
  * 
