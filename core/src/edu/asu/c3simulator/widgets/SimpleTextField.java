@@ -5,20 +5,69 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
+/**
+ * Alternative to {@link Label} that draws text based on a {@link BitmapFont} instead of a
+ * {@link Skin} object.
+ * 
+ * {@link SimpleTextField#setSize(float, float)} will prioritize the given size over it's
+ * font size (as opposed to {@link Label} which will do the opposite).
+ * {@link SimpleTextField} will resize it's font to meet the smallest bound of width and
+ * height
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class SimpleTextField extends Widget
 {
+	/**
+	 * The total (top and bottom, combined) vertical padding will be calculated by
+	 * multiplying {@link #textHeight} by this factor
+	 */
 	private static final float VARIABLE_HEIGHT_PADDING = 0.3f;
+	
 	private static final float MINIMUM_FONT_SCALE = 0.3f;
 	
+	/**
+	 * Font with which to draw the text. This will determine, in part, the width and
+	 * height of this unit
+	 */
 	private BitmapFont font;
+	
+	/** Text to be displayed */
 	private String text;
+	
+	/**
+	 * Current width of the text being drawn, as calculated by
+	 * {@link BitmapFont#getBounds(CharSequence)}
+	 */
 	private float textWidth;
+	
+	/**
+	 * Current height of the text being drawn, as calculated by
+	 * {@link BitmapFont#getBounds(CharSequence)}
+	 */
 	private float textHeight;
+	
+	/** The width of {@link #text} if it were drawn by {@link #font} at a scale of 1.0f */
 	private float normalTextWidth;
+	
+	/** The height of {@link #text} if it were drawn by {@link #font} at a scale of 1.0f */
 	private float normalTextHeight;
+	
+	/**
+	 * The width of {@link #text} if it were drawn by {@link #font} at the
+	 * {@link #MINIMUM_FONT_SCALE}
+	 */
 	private float minWidth;
+	
+	/**
+	 * The height of {@link #text} if it were drawn by {@link #font} at the
+	 * {@link #MINIMUM_FONT_SCALE}
+	 */
 	private float minHeight;
 	
 	public SimpleTextField(String text)
@@ -27,6 +76,10 @@ public class SimpleTextField extends Widget
 		setText(text);
 	}
 	
+	/**
+	 * Ensure the current values of {@link #textWidth} and {@link #textHeight} are equal
+	 * to the current display sizes
+	 */
 	private void validateTextBounds()
 	{
 		TextBounds textBounds = font.getBounds(text);
@@ -34,6 +87,10 @@ public class SimpleTextField extends Widget
 		this.textHeight = textBounds.height;
 	}
 	
+	/**
+	 * Ensure the value of {@link #normalTextHeight} and {@link #normalTextWidth} is equal
+	 * to the size of {@link #text} drawn at a scale of 1.0
+	 */
 	private void validateNormalTextBounds()
 	{
 		float scaleX = font.getScaleX();
@@ -48,6 +105,10 @@ public class SimpleTextField extends Widget
 		font.setScale(scaleX, scaleY);
 	}
 	
+	/**
+	 * Ensure the value of {@link #minHeight} and {@link #minWidth} is equal to the size
+	 * of {@link #text} drawn with the {@link #MINIMUM_FONT_SCALE}
+	 */
 	private void validateSizeSpecification()
 	{
 		float minHeight = 0.0f;
@@ -108,6 +169,7 @@ public class SimpleTextField extends Widget
 		return minHeight;
 	}
 	
+	@Override
 	protected void sizeChanged()
 	{
 		super.sizeChanged();
@@ -124,6 +186,10 @@ public class SimpleTextField extends Widget
 		validateTextBounds();
 	}
 	
+	/**
+	 * @return The vertical padding based on {@link #textHeight} and
+	 *         {@link #VARIABLE_HEIGHT_PADDING}
+	 */
 	private float heightPadding()
 	{
 		return this.textHeight * VARIABLE_HEIGHT_PADDING;

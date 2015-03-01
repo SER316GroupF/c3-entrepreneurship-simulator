@@ -7,6 +7,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import edu.asu.c3simulator.C3Simulator;
 
+/**
+ * Launcher for {@link C3Simulator}
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class DesktopLauncher
 {
 	public static final Dimension RESOLUTION_720p = new Dimension(1280, 720);
@@ -15,7 +21,7 @@ public class DesktopLauncher
 	public static void main(String[] arg)
 	{
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-
+		
 		capFrameRate(config, DEFAULT_FRAMERATE);
 		setResolution(config, RESOLUTION_720p);
 		lockedWindowedMode(config);
@@ -23,12 +29,26 @@ public class DesktopLauncher
 		new LwjglApplication(new C3Simulator(), config);
 	}
 	
+	/**
+	 * Sets the framerate limit of the provided config
+	 * 
+	 * @param config File to configure
+	 * @param framerate Max framerate
+	 */
 	protected static void capFrameRate(LwjglApplicationConfiguration config, int framerate)
 	{
 		config.foregroundFPS = framerate;
 		config.backgroundFPS = framerate;
 	}
 	
+	/**
+	 * Configures the provided config by setting
+	 * {@link LwjglApplicationConfiguration#resizable},
+	 * {@link LwjglApplicationConfiguration#fullscreen}, and
+	 * {@link LwjglApplicationConfiguration#vSyncEnabled} to false
+	 * 
+	 * @param config File to configure
+	 */
 	protected static void lockedWindowedMode(LwjglApplicationConfiguration config)
 	{
 		config.resizable = false;
