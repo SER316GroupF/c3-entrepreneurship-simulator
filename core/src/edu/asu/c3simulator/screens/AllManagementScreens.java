@@ -34,7 +34,7 @@ public enum AllManagementScreens
 		{
 			initialized = true;
 			PRE_MARKET.instance = new PreMarketProducts(game);
-			CURRENT_PRODUCTS.instance = null;
+			CURRENT_PRODUCTS.instance = new CurrentProducts(game);
 			RETIRED_PRODUCTS.instance = new RetiredProducts(game);
 			CURRENT_PRODUCTS_GROWTH.instance = null;
 			GROWTH_DEMAND.instance = null;
@@ -42,6 +42,7 @@ public enum AllManagementScreens
 			MARKETING.instance = null;
 			((PreMarketProducts) PRE_MARKET.instance).initialize();
 			((RetiredProducts) RETIRED_PRODUCTS.instance).initialize();
+			((CurrentProducts) CURRENT_PRODUCTS.instance).initialize();
 			// TODO: initialize more as they are created
 		}
 	}
