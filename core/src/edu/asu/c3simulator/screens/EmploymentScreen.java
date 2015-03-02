@@ -1,0 +1,315 @@
+package edu.asu.c3simulator.screens;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import edu.asu.c3simulator.simulation.Company;
+import edu.asu.c3simulator.simulation.Employee;
+
+/**
+ * @author Krogstad, Nick
+ * Framework: Moore, Zachary 
+ */
+public class EmploymentScreen implements Screen
+{
+	
+	private class EmployeeListener extends ClickListener
+	{
+		private Employee employee;
+		
+		public EmployeeListener(Employee passedEmployee)
+		{
+			employee = passedEmployee;
+		}
+		
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			selectedEmployee = this.employee;
+			employeeName.setText("Name: " + employee.getEmployeeName());
+			employeePosition.setText("Position: " + employee.getEmployeePosition());
+			employeePayField.setText("" + employee.getHourlyWage());
+			employeePref.setText("Income Preference: $"
+					+ employee.getPreferredHourlyWage() + " / hr");
+			employeeMorale.setText("Morale: " + employee.getMorale() + " / 10");
+			netSalary.setText("Net Salary: " + employee.getNetSalary());
+			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
+					+ "%");
+			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
+					+ "%");
+			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
+			employeePayTable.setVisible(true);
+		}
+	}
+	
+	private static final int DESIGN_WIDTH = 1280;
+	private static final int DESIGN_HEIGHT = 720;
+	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
+	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
+	private static final int ROSTER_OFFSET = 500;
+	private Label employeeName;
+	private Label employeePosition;
+	private Actor employeePay;
+	private Label employeePref;
+	private Label employeeMorale;
+	private Label netSalary;
+	private Label averageAnnualBonus;
+	private Label averageAnnualRaise;
+	private Label netBonuses;
+	
+	private Game game;
+	private Skin skin;
+	private Stage stage;
+	private TextField employeePayField;
+	private Employee selectedEmployee;
+	private Table employeePayTable;
+	
+	public EmploymentScreen(Game game)
+	{
+		this.game = game;
+		
+		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
+		this.stage = new Stage(stageViewport);
+		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		
+		Table roster = new Table();
+		
+		Actor employeePane = createEmployeePane();
+		Actor employeeModel = createEmployeeModel();
+		
+		roster.add(employeeModel).top().spaceRight(75);
+		roster.add(employeePane).top().spaceLeft(75);
+		
+		roster.setTransform(true);
+		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
+		
+		// TODO: Corner Advisor		
+		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET, DESIGN_HEIGHT / 6);
+		employeePane.setSize(350, 400);
+		roster.setPosition(ROSTER_OFFSET, DESIGN_HEIGHT / 2);
+		
+		stage.addActor(roster);
+		stage.addActor(employeePane);
+		
+	}
+	
+	public Company getCompanyContext()
+	{
+		return new Company() {
+			
+			@Override
+			public List<Employee> getEmployees()
+			{
+				Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11,
+						10, 1600, 15.6f, 3.2f, 150);
+				Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8,
+						8, 10, 1000, 6.7f, 1.2f, 35);
+				
+				List<Employee> employees = new LinkedList<>();
+				employees.add(employee1);
+				employees.add(employee2);
+				
+				return employees;
+			}
+			
+		};
+	}
+	
+	/**
+	 * Creates the Employee Pane, a list of everyone employed to the business. Allows user
+	 * to select the "New Employee" option which expands another pane where you can hire
+	 * new employees.
+	 */
+	private Actor createEmployeePane()
+	{
+		String newEmp = "New Employee";
+		VerticalGroup employeeTable = new VerticalGroup();
+		ScrollPane employeeScrollPane = new ScrollPane(employeeTable, skin);
+		
+		for (Employee employee : getCompanyContext().getEmployees())
+		{
+			addEmployee(employee, employeeTable);
+		}
+		
+		newEmployee(newEmp, employeeTable);
+		return employeeScrollPane;
+	}
+	
+	private void addEmployee(Employee employee, VerticalGroup group)
+	{
+		Label label = new Label(employee.toString(), skin);
+		group.addActor(label);
+		label.setAlignment(Align.center);
+		label.addListener(new EmployeeListener(employee));
+	}
+	
+	private void newEmployee(String newEmp, VerticalGroup group)
+	{
+		Label label = new Label(newEmp, skin);
+		group.addActor(label);
+		label.setAlignment(Align.center);
+	}
+	
+	/**
+	 * Creates the Employee Model that displays the selected employees information
+	 * including Name, Pay, Income Preference, and morale.
+	 */
+	private Actor createEmployeePay()
+	{
+		employeePayTable = new Table(skin);
+		Label payLabel = new Label("Pay: $", skin);
+		Label suffix = new Label(" / hr", skin);
+		employeePayField = new TextField("", skin);
+		
+		employeePayField.setTextFieldListener(new TextField.TextFieldListener() {
+			
+			@Override
+			public void keyTyped(TextField textField, char c)
+			{
+				String proposal = employeePayField.getText();
+				int proposalValue = selectedEmployee.getHourlyWage();
+				
+				if (proposal.length() <= 0)
+				{
+					proposalValue = 0;
+				}
+				
+				try
+				{
+					proposalValue = Integer.parseInt(proposal);
+					selectedEmployee.setHourlyWage(proposalValue);
+					
+				}
+				catch (NumberFormatException exception)
+				{
+					// DO NOTHING
+				}
+				
+				String text = Integer.toString(proposalValue);
+				employeePayField.setText(text);
+				employeePayField.setCursorPosition(text.length());
+				
+			}
+		});
+		employeePayTable.add(payLabel);
+		employeePayTable.add(employeePayField);
+		employeePayTable.add(suffix);
+		employeePayTable.setVisible(false);
+		return employeePayTable;
+	}
+	
+	/**
+	 * Creates the Employee Model which displays all of the components of an employee
+	 * including: Name, Position, Pay, Pay Preference, Morale, Net Salary, Average Annual
+	 * Bonus, Average Annual Raise, and Net Bonuses
+	 */
+	private Actor createEmployeeModel()
+	{
+		
+		Table employeeModel = new Table(skin);
+		
+		employeeName = new Label("", skin);
+		employeePosition = new Label("", skin);
+		employeePay = createEmployeePay();
+		employeePref = new Label("", skin);
+		employeeMorale = new Label("", skin);
+		netSalary = new Label("", skin);
+		averageAnnualBonus = new Label("", skin);
+		averageAnnualRaise = new Label("", skin);
+		netBonuses = new Label("", skin);
+		
+		employeeName.setAlignment(Align.left);
+		employeePref.setAlignment(Align.left);
+		employeeMorale.setAlignment(Align.left);
+		netSalary.setAlignment(Align.left);
+		averageAnnualBonus.setAlignment(Align.left);
+		averageAnnualRaise.setAlignment(Align.left);
+		netBonuses.setAlignment(Align.left);
+		
+		// TODO: Implement VerticalGroup
+		employeeModel.add(employeeName);
+		employeeModel.row();
+		employeeModel.add(employeePosition);
+		employeeModel.row();
+		employeeModel.add(employeePay);
+		employeeModel.row();
+		employeeModel.add(employeePref);
+		employeeModel.row();
+		employeeModel.add(employeeMorale);
+		employeeModel.row();
+		employeeModel.add(netSalary);
+		employeeModel.row();
+		employeeModel.add(averageAnnualBonus);
+		employeeModel.row();
+		employeeModel.add(averageAnnualRaise);
+		employeeModel.row();
+		employeeModel.add(netBonuses);
+		
+		return employeeModel;
+	}
+	
+	@Override
+	public void dispose()
+	{
+		stage.dispose();
+		this.game = null;
+	}
+	
+	@Override
+	public void hide()
+	{
+		Gdx.input.setInputProcessor(null);
+	}
+	
+	@Override
+	public void pause()
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void render(float delta)
+	{
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
+	}
+	
+	@Override
+	public void resize(int width, int height)
+	{
+		stage.getViewport().update(width, height);
+	}
+	
+	@Override
+	public void resume()
+	{
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void show()
+	{
+		Gdx.input.setInputProcessor(stage);
+	}
+	
+}
