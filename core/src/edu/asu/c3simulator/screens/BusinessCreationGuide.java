@@ -62,14 +62,13 @@ public class BusinessCreationGuide implements Screen
 			else if(currentScreen == tasksScreen)
 			{
 				System.out.println("Transitioning to Home Screen");
-				//resetBusinessCreationGuide();
 				// TODO: Transition to main hub
 				// TODO: pass user choices to data layer
 			}
 		}
 	}
 	
-	private static final String ADVISOR_TEXT = "Test";
+	@SuppressWarnings("unused")
 	private Game game;
 	private Stage stage;
 	private Skin skin;
@@ -142,15 +141,6 @@ public class BusinessCreationGuide implements Screen
 			progressButton.setText("Done >");
 		else
 			progressButton.setText("Continue >");
-	}
-	
-	void resetBusinessCreationGuide()
-	{
-		industryScreen = null;
-		directionScreen = null;
-		fundingScreen = null;
-		tasksScreen = null;
-		currentScreen = null;
 	}
 
 	@Override
