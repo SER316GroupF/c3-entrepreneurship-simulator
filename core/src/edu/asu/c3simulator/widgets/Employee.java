@@ -5,12 +5,11 @@ import java.util.Random;
 public class Employee
 {
 	public String employeeName;
-	public String randomEmployeeName;
 	public String employeePosition;
 	public String randomEmployeePosition;
 	public int employeePay;
 	public int employeePref;
-	public int employeeMorale = 10;
+	public int employeeMorale;
 	public int netSalary;
 	public float averageAnnualRaise;
 	public float averageAnnualBonus;
@@ -52,11 +51,11 @@ public class Employee
 		this.employeeName = employeeName;
 	}
 	
-	public String getRandomEmployeeName()
+	public static String getRandomEmployeeName()
 	{
 		String[] firstName = { "Nicholas", "Colton", "Sawyer", "Frankie", "Jennifer",
 				"Charles", "Kathy", "James", "Jacob", "Crystal", "Mike", "Cody", "Jorge",
-				"Sam", "Lisa", "Margaret", "Marth", "Victoria", "Susan", "Ted" };
+				"Sam", "Lisa", "Margaret", "Marth", "Roy", "Victoria", "Susan", "Ted" };
 		String[] lastName = { "Krogstad", "Tucker", "Hardenbech", "Connelley", "Li",
 				"Baker", "Tyke", "Mattingly", "Feng", "Lee", "Smith", "Houston",
 				"Franco", "White", "Andrade", "Manning", "Brady", "Boyle", "Terry" };
@@ -64,14 +63,14 @@ public class Employee
 		int randomFirst = (int) (Math.random() * firstName.length);
 		int randomLast = (int) (Math.random() * lastName.length);
 		
-		randomEmployeeName = firstName[randomFirst] + " " + lastName[randomLast];
+		String randomEmployeeName = firstName[randomFirst] + " " + lastName[randomLast];
 		
 		return randomEmployeeName;
 	}
 	
 	public void setRandomEmployeeName()
 	{
-		this.randomEmployeeName = randomEmployeeName;
+		this.employeeName = getRandomEmployeeName();
 	}
 	
 	/*
@@ -95,12 +94,12 @@ public class Employee
 		this.employeePosition = employeePosition;
 	}
 	
-	public int getEmployeePay()
+	public int getHourlyWage()
 	{
 		return employeePay;
 	}
 	
-	public void setEmployeePay(int employeePay)
+	public void setHourlyWage(int employeePay)
 	{
 		this.employeePay = employeePay;
 	}
@@ -111,7 +110,7 @@ public class Employee
 	 * and the employee pay determines the employee's morale.
 	 */
 	
-	public int getEmployeePref()
+	public int getPreferredHourlyWage()
 	{
 		if (employeePosition == "Manager")
 		{
@@ -158,34 +157,34 @@ public class Employee
 	}
 	
 	/*
-	 * Employee Morale is determined by the difference between their pay
-	 * preference and their actual pay. If their morale reaches zero, the
-	 * employee quits and is removed from the active roster.
+	 * Employee Morale is determined by the difference between their pay preference and
+	 * their actual pay. If their morale reaches zero, the employee quits and is removed
+	 * from the active roster.
 	 */
 	
-	public int getEmployeeMorale()
+	public int getMorale()
 	{
 		int employeeMorale = 10;
 		int payDifference = employeePref - employeePay;
 		
 		if (payDifference == 1)
 		{
-			employeeMorale -= 2;
+			employeeMorale -= (payDifference * 2);
 		}
 		
 		else if (payDifference == 2)
 		{
-			employeeMorale -= 4;
+			employeeMorale -= (payDifference * 2);
 		}
 		
 		else if (payDifference == 3)
 		{
-			employeeMorale -= 6;
+			employeeMorale -= (payDifference * 2);
 		}
 		
 		else if (payDifference == 4)
 		{
-			employeeMorale -= 8;
+			employeeMorale -= (payDifference * 2);
 		}
 		
 		else

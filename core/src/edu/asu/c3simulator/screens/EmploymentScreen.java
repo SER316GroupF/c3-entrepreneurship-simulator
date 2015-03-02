@@ -1,6 +1,6 @@
 package edu.asu.c3simulator.screens;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Game;
@@ -15,14 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.simulation.Company;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.Employee;
 
@@ -76,18 +77,20 @@ public class EmploymentScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
+			selectedEmployee = this.employee;
 			employeeName.setText("Name: " + employee.getEmployeeName());
 			employeePosition.setText("Position: " + employee.getEmployeePosition());
-			employeePay.setText("Pay: $" + employee.getEmployeePay() + " / hr");
-			employeePref.setText("Income Preference: $" + employee.getEmployeePref()
-					+ " / hr");
-			employeeMorale.setText("Morale: " + employee.getEmployeeMorale() + " / 10");
+			employeePayField.setText("" + employee.getHourlyWage());
+			employeePref.setText("Income Preference: $"
+					+ employee.getPreferredHourlyWage() + " / hr");
+			employeeMorale.setText("Morale: " + employee.getMorale() + " / 10");
 			netSalary.setText("Net Salary: " + employee.getNetSalary());
 			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
 					+ "%");
 			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
 					+ "%");
 			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
+			employeePayTable.setVisible(true);
 		}
 	}
 	
@@ -98,18 +101,20 @@ public class EmploymentScreen implements Screen
 	private static final int ROSTER_OFFSET = 500;
 	private Label employeeName;
 	private Label employeePosition;
-	private Label employeePay;
+	private Actor employeePay;
 	private Label employeePref;
 	private Label employeeMorale;
 	private Label netSalary;
 	private Label averageAnnualBonus;
 	private Label averageAnnualRaise;
 	private Label netBonuses;
-	private List<Employee> employees;
 	
 	private Game game;
 	private Skin skin;
 	private Stage stage;
+	private TextField employeePayField;
+	private Employee selectedEmployee;
+	private Table employeePayTable;
 	
 	public EmploymentScreen(Game game)
 	{
@@ -150,6 +155,27 @@ public class EmploymentScreen implements Screen
 		
 	}
 	
+	public Company getCompanyContext()
+	{
+		return new Company() {
+			
+			@Override
+			public List<Employee> getEmployees()
+			{
+				Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11, 10, 1600, 15.6f, 3.2f, 150);
+				Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 10, 1000, 6.7f, 1.2f, 35);
+				
+				List<Employee> employees = new LinkedList<>();
+				employees.add(employee1);
+				employees.add(employee2);
+			
+				//String newEmp = "New Employee";
+				return employees;
+			}
+			
+		};
+	}
+	
 	/*
 	 * Creates the Employee Pane, a list of everyone employed to the business. Allows user
 	 * to select the "New Employee" option which expands another pane where you can hire
@@ -158,18 +184,16 @@ public class EmploymentScreen implements Screen
 	
 	private Actor createEmployeePane()
 	{
-		Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11, 10, 1600, 15.6f,
-				3.2f, 150);
-		Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 10, 1000, 6.7f, 1.2f, 35);
 		String newEmp = "New Employee";
 		VerticalGroup employeeTable = new VerticalGroup();
-		
 		ScrollPane employeeScrollPane = new ScrollPane(employeeTable, skin);
 		
-		addEmployee(employee1, employeeTable);
-		addEmployee(employee2, employeeTable);
-		newEmployee(newEmp, employeeTable);
+		for (Employee employee : getCompanyContext().getEmployees())
+		{
+			addEmployee(employee, employeeTable);
+		}
 		
+		newEmployee(newEmp, employeeTable);
 		return employeeScrollPane;
 	}
 	
@@ -194,6 +218,50 @@ public class EmploymentScreen implements Screen
 	 * including Name, Pay, Income Preference, and morale.
 	 */
 	
+	private Actor createEmployeePay()
+	{
+		employeePayTable = new Table(skin);
+		Label payLabel = new Label("Pay: $", skin);
+		Label suffix = new Label(" / hr", skin);
+		employeePayField = new TextField("", skin);
+		
+		employeePayField.setTextFieldListener(new TextField.TextFieldListener() {
+			
+			@Override
+			public void keyTyped(TextField textField, char c)
+			{
+				String proposal = employeePayField.getText();
+				int proposalValue = selectedEmployee.getHourlyWage();
+				
+				if (proposal.length() <= 0)
+				{
+					proposalValue = 0;
+				}
+				
+				try
+				{
+					proposalValue = Integer.parseInt(proposal);
+					selectedEmployee.setHourlyWage(proposalValue);
+					
+				}
+				catch (NumberFormatException exception)
+				{
+					// DO NOTHING
+				}
+				
+				String text = Integer.toString(proposalValue);
+				employeePayField.setText(text);
+				employeePayField.setCursorPosition(text.length());
+				
+			}
+		});
+		employeePayTable.add(payLabel);
+		employeePayTable.add(employeePayField);
+		employeePayTable.add(suffix);
+		employeePayTable.setVisible(false);
+		return employeePayTable;
+	}
+	
 	private Actor createEmployeeModel()
 	{
 		
@@ -202,7 +270,7 @@ public class EmploymentScreen implements Screen
 		
 		employeeName = new Label("", skin);
 		employeePosition = new Label("", skin);
-		employeePay = new Label("", skin);
+		employeePay = createEmployeePay();
 		employeePref = new Label("", skin);
 		employeeMorale = new Label("", skin);
 		netSalary = new Label("", skin);
@@ -211,7 +279,6 @@ public class EmploymentScreen implements Screen
 		netBonuses = new Label("", skin);
 		
 		employeeName.setAlignment(Align.left);
-		employeePay.setAlignment(Align.left);
 		employeePref.setAlignment(Align.left);
 		employeeMorale.setAlignment(Align.left);
 		netSalary.setAlignment(Align.left);
