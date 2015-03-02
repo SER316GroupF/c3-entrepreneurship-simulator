@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
@@ -60,14 +61,75 @@ public class WidgetFactory
 		return new Skin(Gdx.files.internal(skinPath));
 	}
 	
+	/**
+	 * Equivalent to a call to {@link #createLabeledCounter(String, Counter, float)} with
+	 * a spacing argument of 0
+	 * 
+	 * @see #createLabeledCounter(String, Counter, float)
+	 */
 	public static Actor createLabeledCounter(String label, Counter counter)
+	{
+		return createLabeledCounter(label, counter, 0);
+	}
+	
+	/**
+	 * Attaches a label to the left of the given counter, with a specified amount of space
+	 * in between
+	 * 
+	 * @param label
+	 *            Text to display to the left of the given counter
+	 * @param counter
+	 *            Target counter object
+	 * @param spacing
+	 *            Space in between the counter and label, in pixels
+	 * @return An {@link Actor} that combines the above elements, often times a
+	 *         {@link Table}
+	 */
+	public static Actor createLabeledCounter(String label, Counter counter, float spacing)
 	{
 		TableMaintenanceGroup table = new TableMaintenanceGroup();
 		SimpleTextField labelField = new SimpleTextField(label);
-		table.add(labelField).align(Align.left);
+		table.add(labelField).align(Align.left).spaceRight(spacing);
 		table.add(counter).align(Align.right);
 		
+		float width = labelField.getWidth() + counter.getWidth() + spacing;
+		float height = labelField.getHeight();
+		table.setSize(width, height);
+		
 		return table;
+	}
+	
+	/**
+	 * Creates a labeled counter of the specified width, using the specified counter. This
+	 * method calculates the required spacing, given the desired width, and calls
+	 * {@link #createLabeledCounter(String, Counter, float)}, resizing if necessary
+	 * 
+	 * @see #createLabeledCounter(String, Counter, float)
+	 */
+	public static Actor createSizedLabeledCounter(String label, Counter counter,
+			float width)
+	{
+		Actor labeledCounter;
+		SimpleTextField labelField = new SimpleTextField(label);
+		
+		float currentWidth = labelField.getWidth() + counter.getWidth();
+		float spacing = width - currentWidth;
+		
+		if (spacing < 0)
+		{
+			float scale = width / currentWidth;
+			float height = labelField.getHeight() * scale;
+			
+			labeledCounter = createLabeledCounter(label, counter, 0);
+			labeledCounter.setSize(width, height);
+			return labeledCounter;
+		}
+		else
+		{
+			labeledCounter = createLabeledCounter(label, counter, spacing);
+		}
+		
+		return labeledCounter;
 	}
 	
 	/**

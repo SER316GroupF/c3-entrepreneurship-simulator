@@ -10,6 +10,9 @@ package edu.asu.c3simulator.widgets;
 public interface CountListener
 {
 	/**
+	 * Fired when the count of a {@link Counter} object changes. This listener must be
+	 * added to a {@link Counter} for it to fire.
+	 * 
 	 * @param source
 	 *            The counter firing the event
 	 * @param delta

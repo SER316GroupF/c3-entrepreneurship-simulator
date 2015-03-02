@@ -153,7 +153,8 @@ public class SimpleTextField extends Widget
 	@Override
 	public float getPrefHeight()
 	{
-		return Math.min(getHeight(), getParent().getHeight());
+		return getHeight();
+		// return Math.min(getHeight(), getParent().getHeight());
 	}
 	
 	@Override

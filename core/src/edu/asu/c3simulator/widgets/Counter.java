@@ -1,5 +1,8 @@
 package edu.asu.c3simulator.widgets;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -85,6 +88,9 @@ public class Counter extends Widget
 	/** @see #drawnX */
 	private float drawnY;
 	
+	/** Listeners to notify in the case of a count change event */
+	private List<CountListener> countListeners;
+	
 	public Counter()
 	{
 		this.count = 0;
@@ -93,6 +99,7 @@ public class Counter extends Widget
 		this.maximumCount = DEFAULT_MAXIMUM_COUNT;
 		this.incrementAmount = DEFAULT_INCREMENT;
 		this.countDisplay = new SimpleTextField(getFormatedCount());
+		this.countListeners = new LinkedList<>();
 		
 		this.plusButton = new Association<>(defaultPlusTexture(), null);
 		this.minusButton = new Association<>(defaultMinusTexture(), null);
@@ -137,6 +144,7 @@ public class Counter extends Widget
 	{
 		count += amount;
 		validateCount();
+		countChanged(amount, count);
 	}
 	
 	/**
@@ -198,6 +206,29 @@ public class Counter extends Widget
 		{
 			countDisplay.setText(counterText);
 		}
+	}
+	
+	/**
+	 * Notifies all {@link CountListener}s currently registered to this object.
+	 * 
+	 * @see CountListener#countChanged(Counter, int, int)
+	 */
+	protected void countChanged(int delta, int newCount)
+	{
+		for (CountListener listener : countListeners)
+		{
+			listener.countChanged(this, delta, newCount);
+		}
+	}
+	
+	/**
+	 * @param listener
+	 *            Will be fired when {@link #count} is changed
+	 * @return True if the listener was registered successfully, false otherwise
+	 */
+	public boolean addListener(CountListener listener)
+	{
+		return this.countListeners.add(listener);
 	}
 	
 	@Override

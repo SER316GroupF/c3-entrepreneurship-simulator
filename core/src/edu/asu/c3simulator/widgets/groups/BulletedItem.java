@@ -15,7 +15,7 @@ import edu.asu.c3simulator.widgets.SimpleTextField;
  * @author Moore, Zachary
  *
  */
-public class BulletedItem extends Table
+public class BulletedItem extends TableMaintenanceGroup
 {
 	/** Text to be displayed to the right of the bullet */
 	private SimpleTextField listItem;
