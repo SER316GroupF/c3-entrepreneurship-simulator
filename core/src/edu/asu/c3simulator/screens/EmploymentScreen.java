@@ -168,8 +168,7 @@ public class EmploymentScreen implements Screen
 				List<Employee> employees = new LinkedList<>();
 				employees.add(employee1);
 				employees.add(employee2);
-			
-				//String newEmp = "New Employee";
+				
 				return employees;
 			}
 			
@@ -262,11 +261,16 @@ public class EmploymentScreen implements Screen
 		return employeePayTable;
 	}
 	
+	/*
+	 * Creates the Employee Model which displays all of the components of an employee
+	 * including: Name, Position, Pay, Pay Preference, Morale, Net Salary, Average Annual
+	 * Bonus, Average Annual Raise, and Net Bonuses
+	 */
+	
 	private Actor createEmployeeModel()
 	{
 		
 		Table employeeModel = new Table(skin);
-		// VerticalGroup employeeModel = new VerticalGroup();
 		
 		employeeName = new Label("", skin);
 		employeePosition = new Label("", skin);
@@ -307,14 +311,6 @@ public class EmploymentScreen implements Screen
 		
 		return employeeModel;
 	}
-	
-	/*
-	 * private Actor createEmploymentTitle(Layout parent, String titleText) { TextButton
-	 * title = new Button2(titleText, skin, parent); title.align(Align.center);
-	 * title.setDisabled(true);
-	 * 
-	 * return title; }
-	 */
 	
 	@Override
 	public void dispose()
