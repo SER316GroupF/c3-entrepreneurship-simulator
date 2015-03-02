@@ -19,19 +19,29 @@ import com.badlogic.gdx.utils.Array;
 
 import edu.asu.c3simulator.util.Task;
 
+/**
+ * This class creates and displays the GUI component for managing tasks. The class
+ * separates available tasks into Action Based and Non-Action Based categories. The user
+ * can check all the tasks they want and press the add tasks button for tasks to be moved
+ * to the selected tasks column. Also, it is possible to remove tasks from the current
+ * tasks back to their categories by checking them and clicking the remove button.
+ * 
+ * @author Alyahya, Mohammed
+ */
 public class TaskManagement extends Table
 {
 	private class addTasksButtonListener extends ClickListener
-	{	
+	{
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
 			Array<Button> checkedActionBasedTasks = actionBasedTasksGroup.getButtons();
 			int numberOfButtons = checkedActionBasedTasks.size;
-			for(int index=1; index<=numberOfButtons; index++)
+			for (int index = 1; index <= numberOfButtons; index++)
 			{
-				Button checkedButton = checkedActionBasedTasks.get(numberOfButtons-index);
-				if(checkedButton.isChecked())
+				Button checkedButton = checkedActionBasedTasks.get(numberOfButtons
+						- index);
+				if (checkedButton.isChecked())
 				{
 					chosenTasksList.addActorAt(0, checkedButton);
 					chosenTasksGroup.add(checkedButton);
@@ -40,12 +50,14 @@ public class TaskManagement extends Table
 				}
 			}
 			
-			Array<Button> checkedNonActionBasedTasks = nonActionBasedTasksGroup.getButtons();
+			Array<Button> checkedNonActionBasedTasks = nonActionBasedTasksGroup
+					.getButtons();
 			numberOfButtons = checkedNonActionBasedTasks.size;
-			for(int index=1; index<=numberOfButtons; index++)
+			for (int index = 1; index <= numberOfButtons; index++)
 			{
-				Button checkedButton = checkedNonActionBasedTasks.get(numberOfButtons-index);
-				if(checkedButton.isChecked())
+				Button checkedButton = checkedNonActionBasedTasks.get(numberOfButtons
+						- index);
+				if (checkedButton.isChecked())
 				{
 					chosenTasksList.addActorAt(0, checkedButton);
 					chosenTasksGroup.add(checkedButton);
@@ -66,13 +78,14 @@ public class TaskManagement extends Table
 		{
 			Array<Button> chosenTasks = chosenTasksGroup.getButtons();
 			int numberOfButtons = chosenTasks.size;
-			for(int index=1; index<=numberOfButtons; index++)
+			for (int index = 1; index <= numberOfButtons; index++)
 			{
-				Button checkedButton = chosenTasks.get(numberOfButtons-index);
-				CheckBox checkBoxButton = (CheckBox)checkedButton;
-				if(checkedButton.isChecked())
+				Button checkedButton = chosenTasks.get(numberOfButtons - index);
+				CheckBox checkBoxButton = (CheckBox) checkedButton;
+				if (checkedButton.isChecked())
 				{
-					if(displayedTasks.get(checkBoxButton).getType().equalsIgnoreCase("Action Based"))
+					if (displayedTasks.get(checkBoxButton).getType()
+							.equalsIgnoreCase("Action Based"))
 					{
 						actionBasedTasksList.addActor(checkedButton);
 						actionBasedTasksGroup.add(checkedButton);
@@ -94,16 +107,22 @@ public class TaskManagement extends Table
 	
 	private Skin skin;
 	private VerticalGroup actionBasedTasksList, nonActionBasedTasksList, chosenTasksList;
-	private ButtonGroup actionBasedTasksGroup, nonActionBasedTasksGroup, chosenTasksGroup;
+	private ButtonGroup actionBasedTasksGroup, nonActionBasedTasksGroup,
+			chosenTasksGroup;
 	private Hashtable<CheckBox, Task> displayedTasks;
 	
+	/**
+	 * @param stage
+	 *            The stage where the GUI will be displayed.
+	 * @param skin
+	 */
 	public TaskManagement(Stage stage, Skin skin)
 	{
 		this.skin = skin;
 		
-		displayedTasks =  new Hashtable<CheckBox, Task>();
+		displayedTasks = new Hashtable<CheckBox, Task>();
 		
-		this.setSize(0.70f*stage.getWidth(), 0.70f*stage.getHeight());
+		this.setSize(0.70f * stage.getWidth(), 0.70f * stage.getHeight());
 		
 		Table leftSection = new Table();
 		Table rightSection = new Table();
@@ -128,7 +147,8 @@ public class TaskManagement extends Table
 		nonActionBasedTasksGroup.setMaxCheckCount(-1);
 		nonActionBasedTasksGroup.setMinCheckCount(0);
 		ScrollPane actionBasedTasksScroll = new ScrollPane(actionBasedTasksList, skin);
-		ScrollPane nonActionBasedTasksScroll = new ScrollPane(nonActionBasedTasksList, skin);
+		ScrollPane nonActionBasedTasksScroll = new ScrollPane(nonActionBasedTasksList,
+				skin);
 		
 		actionBased.add(actionBasedLabel).fillX().center();
 		actionBased.row();
@@ -160,26 +180,30 @@ public class TaskManagement extends Table
 		leftSection.add(chosenTasksScroll).expand().fill().center();
 		leftSection.row();
 		leftSection.add(removeTasksButton).fillX().center();
-
+		
 		this.add(leftSection).expand().fill();
 		this.add(rightSection).expand().fill();
-		this.setPosition(stage.getWidth()/2 - this.getWidth()/2, stage.getHeight()/2 - this.getHeight()/2);
+		this.setPosition(stage.getWidth() / 2 - this.getWidth() / 2, stage.getHeight()
+				/ 2 - this.getHeight() / 2);
 		
 		updateAvailableTasks();
 		updateChosenTasks();
 	}
 	
+	/**
+	 * This method is called to update the list of available tasks.
+	 */
 	public void updateAvailableTasks()
 	{
 		ArrayList<Task> availableTasks = getAvailableTasks();
 		actionBasedTasksList.clear();
 		nonActionBasedTasksList.clear();
 		
-		for(Task task : availableTasks)
+		for (Task task : availableTasks)
 		{
-			CheckBox newTaskCheckBox = new CheckBox(" "+task.getName(), skin);
+			CheckBox newTaskCheckBox = new CheckBox(" " + task.getName(), skin);
 			displayedTasks.put(newTaskCheckBox, task);
-			if(task.getType().equalsIgnoreCase("Action Based"))
+			if (task.getType().equalsIgnoreCase("Action Based"))
 			{
 				actionBasedTasksList.addActor(newTaskCheckBox);
 				actionBasedTasksGroup.add(newTaskCheckBox);
@@ -195,35 +219,52 @@ public class TaskManagement extends Table
 		nonActionBasedTasksList.left();
 	}
 	
+	/**
+	 * This method creates a testing shell of different tasks to test and demo the GUI.
+	 * 
+	 * @return an ArrayList of the available tasks that are going to be displayed.
+	 */
 	private ArrayList<Task> getAvailableTasks()
 	{
-		String[] actionBasedList = {"task 1.1", "task 2.1", "task 3.1", "task 4.1", "task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1"};
-		String[] nonActionBasedList = {"task 1.2", "task 2.2", "task 3.2", "task 4.2", "task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2"};
+		String[] actionBasedList = { "task 1.1", "task 2.1", "task 3.1", "task 4.1",
+				"task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1" };
+		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
+				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
-		ArrayList<Task> availableTasks = new ArrayList<Task>(); 
+		ArrayList<Task> availableTasks = new ArrayList<Task>();
 		
-		for(String taskName : actionBasedList)
+		for (String taskName : actionBasedList)
 			availableTasks.add(new Task(taskName, "Action Based"));
 		
-		for(String taskName : nonActionBasedList)
+		for (String taskName : nonActionBasedList)
 			availableTasks.add(new Task(taskName, "Non-Action Based"));
 		
 		return availableTasks;
 	}
 	
+	/**
+	 * This method deals with obtaining the currently chosen tasks by the user from the
+	 * data layer and display it at the beginning.
+	 */
 	public void updateChosenTasks()
 	{
-		//TODO get current chosen tasks 
+		// TODO get current chosen tasks
 	}
 	
+	/**
+	 * This method gets the current list in the chosen tasks column and return it in array
+	 * form.
+	 * 
+	 * @return an ArrayList of the chosen tasks.
+	 */
 	public ArrayList<Task> getChosenTasks()
 	{
-		ArrayList<Task> chosenTasks = new ArrayList<Task>(); 
+		ArrayList<Task> chosenTasks = new ArrayList<Task>();
 		
 		Array<Button> chosenTaskButtons = chosenTasksGroup.getButtons();
-		for(Button checkedButton : chosenTaskButtons)
+		for (Button checkedButton : chosenTaskButtons)
 		{
-			CheckBox checkBoxButton = (CheckBox)checkedButton;
+			CheckBox checkBoxButton = (CheckBox) checkedButton;
 			chosenTasks.add(displayedTasks.get(checkBoxButton));
 		}
 		

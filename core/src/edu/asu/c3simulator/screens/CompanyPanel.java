@@ -20,12 +20,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
- * This class displays the company - businesses tab in the council section of the game. 
+ * This class displays the company - businesses tab in the council section of the game.
  * 
  * @author Alyahya, Mohammed
  */
 public class CompanyPanel implements Screen
 {
+	@SuppressWarnings("unused")
 	private Game game;
 	private Stage stage;
 	private Skin skin;
@@ -40,7 +41,7 @@ public class CompanyPanel implements Screen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		Table mainTable = new Table();
-		mainTable.setSize(0.70f*stage.getWidth(), 0.70f*stage.getHeight());
+		mainTable.setSize(0.70f * stage.getWidth(), 0.70f * stage.getHeight());
 		
 		Table upperSection = new Table();
 		Table lowerSection = new Table();
@@ -52,22 +53,23 @@ public class CompanyPanel implements Screen
 		upperSection.add(businessSelection).spaceRight(100).center();
 		upperSection.add(businessInfo).expand().fillX().left();
 		lowerSection.add(businessGraph).expand().center();
-		lowerSection.add(businessButtons).center().width(0.2f*mainTable.getWidth());
+		lowerSection.add(businessButtons).center().width(0.2f * mainTable.getWidth());
 		mainTable.add(upperSection).fillX();
 		mainTable.row();
 		mainTable.add(lowerSection).expand().fill();
 		
-		mainTable.setPosition(stage.getWidth()/2 - mainTable.getWidth()/2, stage.getHeight()/2 - mainTable.getHeight()/2);
-		//upperSection.debug();
-		//lowerSection.debug();
-		//mainTable.debugTable();
+		mainTable.setPosition(stage.getWidth() / 2 - mainTable.getWidth() / 2,
+				stage.getHeight() / 2 - mainTable.getHeight() / 2);
+		// upperSection.debug();
+		// lowerSection.debug();
+		// mainTable.debugTable();
 		
-		//TODO add Corner Advisor
-		//TODO add Home Button
+		// TODO add Corner Advisor
+		// TODO add Home Button
 		
-		//TODO add screens
+		// TODO add screens
 		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		//navigationPanel.addButton("Advising", null);
+		// navigationPanel.addButton("Advising", null);
 		navigationPanel.addButton("Company", null);
 		navigationPanel.addSubButton("Company", "Business", null);
 		navigationPanel.addSubButton("Company", "Assets", null);
@@ -76,12 +78,18 @@ public class CompanyPanel implements Screen
 		navigationPanel.addSubButton("Tasks", "Completed", null);
 		navigationPanel.showSubButtonsFor("Company");
 		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight() - (0.3f * stage.getHeight()));
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
 		
 		stage.addActor(navigationPanel);
 		stage.addActor(mainTable);
 	}
 	
+	/**
+	 * This method creates the drop down list of business.
+	 * 
+	 * @return the GUI that was created.
+	 */
 	private Actor createBusinessSelection()
 	{
 		VerticalGroup businessSelection = new VerticalGroup();
@@ -90,7 +98,8 @@ public class CompanyPanel implements Screen
 		businessSelectionBox = new SelectBox<String>(skin);
 		updateBusinessSelection();
 		
-		businessSelectionBox.setItems("No Business Selected", "Business 1", "Business 2", "Business 3");
+		businessSelectionBox.setItems("No Business Selected", "Business 1", "Business 2",
+				"Business 3");
 		businessSelectionBox.setSelected("No Business Selected");
 		
 		businessSelection.addActor(businessSelectionLabel);
@@ -101,14 +110,20 @@ public class CompanyPanel implements Screen
 		return businessSelection;
 	}
 	
+	/**
+	 * This method gets the list of businesses from the data layer and displays it in the
+	 * drop down list.
+	 */
 	private void updateBusinessSelection()
 	{
-		//TODO add items to the list
-		//TODO test how to manipulate it
-		
-		//businessSelectionBox.setItems(C3Simulator.getBusinesses());
+		// TODO add items to the list
 	}
 	
+	/**
+	 * This method creates the GUI that will display the info for the selected business.
+	 * 
+	 * @return The GUI component created.
+	 */
 	private Actor createBusinessInfo()
 	{
 		Table businessInfo = new Table();
@@ -129,7 +144,7 @@ public class CompanyPanel implements Screen
 		labels.addActor(businessNameLabel);
 		labels.addActor(businessNetWorthLabel);
 		labels.addActor(businessSellingPriceLabel);
-
+		
 		information.addActor(businessName);
 		information.addActor(businessNetWorth);
 		information.addActor(businessSellingPrice);
@@ -141,22 +156,32 @@ public class CompanyPanel implements Screen
 		
 		businessInfo.add(labels).spaceRight(10);
 		businessInfo.add(information).expand().fill().left();
-		//businessInfo.debug();
+		// businessInfo.debug();
 		
 		return businessInfo;
 	}
 	
+	/**
+	 * This method should update the information section with the appropriate info for the
+	 * selected business.
+	 */
 	private void updateBusinessInfo()
 	{
-		//TODO add items to the list
-		//TODO test how to manipulate it
+		// TODO add items to the list
+		// TODO test how to manipulate it
 	}
 	
+	/**
+	 * This method creates the buttons that give the option to rename or sell the selected
+	 * business.
+	 * 
+	 * @return The GUI component created.
+	 */
 	private Actor createBusinessButtons()
 	{
 		VerticalGroup businessButtons = new VerticalGroup();
 		
-		//TODO add rename and sell button created by teammates
+		// TODO add rename and sell button created by teammates
 		
 		TextButton renameButton = new TextButton("Rename", skin);
 		TextButton sellButton = new TextButton("Sell", skin);
@@ -169,16 +194,22 @@ public class CompanyPanel implements Screen
 		return businessButtons;
 	}
 	
+	/**
+	 * This method creates the GUI component holding graph that represents the selected
+	 * business.
+	 * 
+	 * @return The GUI component created.
+	 */
 	private Actor createBusinessGraph()
 	{
 		VerticalGroup businessGraph = new VerticalGroup();
 		
-		//TODO all of this after some clarifications
+		// TODO create graph and display it
 		
 		Label graphLabel = new Label("Net Profit vs. Time", skin);
-		Label graphImage = new Label("Graph Image", skin);
 		
-		FileHandle iconLocation = Gdx.files.internal("images/placeholder-advisor-icon.png");
+		FileHandle iconLocation = Gdx.files
+				.internal("images/placeholder-advisor-icon.png");
 		Texture iconTexture = new Texture(iconLocation);
 		Image advisorIcon = new Image(iconTexture);
 		
@@ -191,54 +222,57 @@ public class CompanyPanel implements Screen
 		return businessGraph;
 	}
 	
+	/**
+	 * This method update the graph based on the selected business.
+	 */
 	private void updateBusinessGraph()
 	{
-		//TODO add items to the list
-		//TODO test how to manipulate it
+		// TODO add items to the list
+		// TODO test how to manipulate it
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	    stage.act(Gdx.graphics.getDeltaTime());
-	    stage.draw();
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
-
+	
 	@Override
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
 		
 	}
-
+	
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 		
 	}
-
+	
 	@Override
 	public void pause()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void dispose()
 	{

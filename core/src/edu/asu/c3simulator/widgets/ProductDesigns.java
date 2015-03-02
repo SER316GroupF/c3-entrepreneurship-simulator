@@ -23,7 +23,8 @@ import edu.asu.c3simulator.util.Product;
 public class ProductDesigns
 {
 	/**
-	 * This listener checks if any of the icons is clicked and attempts appropriate action.
+	 * This listener checks if any of the icons is clicked and attempts appropriate
+	 * action.
 	 * 
 	 * @author Alyahya, Mohammed
 	 */
@@ -137,7 +138,6 @@ public class ProductDesigns
 				new Product("Pants 3", "default"), new Product("Pants 4", "default") };
 		return products;
 	}
-	
 	
 	/**
 	 * @return the product created by the last user selected design

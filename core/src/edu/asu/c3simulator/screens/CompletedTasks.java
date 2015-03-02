@@ -17,6 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import edu.asu.c3simulator.util.Task;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
+/**
+ * This class displays a screen that shows a list of completed tasks divided into two
+ * categories: Action Based and Non-Action Based.
+ * 
+ * @author Alyahya, Mohammed
+ */
 public class CompletedTasks implements Screen
 {
 	@SuppressWarnings("unused")
@@ -32,7 +38,7 @@ public class CompletedTasks implements Screen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		Table mainTable = new Table();
-		mainTable.setSize(0.60f*stage.getWidth(), 0.60f*stage.getHeight());
+		mainTable.setSize(0.60f * stage.getWidth(), 0.60f * stage.getHeight());
 		
 		Table upperSection = new Table();
 		Table lowerSection = new Table();
@@ -52,7 +58,8 @@ public class CompletedTasks implements Screen
 		actionBasedTasksList = new VerticalGroup();
 		nonActionBasedTasksList = new VerticalGroup();
 		ScrollPane actionBasedTasksScroll = new ScrollPane(actionBasedTasksList, skin);
-		ScrollPane nonActionBasedTasksScroll = new ScrollPane(nonActionBasedTasksList, skin);
+		ScrollPane nonActionBasedTasksScroll = new ScrollPane(nonActionBasedTasksList,
+				skin);
 		
 		leftSection.add(actionBasedLabel).fillX().center();
 		leftSection.row();
@@ -61,17 +68,18 @@ public class CompletedTasks implements Screen
 		rightSection.add(nonActionBasedLabel).fillX().center();
 		rightSection.row();
 		rightSection.add(nonActionBasedTasksScroll).expand().fill().center();
-
+		
 		lowerSection.add(leftSection).expand().fill();
 		lowerSection.add(rightSection).expand().fill();
 		mainTable.add(upperSection).fillX().row();
 		mainTable.add(lowerSection).expand().fill();
-		mainTable.setPosition(stage.getWidth()/2 - mainTable.getWidth()/2, stage.getHeight()/2 - mainTable.getHeight()/2);
+		mainTable.setPosition(stage.getWidth() / 2 - mainTable.getWidth() / 2,
+				stage.getHeight() / 2 - mainTable.getHeight() / 2);
 		
-		//TODO add Corner Advisor
-		//TODO add Home Button
+		// TODO add Corner Advisor
+		// TODO add Home Button
 		
-		//TODO add screens
+		// TODO add screens
 		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
 		navigationPanel.addButton("Company", null);
 		navigationPanel.addSubButton("Company", "Business", null);
@@ -81,7 +89,8 @@ public class CompletedTasks implements Screen
 		navigationPanel.addSubButton("Tasks", "Completed", null);
 		navigationPanel.showSubButtonsFor("Tasks");
 		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight() - (0.3f * stage.getHeight()));
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
 		
 		mainTable.debug();
 		leftSection.debug();
@@ -93,16 +102,19 @@ public class CompletedTasks implements Screen
 		stage.addActor(mainTable);
 	}
 	
+	/**
+	 * This method is called to update the list of completed tasks.
+	 */
 	public void updateCompletedTasks()
 	{
 		ArrayList<Task> completedTasks = getCompletedTasks();
 		actionBasedTasksList.clear();
 		nonActionBasedTasksList.clear();
 		
-		for(Task task : completedTasks)
+		for (Task task : completedTasks)
 		{
-			Label newCompletedTask = new Label(" "+task.getName(), skin);
-			if(task.getType().equalsIgnoreCase("Action Based"))
+			Label newCompletedTask = new Label(" " + task.getName(), skin);
+			if (task.getType().equalsIgnoreCase("Action Based"))
 				actionBasedTasksList.addActor(newCompletedTask);
 			else
 				nonActionBasedTasksList.addActor(newCompletedTask);
@@ -112,65 +124,72 @@ public class CompletedTasks implements Screen
 		nonActionBasedTasksList.left();
 	}
 	
+	/**
+	 * This method creates a testing shell of different tasks to test and demo the GUI.
+	 * 
+	 * @return an ArrayList of the completed tasks that are going to be displayed.
+	 */
 	private ArrayList<Task> getCompletedTasks()
 	{
-		String[] actionBasedList = {"task 1.1", "task 2.1", "task 3.1", "task 4.1", "task 5.1", "task 6.1", "task 7.1",
-									"task 8.1", "task 9.1", "task 10.1", "task 11.1", "task 12.1", "task 13.1", "task 14.1", "task 15.1"};
-		String[] nonActionBasedList = {"task 1.2", "task 2.2", "task 3.2", "task 4.2", "task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2"};
+		String[] actionBasedList = { "task 1.1", "task 2.1", "task 3.1", "task 4.1",
+				"task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1",
+				"task 11.1", "task 12.1", "task 13.1", "task 14.1", "task 15.1" };
+		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
+				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
-		ArrayList<Task> availableTasks = new ArrayList<Task>(); 
+		ArrayList<Task> availableTasks = new ArrayList<Task>();
 		
-		for(String taskName : actionBasedList)
+		for (String taskName : actionBasedList)
 			availableTasks.add(new Task(taskName, "Action Based"));
 		
-		for(String taskName : nonActionBasedList)
+		for (String taskName : nonActionBasedList)
 			availableTasks.add(new Task(taskName, "Non-Action Based"));
 		
 		return availableTasks;
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	    stage.act(Gdx.graphics.getDeltaTime());
-	    stage.draw();
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
-
+	
 	@Override
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
 		
 	}
-
+	
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 		
 	}
-
+	
 	@Override
 	public void pause()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void dispose()
 	{

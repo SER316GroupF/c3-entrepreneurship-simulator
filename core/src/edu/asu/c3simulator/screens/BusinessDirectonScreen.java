@@ -19,10 +19,9 @@ import edu.asu.c3simulator.widgets.Location;
 /**
  * Displays two options for general company goals and highlights selected option.
  * 
- * @author Alyahya, Mohammed
- * some of Zack's code was reused here
+ * @author Alyahya, Mohammed some of Zack's code was reused here
  */
-public class BusinessDirectonScreen extends BusinessCreationGuideScreens 
+public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 {
 	private Skin skin;
 	private ButtonGroup optionCheckBoxesGroup;
@@ -59,15 +58,24 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 		directions.padLeft(100);
 		directions.setTransform(true);
 		
-		addActor(directions, new Location(stage.getWidth()/2, stage.getHeight()/2));
+		addActor(directions, new Location(stage.getWidth() / 2, stage.getHeight() / 2));
 	}
 	
-	Actor createLongTermDirection()
+	/**
+	 * This method creates the long term labels and button that will be displayed in the
+	 * screen.
+	 * 
+	 * @return the GUI that was created.
+	 */
+	private Actor createLongTermDirection()
 	{
-		String communityOutreach [] = {"Community Outreach:","Building company's name recognition ",
-										"within the community through outreach ","projects."};
-		String revenue [] = {"Revenue:","Concrete, annual fiscal goals supporting ","revenue expectations."};
-		String customerService [] = {"Customer Service:","Maintain a long-lasting bond and ","build a devoted following."};
+		String communityOutreach[] = { "Community Outreach:",
+				"Building company's name recognition ",
+				"within the community through outreach ", "projects." };
+		String revenue[] = { "Revenue:", "Concrete, annual fiscal goals supporting ",
+				"revenue expectations." };
+		String customerService[] = { "Customer Service:",
+				"Maintain a long-lasting bond and ", "build a devoted following." };
 		
 		VerticalGroup longTermDirectionText = new VerticalGroup();
 		longTermDirectionText.addActor(createParagraph(communityOutreach));
@@ -79,12 +87,22 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 		return longTermDirectionText;
 	}
 	
-	Actor createShortTermDirection()
+	/**
+	 * This method creates the short term labels and button that will be displayed in the
+	 * screen.
+	 * 
+	 * @return the GUI that was created.
+	 */
+	private Actor createShortTermDirection()
 	{
-		String communityOutreach [] = {"Community Outreach:","Incentives for employees who volunteer",
-										"with designated community projects."};
-		String revenue [] = {"Revenue:","One month contracts for advising","consultants"};
-		String customerService [] = {"Customer Service:","Host monthly drawings for free","products or discounts on future ","purchases."};
+		String communityOutreach[] = { "Community Outreach:",
+				"Incentives for employees who volunteer",
+				"with designated community projects." };
+		String revenue[] = { "Revenue:", "One month contracts for advising",
+				"consultants" };
+		String customerService[] = { "Customer Service:",
+				"Host monthly drawings for free", "products or discounts on future ",
+				"purchases." };
 		
 		VerticalGroup longTermDirectionText = new VerticalGroup();
 		longTermDirectionText.addActor(createParagraph(communityOutreach));
@@ -96,14 +114,22 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 		return longTermDirectionText;
 	}
 	
-	Table createParagraph(String[] text)
+	/**
+	 * A method that creates the paragraph that will be displayed and organize it in a
+	 * table.
+	 * 
+	 * @param text
+	 *            a string array of the text that will create the table.
+	 * @return The table created holding the text labels.
+	 */
+	private Table createParagraph(String[] text)
 	{
 		// REFACTOR: Combine with #createDifficultyChoiceDescriptionHard
 		Table requestedParagraph = new Table();
 		
 		List<Label> lines = new LinkedList<>();
 		// REFACTOR: Load lines from file
-		for(String stringLine : text)
+		for (String stringLine : text)
 		{
 			lines.add(new Label(stringLine, skin));
 		}
@@ -117,12 +143,15 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 		return requestedParagraph;
 	}
 	
+	/**
+	 * @return The Business Direction that was chosen by the user. "none" will be returned
+	 *         if no option was chosen.
+	 */
 	public String getChosenOption()
 	{
-		CheckBox chosenOption = (CheckBox) optionCheckBoxesGroup.getChecked();
-		if(chosenOption == longTermOption)
+		if (longTermOption.isChecked())
 			return "long term";
-		else if(chosenOption == shortTermOption)
+		else if (shortTermOption.isChecked())
 			return "short term";
 		else
 			return "none";

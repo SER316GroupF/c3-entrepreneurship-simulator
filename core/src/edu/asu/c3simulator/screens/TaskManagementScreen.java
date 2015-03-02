@@ -8,6 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
+/**
+ * This screen creates and displays an instance of the Task Management class for the
+ * Council Section.
+ * 
+ * @author Alyahya, Mohammed
+ */
 public class TaskManagementScreen implements Screen
 {
 	@SuppressWarnings("unused")
@@ -23,10 +29,10 @@ public class TaskManagementScreen implements Screen
 		
 		TaskManagement taskManagementComponents = new TaskManagement(stage, skin);
 		
-		//TODO add Corner Advisor
-		//TODO add Home Button
+		// TODO add Corner Advisor
+		// TODO add Home Button
 		
-		//TODO add screens
+		// TODO add screens
 		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
 		navigationPanel.addButton("Company", null);
 		navigationPanel.addSubButton("Company", "Business", null);
@@ -36,54 +42,55 @@ public class TaskManagementScreen implements Screen
 		navigationPanel.addSubButton("Tasks", "Completed", new CompletedTasks(game));
 		navigationPanel.showSubButtonsFor("Tasks");
 		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight() - (0.3f * stage.getHeight()));
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
 		
 		stage.addActor(navigationPanel);
 		stage.addActor(taskManagementComponents);
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	    stage.act(Gdx.graphics.getDeltaTime());
-	    stage.draw();
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
-
+	
 	@Override
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
 		
 	}
-
+	
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 		
 	}
-
+	
 	@Override
 	public void pause()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
-		//throw new UnsupportedOperationException("The method is not implemented yet.");
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void dispose()
 	{
