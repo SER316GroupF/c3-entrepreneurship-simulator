@@ -14,64 +14,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import edu.asu.c3simulator.simulation.Company;
-import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.Employee;
 
-//import edu.asu.c3simulator.widgets.HomeButton;
-
-/*
+/**
  * @author Krogstad, Nick
  * Framework: Moore, Zachary 
  */
-
-//import edu.asu.c3simulator.screens.DifficultySelectionScreen.Button2;
-//import edu.asu.c3simulator.widgets.CornerAdvisor;
-
 public class EmploymentScreen implements Screen
 {
-	private static class Button2 extends TextButton
-	{
-		Layout parent;
-		
-		public Button2(String text, Skin skin, Layout parent)
-		{
-			super(text, skin);
-			this.parent = parent;
-		}
-		
-		public float getPrefWidth()
-		{
-			if (parent == null)
-				return super.getPrefWidth();
-			else
-				return parent.getPrefWidth();
-		}
-		
-	}
 	
 	private class EmployeeListener extends ClickListener
 	{
 		private Employee employee;
-		private String newEmp;
 		
 		public EmployeeListener(Employee passedEmployee)
 		{
 			employee = passedEmployee;
-		}
-		
-		public EmployeeListener(String passedNewEmployee)
-		{
-			newEmp = passedNewEmployee;
 		}
 		
 		@Override
@@ -135,21 +100,11 @@ public class EmploymentScreen implements Screen
 		roster.setTransform(true);
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		CornerAdvisor advisor = new CornerAdvisor(
-				"You can manage your employees on this screen.");
-		float padding = 0.01f * DESIGN_HEIGHT;
-		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+		// TODO: Corner Advisor		
 		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET, DESIGN_HEIGHT / 6);
 		employeePane.setSize(350, 400);
 		roster.setPosition(ROSTER_OFFSET, DESIGN_HEIGHT / 2);
-		advisor.setPosition(advisorLeft, advisorBottom);
-		advisor.setSize(100, 100);
-		// HomeButton home = new HomeButton();
-		// roster.debug();
 		
-		// stage.addActor(home);
-		stage.addActor(advisor);
 		stage.addActor(roster);
 		stage.addActor(employeePane);
 		
@@ -162,8 +117,10 @@ public class EmploymentScreen implements Screen
 			@Override
 			public List<Employee> getEmployees()
 			{
-				Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11, 10, 1600, 15.6f, 3.2f, 150);
-				Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8, 8, 10, 1000, 6.7f, 1.2f, 35);
+				Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11,
+						10, 1600, 15.6f, 3.2f, 150);
+				Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8,
+						8, 10, 1000, 6.7f, 1.2f, 35);
 				
 				List<Employee> employees = new LinkedList<>();
 				employees.add(employee1);
@@ -175,12 +132,11 @@ public class EmploymentScreen implements Screen
 		};
 	}
 	
-	/*
+	/**
 	 * Creates the Employee Pane, a list of everyone employed to the business. Allows user
 	 * to select the "New Employee" option which expands another pane where you can hire
 	 * new employees.
 	 */
-	
 	private Actor createEmployeePane()
 	{
 		String newEmp = "New Employee";
@@ -209,14 +165,12 @@ public class EmploymentScreen implements Screen
 		Label label = new Label(newEmp, skin);
 		group.addActor(label);
 		label.setAlignment(Align.center);
-		label.addListener(new EmployeeListener(newEmp));
 	}
 	
-	/*
+	/**
 	 * Creates the Employee Model that displays the selected employees information
 	 * including Name, Pay, Income Preference, and morale.
 	 */
-	
 	private Actor createEmployeePay()
 	{
 		employeePayTable = new Table(skin);
@@ -261,12 +215,11 @@ public class EmploymentScreen implements Screen
 		return employeePayTable;
 	}
 	
-	/*
+	/**
 	 * Creates the Employee Model which displays all of the components of an employee
 	 * including: Name, Position, Pay, Pay Preference, Morale, Net Salary, Average Annual
 	 * Bonus, Average Annual Raise, and Net Bonuses
 	 */
-	
 	private Actor createEmployeeModel()
 	{
 		

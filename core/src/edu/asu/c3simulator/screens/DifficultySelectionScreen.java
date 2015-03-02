@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.WidgetFactory;
 
 /**
@@ -104,13 +103,6 @@ public class DifficultySelectionScreen implements Screen
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		CornerAdvisor advisor = new CornerAdvisor(ADVISOR_TEXT);
-		float padding = 0.01f * DESIGN_HEIGHT;
-		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		advisor.setPosition(advisorLeft, advisorBottom);
-		
-		stage.addActor(advisor);
 		stage.addActor(choices);
 	}
 	
