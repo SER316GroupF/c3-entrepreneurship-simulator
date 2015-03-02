@@ -9,10 +9,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 import edu.asu.c3simulator.widgets.SimpleTextField;
 
+/**
+ * A component that visually represents an item in a bulleted list.
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class BulletedItem extends Table
 {
+	/** Text to be displayed to the right of the bullet */
 	private SimpleTextField listItem;
 	
+	/**
+	 * @param bulletTexture Visualization of a bullet point
+	 * @param text Text to display to the right of the bullet
+	 */
 	public BulletedItem(Texture bulletTexture, String text)
 	{
 		Image bullet = new Image(bulletTexture);
