@@ -5,6 +5,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+
+/**
+ * This class creates a new product.
+ * 
+ * @author Alyahya, Mohammed
+ */
 public class Product
 {
 	private Image productImage;
@@ -12,12 +18,22 @@ public class Product
 	private static final String ADVISOR_IMAGE_PATH = "images/placeholder-advisor-icon.png";
 	private static final String DEFAULT_IMAGE_PATH = "images/placeholder-t_shirt-icon.png";
 	
+	/**
+	 * @param productName The name of the product
+	 * @param imageName The name of the image that is going to be displayed, if a wrong name is passed, it will display a default image.
+	 */
 	public Product(String productName, String imageName)
 	{
 		this.name = productName;
 		this.productImage = getImage(imageName);
 	}
 	
+	/**
+	 * Create an Image object based on the image name passed.
+	 * 
+	 * @param imageName name of the image 
+	 * @return Image object
+	 */
 	private Image getImage(String imageName)
 	{
 		String imagePath = "";
