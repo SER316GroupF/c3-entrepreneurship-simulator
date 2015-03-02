@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="testing"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_31"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_20"/>
 	<classpathentry kind="lib" path="dependencies/gdx/gdx-1.3.1.jar" sourcepath="/c3simulator-desktop/dependencies/sources/gdx-1.3.1-sources.jar"/>
 	<classpathentry kind="lib" path="dependencies/gdx/gdx-box2d-1.3.1.jar"/>
 	<classpathentry kind="lib" path="dependencies/apache/commons-io-2.4.jar" sourcepath="dependencies/sources/commons-io-2.4-sources.jar">
