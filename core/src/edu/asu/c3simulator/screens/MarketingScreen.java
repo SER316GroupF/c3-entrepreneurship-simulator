@@ -50,6 +50,7 @@ public class MarketingScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
+			companyPromotionButton.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			associatedLabel.setColor(0.0f, 1.0f, 0.0f, 1.0f);
 			if (selectedProductLabel != null && selectedProductLabel != associatedLabel)
 				selectedProductLabel.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -96,6 +97,7 @@ public class MarketingScreen implements Screen
 	private Skin skin;
 	private Product selectedProduct;
 	private Label selectedProductLabel, selectedMarketingLabel;
+	private TextButton companyPromotionButton;
 	private String selectedMarketingMethod = "";
 	private boolean promoteCompany = false, productChosen = false,
 			marketingMethodChosen = false;
@@ -136,8 +138,7 @@ public class MarketingScreen implements Screen
 		navigationPanel.addSubButton("Products", "Retired", null);
 		navigationPanel.addButton("Product Growth", null);
 		navigationPanel.addSubButton("Product Growth", "Supply", null);
-		navigationPanel
-				.addSubButton("Product Growth", "Demand", new CompletedTasks(game));
+		navigationPanel.addSubButton("Product Growth", "Demand", null);
 		navigationPanel.addButton("Employment", null);
 		navigationPanel.addButton("Marketing", null);
 		
@@ -161,7 +162,7 @@ public class MarketingScreen implements Screen
 		Table rightSection = new Table();
 		
 		ScrollPane productGridScroll = new ScrollPane(getProductGrid(), skin);
-		TextButton companyPromotionButton = new TextButton("Promote Company", skin);
+		companyPromotionButton = new TextButton("Promote Company", skin);
 		companyPromotionButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
@@ -196,11 +197,11 @@ public class MarketingScreen implements Screen
 			{
 				if (marketingMethodChosen && (productChosen || promoteCompany))
 				{
-					// TODO transit to the next page
 					System.out.println("Moving to the next Step. "
 							+ selectedMarketingMethod
 							+ " will be used to market "
 							+ (productChosen ? selectedProduct.getName() : "the Company."));
+					game.setScreen(new MarketingWizard(game, MarketingScreen.this));
 				}
 			}
 		});

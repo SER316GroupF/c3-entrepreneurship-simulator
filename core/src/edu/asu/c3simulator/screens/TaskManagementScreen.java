@@ -39,7 +39,7 @@ public class TaskManagementScreen implements Screen
 		navigationPanel.addSubButton("Company", "Assets", null);
 		navigationPanel.addButton("Tasks", null);
 		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", new CompletedTasks(game));
+		navigationPanel.addSubButton("Tasks", "Completed", null);
 		navigationPanel.showSubButtonsFor("Tasks");
 		
 		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
