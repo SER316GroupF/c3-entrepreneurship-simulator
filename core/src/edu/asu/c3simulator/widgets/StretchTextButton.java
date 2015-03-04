@@ -1,5 +1,7 @@
 package edu.asu.c3simulator.widgets;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
@@ -47,5 +49,40 @@ public class StretchTextButton extends TextButton
 			return super.getPrefWidth();
 		else
 			return target.getPrefWidth();
+	}
+	
+	@Override
+	public void draw(Batch batch, float parentAlpha)
+	{
+		layout();
+		super.draw(batch, parentAlpha);
+	}
+	
+	@Override
+	public void layout()
+	{
+		super.layout();
+		TextButtonStyle style = this.getStyle();
+		BitmapFont font = style.font;
+		
+		float originalScaleX = font.getScaleX();
+		float originalScaleY = font.getScaleY();
+		
+		font.setScale(1.0f);
+		float textWidth = font.getBounds(getText()).width;
+		float targetWidth = getPrefWidth();
+		font.setScale(originalScaleX, originalScaleY);
+		
+		if (textWidth > targetWidth)
+		{
+			BitmapFont newFont = new BitmapFont();
+			textWidth = newFont.getBounds(getText()).width;
+			
+			float newScale = targetWidth / textWidth;
+			newFont.setScale(newScale);
+			style.font = newFont;
+		}
+		
+		setStyle(style);
 	}
 }

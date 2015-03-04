@@ -3,6 +3,7 @@ package edu.asu.c3simulator.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +25,8 @@ import edu.asu.c3simulator.widgets.WidgetFactory;
  */
 public class DifficultySelectionScreen implements Screen
 {
+	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
+	
 	/**
 	 * Width and Height at which this screen was designed. Can be used in resize
 	 * operations
@@ -65,7 +68,8 @@ public class DifficultySelectionScreen implements Screen
 		String[] descriptionHard = new String[] { "$2 000 startup",
 				"Realistic Competition" };
 		
-		WidgetFactory factory = new WidgetFactory(skin);
+		FileHandle skinHandle = Gdx.files.internal("skins/default/uiskin.json");
+		WidgetFactory factory = new WidgetFactory(skinHandle);
 		Actor difficultyChoiceEasy = factory.createVerticalListTitled("Easy",
 				descriptionEasy);
 		Actor difficultyChoiceHard = factory.createVerticalListTitled("Hard",

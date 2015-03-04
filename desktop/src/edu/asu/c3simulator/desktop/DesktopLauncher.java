@@ -35,7 +35,7 @@ public class DesktopLauncher
 	 * @param config File to configure
 	 * @param framerate Max framerate
 	 */
-	private static void capFrameRate(LwjglApplicationConfiguration config, int framerate)
+	protected static void capFrameRate(LwjglApplicationConfiguration config, int framerate)
 	{
 		config.foregroundFPS = framerate;
 		config.backgroundFPS = framerate;
@@ -49,20 +49,20 @@ public class DesktopLauncher
 	 * 
 	 * @param config File to configure
 	 */
-	private static void lockedWindowedMode(LwjglApplicationConfiguration config)
+	protected static void lockedWindowedMode(LwjglApplicationConfiguration config)
 	{
 		config.resizable = false;
 		config.fullscreen = false;
 		config.vSyncEnabled = false;
 	}
 	
-	private static void setResolution(LwjglApplicationConfiguration config,
+	protected static void setResolution(LwjglApplicationConfiguration config,
 			Dimension resolution)
 	{
 		setResolution(config, resolution.width, resolution.height);
 	}
 	
-	private static void setResolution(LwjglApplicationConfiguration config, int width,
+	protected static void setResolution(LwjglApplicationConfiguration config, int width,
 			int height)
 	{
 		config.width = width;
