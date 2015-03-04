@@ -2,18 +2,28 @@ package edu.asu.c3simulator.simulation;
 
 import java.util.Random;
 
+/**
+ * The Employee class is used to store all of the attributes that an
+ * employee should have. It is also used to randomly generate these attributes
+ * to apply to a list of employees available for hire.
+ * 
+ * @author nickkrogstad
+ *
+ */
 public class Employee
 {
 	public String employeeName;
-	public String employeePosition;
+	public static String employeePosition;
 	public String randomEmployeePosition;
 	public int employeePay;
-	public int employeePref;
+	public static int employeePref;
 	public int employeeMorale;
 	public int netSalary;
 	public float averageAnnualRaise;
 	public float averageAnnualBonus;
 	public int netBonuses;
+	
+	
 	
 	public Employee(String name, String position, int pay, int pref, int morale,
 			int net_salary, float annualRaise, float annualBonus, int net_bonus)
@@ -29,6 +39,15 @@ public class Employee
 		netBonuses = net_bonus;
 	}
 	
+	private Employee()
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @return A string used display only the name and pay of an
+	 * 		   employee for the Employee Panel
+	 */
 	@Override
 	public String toString()
 	{
@@ -39,6 +58,17 @@ public class Employee
 		string.append(" / hr)");
 		
 		return string.toString();
+	}
+	
+	public static Employee getRandomEmployee()
+	{
+		//TODO: Populate random employee
+		Employee employee = new Employee();
+		employee.employeeName = getRandomEmployeeName(); 
+		employee.employeePref = getPreferredHourlyWage();
+		employee.employeePosition = getEmployeePosition();
+		
+		return employee;
 	}
 	
 	public String getEmployeeName()
@@ -73,14 +103,8 @@ public class Employee
 		this.employeeName = getRandomEmployeeName();
 	}
 	
-	/*
-	 * public String getEmployeePosition() { return employeePosition; }
-	 * 
-	 * public void setEmployeePosition(String employeePosition) { this.employeePosition =
-	 * employeePosition; }
-	 */
 	
-	public String getEmployeePosition()
+	public static String getEmployeePosition()
 	{
 		String[] positions = { "Manager", "Product Design", "Sales Associate",
 				"Marketing" };
@@ -104,13 +128,11 @@ public class Employee
 		this.employeePay = employeePay;
 	}
 	
-	/*
-	 * Employee Preference is determined by the selected employee's position and returns
-	 * an integer between the given pay range. The offset between the employee preference
-	 * and the employee pay determines the employee's morale.
+	/**
+	 * Preferred Hourly Wage is determined by the selected employee's position and returns
+	 * an integer between the given pay range
 	 */
-	
-	public int getPreferredHourlyWage()
+	public static int getPreferredHourlyWage()
 	{
 		if (employeePosition == "Manager")
 		{

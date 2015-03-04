@@ -20,12 +20,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import edu.asu.c3simulator.simulation.Company;
 import edu.asu.c3simulator.simulation.Employee;
 
 /**
- * @author Krogstad, Nick
- * Framework: Moore, Zachary 
+ * Employment Screen displays a panel of active employees hired by the currently
+ * selected business. If an employee is selected, their information is displayed in
+ * the Employee Model. The user has the option to set their base pay as well as
+ * fire them. The user may also select New Employee and choose from a list of
+ * randomly generated employees to hire.
+ * 
+ * @author Krogstad, Nick 
+ * 
  */
 public class EmploymentScreen implements Screen
 {
@@ -59,6 +66,45 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
+	private class NewEmployeeButtonListener extends ClickListener
+	{
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			newEmployeeOptionsPanel.clear();
+			//TODO: Do not keep number of employees generated magic
+			for(int employeesGenerated = 0; employeesGenerated < 3; employeesGenerated++)
+			{
+				Employee employee = Employee.getRandomEmployee();
+				Actor employeeLabel = addEmployee(employee, newEmployeeOptionsPanel, false);
+				employeeLabel.addListener(new HireEmployeeListener(employee));
+			}
+		}
+	}
+	
+	private class HireEmployeeListener extends ClickListener
+	{
+		private Employee employee;
+		private VerticalGroup employeePane;
+		
+		public HireEmployeeListener(Employee passedEmployee)
+		{
+			employee = passedEmployee;
+		}
+		
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			newEmployeeOptionsPanel.clear();
+			addEmployee(employee, employeePane);
+		}
+	}
+	
+	private class RemoveEmployeeListener extends ClickListener
+	{
+		//TODO
+	}
+	
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
@@ -74,13 +120,21 @@ public class EmploymentScreen implements Screen
 	private Label averageAnnualRaise;
 	private Label netBonuses;
 	
+	@SuppressWarnings("unused")
 	private Game game;
 	private Skin skin;
 	private Stage stage;
 	private TextField employeePayField;
 	private Employee selectedEmployee;
 	private Table employeePayTable;
+	private VerticalGroup newEmployeeOptionsPanel;
 	
+	/**
+	 * Used in order to transition between the Main Hub, Business Management, and
+	 * Employment Screen.
+	 * 
+	 * @param game
+	 */
 	public EmploymentScreen(Game game)
 	{
 		this.game = game;
@@ -110,6 +164,12 @@ public class EmploymentScreen implements Screen
 		
 	}
 	
+	/**
+	 * Company creates a list of employees of the type Employee and
+	 * returns that list.
+	 * 
+	 * @return
+	 */
 	public Company getCompanyContext()
 	{
 		return new Company() {
@@ -133,9 +193,7 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Creates the Employee Pane, a list of everyone employed to the business. Allows user
-	 * to select the "New Employee" option which expands another pane where you can hire
-	 * new employees.
+	 * @return The Employee Pane, a list of everyone employed to the business.
 	 */
 	private Actor createEmployeePane()
 	{
@@ -149,17 +207,50 @@ public class EmploymentScreen implements Screen
 		}
 		
 		newEmployee(newEmp, employeeTable);
+		
 		return employeeScrollPane;
 	}
 	
-	private void addEmployee(Employee employee, VerticalGroup group)
+	/**
+	 * Adds an employee to the provided vertical group
+	 * <p>
+	 * Used as an intermediate function to construct the Employee Panel
+	 */
+	private Actor addEmployee(Employee employee, VerticalGroup group, boolean addEmployeeListener)
 	{
 		Label label = new Label(employee.toString(), skin);
 		group.addActor(label);
 		label.setAlignment(Align.center);
-		label.addListener(new EmployeeListener(employee));
+		
+		if(addEmployeeListener)
+		{
+			label.addListener(new EmployeeListener(employee));
+		}
+		
+		return label;
+				
 	}
 	
+	private void addEmployee(Employee employee, VerticalGroup group)
+	{
+		addEmployee(employee, group, true);
+	}
+	
+	/**
+	 * Allows user to select the "Fire" option which removes the selected
+	 * employee from the active roster
+	 */
+	private void removeEmployee()
+	{
+
+		//TODO
+		
+	}
+	
+	/**
+	 * Placeholder for the "New Employee" button that will display a panel 
+	 * of randomly generated employees available for hire when clicked
+	 */
 	private void newEmployee(String newEmp, VerticalGroup group)
 	{
 		Label label = new Label(newEmp, skin);
@@ -168,8 +259,8 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Creates the Employee Model that displays the selected employees information
-	 * including Name, Pay, Income Preference, and morale.
+	 * Creates the Employee Model that displays the selected employees 
+	 * information including Name, Pay, Income Preference, and morale.
 	 */
 	private Actor createEmployeePay()
 	{
@@ -265,6 +356,11 @@ public class EmploymentScreen implements Screen
 		return employeeModel;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
 	@Override
 	public void dispose()
 	{
@@ -272,12 +368,22 @@ public class EmploymentScreen implements Screen
 		this.game = null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#pause()
+	 */
 	@Override
 	public void pause()
 	{
@@ -285,6 +391,11 @@ public class EmploymentScreen implements Screen
 		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#render()
+	 */
 	@Override
 	public void render(float delta)
 	{
@@ -293,12 +404,22 @@ public class EmploymentScreen implements Screen
 		stage.draw();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resize()
+	 */
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resume()
+	 */
 	@Override
 	public void resume()
 	{
@@ -306,6 +427,11 @@ public class EmploymentScreen implements Screen
 		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
 	@Override
 	public void show()
 	{
