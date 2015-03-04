@@ -78,10 +78,8 @@ public class TestScreen implements Screen, TextInputListener
 			}
 		});
 
-		TextButton renameButton = new TextButton("Rename", skin);
-		
-		renameButton.setPosition(700,200);
-		stage.addActor(renameButton);
+		RenameCompany renameButton = new RenameCompany(stage, skin);
+		renameButton.setPosition(700, 200);
 	
 		stage.addActor(advisor);
 
@@ -96,9 +94,6 @@ public class TestScreen implements Screen, TextInputListener
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
-		if(Gdx.input.justTouched())
-			Gdx.input.getTextInput(this, "Title", "default text");
-		Gdx.app.log("Text", text);
 	}
 
 	@Override
