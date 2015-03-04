@@ -36,7 +36,6 @@ import edu.asu.c3simulator.simulation.Employee;
  */
 public class EmploymentScreen implements Screen
 {
-	
 	private class EmployeeListener extends ClickListener
 	{
 		private Employee employee;
@@ -53,19 +52,20 @@ public class EmploymentScreen implements Screen
 			employeeName.setText("Name: " + employee.getEmployeeName());
 			employeePosition.setText("Position: " + employee.getEmployeePosition());
 			employeePayField.setText("" + employee.getHourlyWage());
-			employeePref.setText("Income Preference: $"
+			employeePreferredHourlyWage.setText("Income Preference: $"
 					+ employee.getPreferredHourlyWage() + " / hr");
 			employeeMorale.setText("Morale: " + employee.getMorale() + " / 10");
-			netSalary.setText("Net Salary: " + employee.getNetSalary());
-			netSalary.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
+			netEarnings.setText("Net Earnings: " + employee.getNetEarnings());
+			averageAnnualBonus.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
 					+ "%");
-			netSalary.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
+			averageAnnualRaise.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
 					+ "%");
 			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
 			employeePayTable.setVisible(true);
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private class NewEmployeeButtonListener extends ClickListener
 	{
 		@Override
@@ -100,6 +100,7 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private class RemoveEmployeeListener extends ClickListener
 	{
 		//TODO
@@ -109,25 +110,26 @@ public class EmploymentScreen implements Screen
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
-	private static final int ROSTER_OFFSET = 500;
+	private static final int ROSTER_OFFSET_X = 500;
+	private Actor employeePay;
 	private Label employeeName;
 	private Label employeePosition;
-	private Actor employeePay;
-	private Label employeePref;
+	private Label employeePreferredHourlyWage;
 	private Label employeeMorale;
-	private Label netSalary;
+	private Label netBonuses;
 	private Label averageAnnualBonus;
 	private Label averageAnnualRaise;
-	private Label netBonuses;
+	private Label netEarnings;
+	private TextField employeePayField;
+	private Table employeePayTable;
+	private VerticalGroup newEmployeeOptionsPanel;
+	
 	
 	@SuppressWarnings("unused")
 	private Game game;
 	private Skin skin;
 	private Stage stage;
-	private TextField employeePayField;
 	private Employee selectedEmployee;
-	private Table employeePayTable;
-	private VerticalGroup newEmployeeOptionsPanel;
 	
 	/**
 	 * Used in order to transition between the Main Hub, Business Management, and
@@ -155,9 +157,9 @@ public class EmploymentScreen implements Screen
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
 		// TODO: Corner Advisor		
-		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET, DESIGN_HEIGHT / 6);
+		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET_X, DESIGN_HEIGHT / 6);
 		employeePane.setSize(350, 400);
-		roster.setPosition(ROSTER_OFFSET, DESIGN_HEIGHT / 2);
+		roster.setPosition(ROSTER_OFFSET_X, DESIGN_HEIGHT / 2);
 		
 		stage.addActor(roster);
 		stage.addActor(employeePane);
@@ -231,20 +233,17 @@ public class EmploymentScreen implements Screen
 				
 	}
 	
+	/**
+	 * Adds an Employee object to the Vertical Group and sets its visibility
+	 * to true
+	 * 
+	 * @param employee
+	 * @param group
+	 * 
+	 */
 	private void addEmployee(Employee employee, VerticalGroup group)
 	{
 		addEmployee(employee, group, true);
-	}
-	
-	/**
-	 * Allows user to select the "Fire" option which removes the selected
-	 * employee from the active roster
-	 */
-	private void removeEmployee()
-	{
-
-		//TODO
-		
 	}
 	
 	/**
@@ -259,8 +258,8 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Creates the Employee Model that displays the selected employees 
-	 * information including Name, Pay, Income Preference, and morale.
+	 * Creates the Employee Pay Table that allows the user to input 
+	 * a desired hourly wage for the selected employee
 	 */
 	private Actor createEmployeePay()
 	{
@@ -274,7 +273,7 @@ public class EmploymentScreen implements Screen
 			@Override
 			public void keyTyped(TextField textField, char c)
 			{
-				String proposal = employeePayField.getText();
+				String proposal = employeePayField.getText().trim();
 				int proposalValue = selectedEmployee.getHourlyWage();
 				
 				if (proposal.length() <= 0)
@@ -299,6 +298,7 @@ public class EmploymentScreen implements Screen
 				
 			}
 		});
+		
 		employeePayTable.add(payLabel);
 		employeePayTable.add(employeePayField);
 		employeePayTable.add(suffix);
@@ -307,32 +307,31 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Creates the Employee Model which displays all of the components of an employee
+	 * Creates the Employee Model, which displays all of the components of an employee
 	 * including: Name, Position, Pay, Pay Preference, Morale, Net Salary, Average Annual
 	 * Bonus, Average Annual Raise, and Net Bonuses
 	 */
 	private Actor createEmployeeModel()
 	{
-		
 		Table employeeModel = new Table(skin);
 		
 		employeeName = new Label("", skin);
 		employeePosition = new Label("", skin);
 		employeePay = createEmployeePay();
-		employeePref = new Label("", skin);
+		employeePreferredHourlyWage = new Label("", skin);
 		employeeMorale = new Label("", skin);
-		netSalary = new Label("", skin);
+		netBonuses = new Label("", skin);
 		averageAnnualBonus = new Label("", skin);
 		averageAnnualRaise = new Label("", skin);
-		netBonuses = new Label("", skin);
+		netEarnings = new Label("", skin);
 		
 		employeeName.setAlignment(Align.left);
-		employeePref.setAlignment(Align.left);
+		employeePreferredHourlyWage.setAlignment(Align.left);
 		employeeMorale.setAlignment(Align.left);
-		netSalary.setAlignment(Align.left);
+		netBonuses.setAlignment(Align.left);
 		averageAnnualBonus.setAlignment(Align.left);
 		averageAnnualRaise.setAlignment(Align.left);
-		netBonuses.setAlignment(Align.left);
+		netEarnings.setAlignment(Align.left);
 		
 		// TODO: Implement VerticalGroup
 		employeeModel.add(employeeName);
@@ -341,17 +340,17 @@ public class EmploymentScreen implements Screen
 		employeeModel.row();
 		employeeModel.add(employeePay);
 		employeeModel.row();
-		employeeModel.add(employeePref);
+		employeeModel.add(employeePreferredHourlyWage);
 		employeeModel.row();
 		employeeModel.add(employeeMorale);
 		employeeModel.row();
-		employeeModel.add(netSalary);
+		employeeModel.add(netBonuses);
 		employeeModel.row();
 		employeeModel.add(averageAnnualBonus);
 		employeeModel.row();
 		employeeModel.add(averageAnnualRaise);
 		employeeModel.row();
-		employeeModel.add(netBonuses);
+		employeeModel.add(netEarnings);
 		
 		return employeeModel;
 	}

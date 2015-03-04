@@ -3,37 +3,36 @@ package edu.asu.c3simulator.simulation;
 import java.util.Random;
 
 /**
- * The Employee class is used to store all of the attributes that an
- * employee should have. It is also used to randomly generate these attributes
- * to apply to a list of employees available for hire.
+ * The Employee class is used to store all of the attributes that an employee should have.
+ * It is also used to randomly generate these attributes to apply to a list of employees
+ * available for hire.
  * 
  * @author nickkrogstad
- *
+ * 
  */
 public class Employee
 {
 	public String employeeName;
 	public static String employeePosition;
-	public String randomEmployeePosition;
 	public int employeePay;
-	public static int employeePref;
+	public static int employeePreferredHourlyWage;
 	public int employeeMorale;
-	public int netSalary;
+	public int netEarnings;
 	public float averageAnnualRaise;
 	public float averageAnnualBonus;
 	public int netBonuses;
+	public String randomEmployeePosition;
 	
-	
-	
-	public Employee(String name, String position, int pay, int pref, int morale,
-			int net_salary, float annualRaise, float annualBonus, int net_bonus)
+	public Employee(String name, String position, int pay, int preferredHourlyWage,
+			int morale, int net_earnings, float annualRaise, float annualBonus,
+			int net_bonus)
 	{
 		employeeName = name;
 		employeePosition = position;
 		employeePay = pay;
-		employeePref = pref;
+		employeePreferredHourlyWage = preferredHourlyWage;
 		employeeMorale = morale;
-		netSalary = net_salary;
+		netEarnings = net_earnings;
 		averageAnnualRaise = annualRaise;
 		averageAnnualBonus = annualBonus;
 		netBonuses = net_bonus;
@@ -43,10 +42,10 @@ public class Employee
 	{
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	/**
-	 * @return A string used display only the name and pay of an
-	 * 		   employee for the Employee Panel
+	 * @return A string used display only the name and pay of an employee for the Employee
+	 *         Panel
 	 */
 	@Override
 	public String toString()
@@ -60,12 +59,16 @@ public class Employee
 		return string.toString();
 	}
 	
+	/**
+	 * @return An object of type Employee that has three randomly generated attributes:
+	 *         Name, Preferred Hourly Wage, and Position.
+	 */
 	public static Employee getRandomEmployee()
 	{
-		//TODO: Populate random employee
+		// TODO: Populate random employee
 		Employee employee = new Employee();
-		employee.employeeName = getRandomEmployeeName(); 
-		employee.employeePref = getPreferredHourlyWage();
+		employee.employeeName = getRandomEmployeeName();
+		employee.employeePreferredHourlyWage = getPreferredHourlyWage();
 		employee.employeePosition = getEmployeePosition();
 		
 		return employee;
@@ -103,7 +106,6 @@ public class Employee
 		this.employeeName = getRandomEmployeeName();
 	}
 	
-	
 	public static String getEmployeePosition()
 	{
 		String[] positions = { "Manager", "Product Design", "Sales Associate",
@@ -140,7 +142,7 @@ public class Employee
 			int lowPay = 17;
 			int highPay = 24;
 			int i = r.nextInt(highPay - lowPay);
-			employeePref = i + lowPay;
+			Employee.employeePreferredHourlyWage = i + lowPay;
 		}
 		
 		else if (employeePosition == "Product Design")
@@ -149,7 +151,7 @@ public class Employee
 			int lowPay = 14;
 			int highPay = 19;
 			int i = r.nextInt(highPay - lowPay);
-			employeePref = i + lowPay;
+			employeePreferredHourlyWage = i + lowPay;
 		}
 		
 		else if (employeePosition == "Sales Associate")
@@ -158,7 +160,7 @@ public class Employee
 			int lowPay = 11;
 			int highPay = 16;
 			int i = r.nextInt(highPay - lowPay);
-			employeePref = i + lowPay;
+			employeePreferredHourlyWage = i + lowPay;
 		}
 		
 		else if (employeePosition == "Marketing")
@@ -167,56 +169,43 @@ public class Employee
 			int lowPay = 8;
 			int highPay = 13;
 			int i = r.nextInt(highPay - lowPay);
-			employeePref = i + lowPay;
+			employeePreferredHourlyWage = i + lowPay;
 		}
 		
-		return employeePref;
+		return employeePreferredHourlyWage;
 	}
 	
-	public void setEmployeePref(int employeePref)
+	public void setPreferredHourlyWage(int emoloyeePreferredHourlyWage)
 	{
-		this.employeePref = employeePref;
+		this.employeePreferredHourlyWage = emoloyeePreferredHourlyWage;
 	}
 	
-	/*
-	 * Employee Morale is determined by the difference between their pay preference and
-	 * their actual pay. If their morale reaches zero, the employee quits and is removed
-	 * from the active roster.
+	/**
+	 * Employee Morale is determined by the difference between the employees pay
+	 * preference and their actual pay. If their morale reaches zero, the employee quits
+	 * and is removed from the active list of hired employees.
 	 */
-	
 	public int getMorale()
 	{
 		int employeeMorale = 10;
-		int payDifference = employeePref - employeePay;
+		final int MAX_DIFFERENCE = 4; // Largest difference an employee will take before
+										// quitting
 		
-		if (payDifference == 1)
+		int payDifference = employeePreferredHourlyWage - employeePay;
+		
+		if (employeePay <= employeePreferredHourlyWage)
 		{
 			employeeMorale -= (payDifference * 2);
 		}
 		
-		else if (payDifference == 2)
-		{
-			employeeMorale -= (payDifference * 2);
-		}
-		
-		else if (payDifference == 3)
-		{
-			employeeMorale -= (payDifference * 2);
-		}
-		
-		else if (payDifference == 4)
-		{
-			employeeMorale -= (payDifference * 2);
-		}
-		
-		else
-		{
-			employeeMorale = 0;
-		}
-		
-		if (employeePay >= employeePref)
+		if (employeePay >= employeePreferredHourlyWage)
 		{
 			employeeMorale = 10;
+		}
+		
+		if (payDifference > MAX_DIFFERENCE)
+		{
+			employeeMorale = 0;
 		}
 		
 		return employeeMorale;
@@ -227,14 +216,14 @@ public class Employee
 		this.employeeMorale = employeeMorale;
 	}
 	
-	public int getNetSalary()
+	public int getNetEarnings()
 	{
-		return netSalary;
+		return netEarnings;
 	}
 	
-	public void setNetSalary(int netSalary)
+	public void setNetEarnings(int netEarnings)
 	{
-		this.netSalary = netSalary;
+		this.netEarnings = netEarnings;
 	}
 	
 	public float getAverageAnnualRaise()
