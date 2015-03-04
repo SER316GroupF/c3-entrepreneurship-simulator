@@ -81,9 +81,7 @@ public class RetiredProducts implements Screen
 		advisor.setPosition(advisorLeft, advisorBottom);
 
 		HomeButton home = new HomeButton(game);
-		SellCompany sell = new SellCompany(game, skin);
 
-		stage.addActor(sell);
 		stage.addActor(home);
 		stage.addActor(advisor);
 		stage.addActor(table);
