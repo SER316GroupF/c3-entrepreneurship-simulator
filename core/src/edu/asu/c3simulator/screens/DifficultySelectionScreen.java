@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NewGame;
 import edu.asu.c3simulator.screens.*;
 
 /**
@@ -111,6 +112,7 @@ public class DifficultySelectionScreen implements Screen
 		stage.addActor(advisor);
 		stage.addActor(choices);
 
+		
 	}
 
 	private Actor createDifficultyChoiceEasy()

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NewGame;
 import edu.asu.c3simulator.widgets.RandomEvents;
 import edu.asu.c3simulator.widgets.RenameCompany;
 
@@ -49,8 +50,6 @@ public class TestScreen implements Screen, TextInputListener
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		RandomEvents rand = new RandomEvents();
-		//RenameCompany rename = new RenameCompany();
-		//stage.addAction(rename);
 		
 		String newText = "";
 
@@ -80,6 +79,9 @@ public class TestScreen implements Screen, TextInputListener
 
 		RenameCompany renameButton = new RenameCompany(stage, skin);
 		renameButton.setPosition(700, 200);
+		
+		NewGame NewGameButton = new NewGame(stage, skin);
+		NewGameButton.setPosition(500, 200);
 	
 		stage.addActor(advisor);
 

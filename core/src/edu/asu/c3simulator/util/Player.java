@@ -1,17 +1,17 @@
 package edu.asu.c3simulator.util;
 
 /**
- * This holds a business instance and its information.
+ * This holds a player instance and its information.
  * 
  * @author ShantalOlono
  */
-public class Business {
+public class Player {
 
 	private String name;
 	
-	public Business(String businessName)
+	public Player(String playerName)
 	{
-		name = businessName;
+		name = playerName;
 	}
 
 	public String getName() {

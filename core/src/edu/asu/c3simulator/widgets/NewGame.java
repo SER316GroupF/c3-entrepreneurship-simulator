@@ -9,42 +9,42 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import edu.asu.c3simulator.util.Business;
+import edu.asu.c3simulator.util.Player;
 
 /**
- * This allows the user to change the name of the business that they have created. 
+ * This allows the user to create a new game and enter in their player name. 
  * 
  * @author ShantalOlono
  */
-public class RenameCompany extends ApplicationAdapter implements TextInputListener 
+public class NewGame extends ApplicationAdapter implements TextInputListener 
 {
-	private TextButton renameButton;
-	private Business selectedBusiness;
+	private TextButton NewGameButton;
+	private Player selectedPlayer;
 	
-	public RenameCompany(Stage stage, Skin skin)
+	public NewGame(Stage stage, Skin skin)
 	{
-		renameButton = new TextButton("Rename", skin);
-		final RenameCompany thisclass = this;
-		selectedBusiness = new Business("Business Test");
+		NewGameButton = new TextButton("New Game", skin);
+		final NewGame thisclass = this;
+		selectedPlayer = new Player("Player Test");
 		
-		renameButton.addListener(new ClickListener()
+		NewGameButton.addListener(new ClickListener()
 		{
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				Gdx.input.getTextInput(thisclass, "Please enter company name: ", "default text");
+				Gdx.input.getTextInput(thisclass, "Please enter name: ", "default text");
 			}
 		});
 		
-		stage.addActor(renameButton);
+		stage.addActor(NewGameButton);
 	}
 	
-	public Business getSelectedBusiness() {
-		return selectedBusiness;
+	public Player getSelectedPlayer() {
+		return selectedPlayer;
 	}
 
-	public void setSelectedBusiness(Business selectedBusiness) {
-		this.selectedBusiness = selectedBusiness;
+	public void setSelectedPlayer(Player selectedPlayer) {
+		this.selectedPlayer = selectedPlayer;
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class RenameCompany extends ApplicationAdapter implements TextInputListen
 	 */
 	public void setPosition(float x, float y)
 	{
-		renameButton.setPosition(x,y);
+		NewGameButton.setPosition(x,y);
 	}
 	
 	@Override 
@@ -72,8 +72,8 @@ public class RenameCompany extends ApplicationAdapter implements TextInputListen
 	@Override
 	public void input(String text) 
 	{
-		selectedBusiness.setName(text);
-		System.out.println("The new business name is "+selectedBusiness.getName());
+		selectedPlayer.setName(text);
+		System.out.println("Player Name: "+selectedPlayer.getName());
 	}
 
 	@Override
