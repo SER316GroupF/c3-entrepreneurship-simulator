@@ -1,8 +1,5 @@
 package edu.asu.c3simulator.screens;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,21 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.util.PlayerImp;
 import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
-import edu.asu.c3simulator.widgets.PlayerStatusDisplay.Field;
+
 /**
- * This class displays the main hub, allowing the player to navigate to their Businesses. After: DifficultySelection, HomeButton. 
+ * This class displays the main hub, allowing the player to navigate to their
+ * Businesses. Located after: DifficultySelection, and or HomeButton.
  * 
  * @author Reigel, Justin
  */
@@ -53,7 +47,8 @@ public class MainHub implements Screen
 	private Table choices;
 	private Actor company;
 	private NavigationPanel navigation;
-	private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/arial32_superSample.fnt"));
+	private BitmapFont font = new BitmapFont(
+			Gdx.files.internal("fonts/arial32_superSample.fnt"));
 	public PlayerStatusDisplay player;
 
 	public MainHub(Game game)
@@ -67,25 +62,26 @@ public class MainHub implements Screen
 
 		choices = new Table();
 		company = Company();
-		
+
 		AllManagementScreens.initialize(game);
-		//difficultyChoiceEasy = createDifficultyChoiceEasy();
-		//difficultyChoiceHard = createDifficultyChoiceHard();
-		
-		//choices.add(difficultyChoiceHard).top().spaceLeft(75);
+		// difficultyChoiceEasy = createDifficultyChoiceEasy();
+		// difficultyChoiceHard = createDifficultyChoiceHard();
+
+		// choices.add(difficultyChoiceHard).top().spaceLeft(75);
 		advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 		navigation = new NavigationPanel(game, skin);
-		
-		navigation.addButton("Businesses", game.getScreen() );
-		navigation.addButton("Manage", AllManagementScreens.PRE_MARKET.getInstance());
+
+		navigation.addButton("Businesses", game.getScreen());
+		navigation.addButton("Manage",
+				AllManagementScreens.PRE_MARKET.getInstance());
 		navigation.addButton("Council", game.getScreen());
-		navigation.addSubButton("Businesses", "1.Create New", game.getScreen() );
-		navigation.addSubButton("Businesses", "2.Create New", game.getScreen() );
-		navigation.addSubButton("Businesses", "3.Create New", game.getScreen() );
-		
-		Label playerLabel = new Label("Player", skin );
+		navigation.addSubButton("Businesses", "1.Create New", game.getScreen());
+		navigation.addSubButton("Businesses", "2.Create New", game.getScreen());
+		navigation.addSubButton("Businesses", "3.Create New", game.getScreen());
+
+		Label playerLabel = new Label("Player", skin);
 		playerLabel.setPosition(40, 680);
-		
+
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
@@ -93,20 +89,24 @@ public class MainHub implements Screen
 		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
 		advisor.setPosition(advisorLeft, advisorBottom);
-		navigation.setPosition(navigation.getWidth()/2 - padding, 500);
+		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
 		System.out.println("Create new home screen");
 
-		
 		stage.addActor(playerLabel);
 		stage.addActor(advisor);
 		stage.addActor(company);
 		stage.addActor(navigation);
 		stage.addActor(Council());
 		stage.addActor(playerInfo());
-		
 
 	}
-	//Creates the business image in the middle of the screen. (Note: not meant to be clickable)
+
+	/**
+	 * Creates the business image in the middle of the screen. (Note: image is
+	 * not meant to be clickable)
+	 * 
+	 * @return Table
+	 */
 	private Actor Company()
 	{
 		Table company = new Table();
@@ -117,14 +117,17 @@ public class MainHub implements Screen
 		Texture iconTexture = new Texture(iconLocation);
 		companyIcon = new Image(iconTexture);
 		company.add(companyIcon).size(800, 520);
-		//sets the height and width. Estimated that the image has 1/5 of white space on bottom, so actual image is upper 4/5. 
-		companyLeft = DESIGN_WIDTH * 8/10 - companyIcon.getPrefWidth()/2;
-		companyBottom = companyIcon.getHeight() * 4/5;
+		// sets the height and width. Estimated that the image has 1/5 of white
+		// space on bottom, so actual image is upper 4/5.
+		companyLeft = DESIGN_WIDTH * 8 / 10 - companyIcon.getPrefWidth() / 2;
+		companyBottom = companyIcon.getHeight() * 4 / 5;
 		company.setPosition(companyLeft, companyBottom);
 
 		return company;
 	}
-	//Creates the council image in the bottom left of the screen. (Note: not meant to be clickable)
+
+	// Creates the council image in the bottom left of the screen. (Note: not
+	// meant to be clickable)
 	private Actor Council()
 	{
 		Table council = new Table();
@@ -135,27 +138,35 @@ public class MainHub implements Screen
 		Texture iconTexture = new Texture(iconLocation);
 		companyIcon = new Image(iconTexture);
 		council.add(companyIcon).size(200);
-		//sets the image to the bottom left then shifts 50 pixels to the right
-		councilLeft = companyIcon.getPrefWidth()/2 + 50;
+		// sets the image to the bottom left then shifts 50 pixels to the right
+		councilLeft = companyIcon.getPrefWidth() / 2 + 50;
 		councilBottom = companyIcon.getHeight();
 		council.setPosition(councilLeft, councilBottom);
 
 		return council;
 	}
+
+	/**
+	 * Creates an instance of player status display in the upper left corner of
+	 * the screen
+	 * 
+	 * @return Table
+	 */
 	private Actor playerInfo()
 	{
-		//TODO: Replace c3Simulation interface with actual backend
-		
-		C3Simulation sim = new C3Simulation(){
-			public String getSimulationDate() {
-				return("Jan, Year: 1");
-				}
+		// TODO: Replace c3Simulation interface with actual backend
+
+		C3Simulation sim = new C3Simulation() {
+			public String getSimulationDate()
+			{
+				return ("Jan, Year: 1");
+			}
 		};
-		PlayerStatusDisplay playerStatus = new PlayerStatusDisplay(new PlayerImp("Plebian", 8000, 2000, sim));
-		
+		PlayerStatusDisplay playerStatus = new PlayerStatusDisplay(
+				new PlayerImp("Plebian", 8000, 2000, sim));
 
 		// REFACTOR: Load lines from file
-		//Every second label is a description related to the first
+		// Every second label is a description related to the first
 		playerStatus.setPosition(200, 600);
 		return playerStatus;
 	}
@@ -184,7 +195,7 @@ public class MainHub implements Screen
 	@Override
 	public void render(float delta)
 	{
-		//Gdx.gl.glClearColor(1, 1, 1, 1);
+		// Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();

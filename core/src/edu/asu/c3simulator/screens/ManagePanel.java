@@ -5,15 +5,14 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
+ * Creates a panel that allows for navigation through the management screens.
+ * 
  * @author Reigel, Justin
  * 
  */
@@ -35,9 +34,12 @@ public class ManagePanel extends Table
 		navigation.addButton("Employment", null);
 		navigation.addButton("Marketing", null);
 		// Products Sub Buttons
-		navigation.addSubButton("Products", "Pre-Market", AllManagementScreens.PRE_MARKET.getInstance());
-		navigation.addSubButton("Products", "Current Products", AllManagementScreens.CURRENT_PRODUCTS.getInstance());
-		navigation.addSubButton("Products", "Retired Products", AllManagementScreens.RETIRED_PRODUCTS.getInstance());
+		navigation.addSubButton("Products", "Pre-Market",
+				AllManagementScreens.PRE_MARKET.getInstance());
+		navigation.addSubButton("Products", "Current Products",
+				AllManagementScreens.CURRENT_PRODUCTS.getInstance());
+		navigation.addSubButton("Products", "Retired Products",
+				AllManagementScreens.RETIRED_PRODUCTS.getInstance());
 		// Growth Sub Buttons
 		navigation.addSubButton("Growth", "Current Products Growth", null);
 		navigation.addSubButton("Growth", "Demand", null);
