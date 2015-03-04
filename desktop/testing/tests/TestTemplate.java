@@ -41,10 +41,10 @@ public class TestTemplate
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 1280;
-		cfg.height = 720;
-		new LwjglApplication(new SandboxApplication(), cfg);
+		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = 1280;
+		config.height = 720;
+		new LwjglApplication(new SandboxApplication(), config);
 	}
 	
 	/**
