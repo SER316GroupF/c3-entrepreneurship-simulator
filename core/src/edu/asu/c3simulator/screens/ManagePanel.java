@@ -43,6 +43,6 @@ public class ManagePanel extends Table
 		navigation.addSubButton("Growth", "Demand", null);
 
 		this.add(navigation);
-		this.setPosition(navigation.getWidth() / 2 - padding, 500);
+		this.setPosition(navigation.getWidth() / 2 + 70, 450);
 	}
 }
