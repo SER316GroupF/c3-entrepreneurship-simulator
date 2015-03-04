@@ -83,6 +83,7 @@ public class DifficultySelectionScreen implements Screen
 				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Easy");
+				game.setScreen(new MainHub(game));
 			}
 		});
 		
@@ -94,6 +95,7 @@ public class DifficultySelectionScreen implements Screen
 				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Hard");
+				game.setScreen(new MainHub(game));
 			}
 		});
 		

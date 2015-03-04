@@ -5,6 +5,7 @@ package edu.asu.c3simulator.util;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 
 /**
  * @author Justin
@@ -24,14 +25,8 @@ public class PlayerImp implements Player
 	public PlayerImp(String newStatus, int newNetWorth, int newCapital, C3Simulation newSimulation){
 		status = newStatus;
 		netWorth = newNetWorth;
-		newCapital= newCapital;
+		capital= newCapital;
 		simulation = newSimulation;
-	}
-	@Override
-	public String getStatus()
-	{
-		// TODO Auto-generated method stub
-		return status;
 	}
 
 	/* (non-Javadoc)
@@ -72,6 +67,18 @@ public class PlayerImp implements Player
 	{
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public String getID()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public SocioeconomicStatus getStatus()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

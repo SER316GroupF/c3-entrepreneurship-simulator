@@ -27,9 +27,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Product;
-import edu.asu.c3simulator.widgets.CornerAdvisor;
+import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
+//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.ProductInfoPanel;
 import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
@@ -47,7 +49,7 @@ public class PreMarketProducts implements Screen
 	private Stage stage;
 	private Skin skin;
 	private Game game;
-	private CornerAdvisor advisor;
+	//private CornerAdvisor advisor;
 	private Table table;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
@@ -61,8 +63,9 @@ public class PreMarketProducts implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		//TODO: uncomment advisor when advisor is implemented in master_testing or higher.
 
-		advisor = new CornerAdvisor(ADVISOR_TEXT);
+		//advisor = new CornerAdvisor(ADVISOR_TEXT);
 		// creates and adds manage Panel to the current screen
 		// manage = new ManagePanel(game);
 
@@ -73,14 +76,14 @@ public class PreMarketProducts implements Screen
 		table.add(ProductInfo()).size(300, 500);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
-		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		advisor.setPosition(advisorLeft, advisorBottom);
+		//float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		//float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+		//advisor.setPosition(advisorLeft, advisorBottom);
 
 		HomeButton home = new HomeButton(game);
 
 		stage.addActor(home);
-		stage.addActor(advisor);
+		//stage.addActor(advisor);
 		stage.addActor(table);
 	}
 
@@ -145,154 +148,13 @@ public class PreMarketProducts implements Screen
 	private Actor ProductInfo()
 	{
 
-		// TODO: remove product interface, implement actual product class,
+		// TODO: backend. remove product interface, implement actual product class,
+		// replace selected employees in dropdown with real employees,
 		// refresh product info
-		// This is an implementation of the interface, ends at line 228
-		Product testProduct = new Product() {
-			public float getProductionCost()
-			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				return Float.valueOf(df.format(11.00));
-			}
-
-			public float getMaterialCost()
-			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				return Float.valueOf(df.format(8.50));
-			}
-
-			public int getEfficiency()
-			{
-				return 32;
-			}
-
-			public float getSellingPrice()
-			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				return Float.valueOf(df.format(16.50));
-			}
-
-			@Override
-			public Product getProduct()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getProductName()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public float getDistributionCost()
-			{
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public String getLabor()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String setProductName()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public void setProductionCost()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setMaterialCost()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setDistributionCost()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setSellingPrice()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setEfficiency()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setLabor()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void retireProduct()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public C3Simulation getSimulation()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-		Table productInfo = new Table(skin);
-		Label text = new Label("Production cost: $"
-				+ testProduct.getProductionCost(), skin);
-		productInfo.add(text).left().row();
-		Label text2 = new Label("Labor: ", skin);
-		productInfo.add(text2).left().row();
-		Label text3 = new Label("Design employee", skin);
-		productInfo.add(text3).left().row();
-		// TODO: place real employees in dropdown box, add functionality when
-		// selected
-		SelectBox<String> businessSelectionBox = new SelectBox<String>(skin);
-
-		businessSelectionBox.setItems("Select..", "Employee 1", "Employee 2",
-				"Employee 3");
-		businessSelectionBox.setSelected("Select..");
-		productInfo.add(businessSelectionBox).row();
-		productInfo.add("").row();
-
-		Label text4 = new Label("Materials: $" + testProduct.getMaterialCost(),
-				skin);
-		productInfo.add(text4).left().row();
-		productInfo.add("").row();
-		Label text6 = new Label("Efficiency: " + testProduct.getEfficiency()
-				+ "/hr", skin);
-		productInfo.add(text6).left().row();
-		productInfo.add("").row();
-		Label text7 = new Label("Selling Price: $"
-				+ testProduct.getSellingPrice(), skin);
-		productInfo.add(text7).left().row();
-		productInfo.add("").expand().row();
+		ProductInfoPanel productInfoPanel = new ProductInfoPanel(skin);
+		Table productInfo = productInfoPanel.getProductInfo();
+		// TODO: add functionality so buttons will open appropriate windows when
+		// clicked.
 		// TODO: add functionality so buttons will open appropriate windows when
 		// clicked.
 		Table productButtons = new Table();

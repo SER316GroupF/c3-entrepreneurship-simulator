@@ -19,9 +19,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.util.PlayerImp;
-import edu.asu.c3simulator.widgets.CornerAdvisor;
+//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
-import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
+//import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 
 /**
  * This class displays the main hub, allowing the player to navigate to their
@@ -43,13 +43,14 @@ public class MainHub implements Screen
 
 	private Stage stage;
 	private Skin skin;
-	private CornerAdvisor advisor;
+	//private CornerAdvisor advisor;
 	private Table choices;
 	private Actor company;
 	private NavigationPanel navigation;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-	public PlayerStatusDisplay player;
+	//TODO: uncomment advisor when advisor is implemented in master_testing or higher.
+	//public PlayerStatusDisplay player;
 
 	public MainHub(Game game)
 	{
@@ -65,7 +66,7 @@ public class MainHub implements Screen
 
 		AllManagementScreens.initialize(game);
 
-		advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
+		//advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 		navigation = new NavigationPanel(game, skin);
 
 		navigation.addButton("Businesses", game.getScreen());
@@ -83,18 +84,18 @@ public class MainHub implements Screen
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
-		float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		advisor.setPosition(advisorLeft, advisorBottom);
+		//float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		//float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
+		//advisor.setPosition(advisorLeft, advisorBottom);
 		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
 		System.out.println("Create new home screen");
 
 		stage.addActor(playerLabel);
-		stage.addActor(advisor);
+		//stage.addActor(advisor);
 		stage.addActor(company);
 		stage.addActor(navigation);
 		stage.addActor(Council());
-		stage.addActor(playerInfo());
+		//stage.addActor(playerInfo());
 
 	}
 
@@ -155,8 +156,9 @@ public class MainHub implements Screen
 	 */
 	private Actor playerInfo()
 	{
-		// TODO: Replace c3Simulation interface with actual backend
-
+		// TODO: Replace c3Simulation interface with actual backend, uncomment player
+		// status display when playerStatusDisplay reachest master_testing
+		/*
 		C3Simulation sim = new C3Simulation() {
 			public String getSimulationDate()
 			{
@@ -168,6 +170,8 @@ public class MainHub implements Screen
 
 		playerStatus.setPosition(200, 600);
 		return playerStatus;
+		*/
+		return null;
 	}
 
 	@Override
