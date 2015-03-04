@@ -77,7 +77,7 @@ public class MainHub implements Screen
 		navigation = new NavigationPanel(game, skin);
 		
 		navigation.addButton("Businesses", game.getScreen() );
-		navigation.addButton("Manage", AllManagementScreens.RETIRED_PRODUCTS.getInstance());
+		navigation.addButton("Manage", AllManagementScreens.PRE_MARKET.getInstance());
 		navigation.addButton("Council", game.getScreen());
 		navigation.addSubButton("Businesses", "1.Create New", game.getScreen() );
 		navigation.addSubButton("Businesses", "2.Create New", game.getScreen() );
@@ -144,7 +144,7 @@ public class MainHub implements Screen
 	}
 	private Actor playerInfo()
 	{
-		//TODO: Implement PlayerStatusDisplay Interface
+		//TODO: Replace c3Simulation interface with actual backend
 		
 		C3Simulation sim = new C3Simulation(){
 			public String getSimulationDate() {
