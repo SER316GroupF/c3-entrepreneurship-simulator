@@ -64,10 +64,7 @@ public class MainHub implements Screen
 		company = Company();
 
 		AllManagementScreens.initialize(game);
-		// difficultyChoiceEasy = createDifficultyChoiceEasy();
-		// difficultyChoiceHard = createDifficultyChoiceHard();
 
-		// choices.add(difficultyChoiceHard).top().spaceLeft(75);
 		advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 		navigation = new NavigationPanel(game, skin);
 
@@ -126,8 +123,12 @@ public class MainHub implements Screen
 		return company;
 	}
 
-	// Creates the council image in the bottom left of the screen. (Note: not
-	// meant to be clickable)
+	/**
+	 * Creates the council image in the bottom left of the screen. (Note: not
+	 * meant to be clickable)
+	 * 
+	 * @return Table
+	 */
 	private Actor Council()
 	{
 		Table council = new Table();
@@ -165,8 +166,6 @@ public class MainHub implements Screen
 		PlayerStatusDisplay playerStatus = new PlayerStatusDisplay(
 				new PlayerImp("Plebian", 8000, 2000, sim));
 
-		// REFACTOR: Load lines from file
-		// Every second label is a description related to the first
 		playerStatus.setPosition(200, 600);
 		return playerStatus;
 	}
@@ -195,7 +194,6 @@ public class MainHub implements Screen
 	@Override
 	public void render(float delta)
 	{
-		// Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();

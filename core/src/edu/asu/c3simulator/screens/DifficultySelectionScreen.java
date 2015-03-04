@@ -159,7 +159,7 @@ public class DifficultySelectionScreen implements Screen
 				// TODO: Transition to main hub
 				// TODO: Instantiate game instance
 				System.out.println("Hard");
-				game.setScreen(new RetiredProducts(game));
+				game.setScreen(new MainHub(game));
 			}
 		});
 
