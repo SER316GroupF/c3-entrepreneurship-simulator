@@ -1,27 +1,28 @@
 package edu.asu.c3simulator.simulation;
 
-import edu.asu.c3simulator.util.Observer;
 
 public interface Product
 {
 	boolean retired = false;
 	Product getProduct();
 
-	String getProductName();
-	int getProductionCost();
-	int getMaterialCost();
-	int getDistributionCost();
-	int getSellingPrice();
-	String getLabor();
+	public String getProductName();
+	public float getProductionCost();
+	public float getMaterialCost();
+	public float getDistributionCost();
+	public float getSellingPrice();
+	public int getEfficiency();
+	public String getLabor();
 	
 	//setters for chainging product names/modifying cost attributes
-	String setProductName();
-	void setProductionCost();
-	void setMaterialCost();
-	void setDistributionCost();
-	void setSellingPrice();
+	public String setProductName();
+	public void setProductionCost();
+	public void setMaterialCost();
+	public void setDistributionCost();
+	public void setSellingPrice();
+	public void setEfficiency();
 	//Change which laborer/s are currently producing the product.
-	void setLabor();
+	public void setLabor();
 	//allows the product to be retired.
 	/**
 	 * 
