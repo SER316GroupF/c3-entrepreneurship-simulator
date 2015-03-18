@@ -1,11 +1,13 @@
 package edu.asu.c3simulator.testing.stubs;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
-import edu.asu.c3simulator.util.Observer;
+import edu.asu.c3simulator.util.ObservationListener;
 
 /**
  * Stub to return default "dummy" values for testing purposes.
@@ -15,10 +17,11 @@ import edu.asu.c3simulator.util.Observer;
  */
 public class PlayerTestingStub implements Player
 {
-	@Override
-	public void registerObserver(Observer<Player> observer)
+	private List<ObservationListener<? super Player>> listeners;
+	
+	public PlayerTestingStub()
 	{
-		
+		listeners = new ArrayList<>();
 	}
 	
 	@Override
@@ -52,6 +55,14 @@ public class PlayerTestingStub implements Player
 				throw new UnsupportedOperationException(
 						"The method is not implemented yet.");
 			}
+			
+			@Override
+			public void update(float deltaMilliseconds)
+			{
+				// TODO Auto-generated method stub
+				throw new UnsupportedOperationException(
+						"The method is not implemented yet.");
+			}
 		};
 	}
 	
@@ -71,5 +82,11 @@ public class PlayerTestingStub implements Player
 	public String getID()
 	{
 		return "test";
+	}
+	
+	@Override
+	public void registerObservationListener(ObservationListener<? super Player> listener)
+	{
+		listeners.add(listener);
 	}
 }

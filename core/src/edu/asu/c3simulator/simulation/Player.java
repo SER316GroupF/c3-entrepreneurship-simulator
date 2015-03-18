@@ -1,7 +1,7 @@
 package edu.asu.c3simulator.simulation;
 
 import edu.asu.c3simulator.util.Observable;
-import edu.asu.c3simulator.util.Observer;
+import edu.asu.c3simulator.util.ObservationListener;
 
 /**
  * Container for data concerning the simulated statistics (money, capital, social
@@ -33,14 +33,6 @@ public interface Player extends Observable<Player>
 	 */
 	C3Simulation getSimulation();
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.asu.c3simulator.util.Observable#registerObserver(edu.asu.c3simulator.util.Observer
-	 * )
-	 */
 	@Override
-	void registerObserver(Observer<Player> observer);
-	
+	void registerObservationListener(ObservationListener<? super Player> listener);
 }
