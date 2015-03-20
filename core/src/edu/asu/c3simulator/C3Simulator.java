@@ -1,11 +1,13 @@
 package edu.asu.c3simulator;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import edu.asu.c3simulator.screens.DifficultySelectionScreen;
+import edu.asu.c3simulator.simulation.C3Simulation;
 
 /**
  * Main driver for C3 program.
@@ -18,6 +20,8 @@ public class C3Simulator extends Game
 	public static ShapeRenderer rendererFilled;
 	public static ShapeRenderer rendererLine;
 	public static ShapeRenderer rendererPoint;
+	
+	private C3Simulation simulation;
 	
 	@Override
 	public void create()
@@ -35,6 +39,14 @@ public class C3Simulator extends Game
 		beginRenderers();
 		super.render();
 		endRenderers();
+		
+		update();
+	}
+	
+	private void update()
+	{
+		float delta = Gdx.graphics.getDeltaTime();
+		simulation.update(delta);
 	}
 	
 	/**

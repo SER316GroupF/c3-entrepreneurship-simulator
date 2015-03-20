@@ -34,4 +34,10 @@ public interface C3Simulation
 	 * @return
 	 */
 	public String getSimulationDateString(DateFormat format);
+	
+	/**
+	 * @param deltaMilliseconds
+	 *            Time since last {@link #update(float)} call, in milliseconds
+	 */
+	public void update(float deltaMilliseconds);
 }
