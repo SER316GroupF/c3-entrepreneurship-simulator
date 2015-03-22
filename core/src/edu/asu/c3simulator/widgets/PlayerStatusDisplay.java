@@ -5,10 +5,23 @@ import java.util.HashMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.simulation.Simulation;
 import edu.asu.c3simulator.util.ObservationListener;
 
+/**
+ * Used to display relevant information regarding a single {@link Player} object.
+ * <p>
+ * Each field, specified by {@link Field} and evaluated by {@link Player} will be
+ * displayed on one row of a {@link Table}.
+ * <p>
+ * As such, {@link PlayerStatusDisplay} will have one row for each {@link Field}.
+ * 
+ * @author Moore, Zachary
+ *
+ */
 public class PlayerStatusDisplay extends Table
 {
 	/**
@@ -52,23 +65,36 @@ public class PlayerStatusDisplay extends Table
 		}
 	}
 	
+	/**
+	 * Updates this display when the state of the player is changed.
+	 * 
+	 * @author Moore, Zachary
+	 *
+	 */
+	private class DateListener implements ObservationListener<Simulation>
+	{
+		@Override
+		public void stateChanged(Simulation newState)
+		{
+			setField(Field.DATE, newState.getSimulationDateString());
+		}
+	}
+	
 	private HashMap<Field, String> fieldValues;
 	private boolean updatesEnabled;
 	
-	public PlayerStatusDisplay(Player player)
+	public PlayerStatusDisplay()
 	{
 		super();
+		Player player = C3Simulator.getPlayer();
 		this.fieldValues = new HashMap<>();
 		this.setFields(player);
 		// debug();
 		enableUpdates();
-		Tables.allignColumns(this, 0, Align.left);
-		// TODO: abstract, use percentages; make less hacky
-		float verticalPadding = 3.5f;
-		Tables.padColumn(this, 0, new Padding(0, 50, verticalPadding, verticalPadding));
-		Tables.padColumn(this, 1, new Padding(0, 0, verticalPadding, verticalPadding));
+		C3Simulation simulation = C3Simulator.getSimulation();
 		
 		player.registerObservationListener(new PlayerListener());
+		simulation.registerDateListener(new DateListener());
 	}
 	
 	/**
@@ -118,6 +144,15 @@ public class PlayerStatusDisplay extends Table
 			insertValuePairRow(Field.NET_WORTH);
 			insertValuePairRow(Field.CAPITAL);
 			insertValuePair(Field.DATE);
+			
+			Tables.allignColumns(this, 0, Align.left);
+			// TODO: abstract, use percentages; make less hacky
+			float verticalPadding = 3.5f;
+			Tables.padColumn(this, 0,
+					new Padding(0, 50, verticalPadding, verticalPadding));
+			Tables.padColumn(this, 1, new Padding(0, 0, verticalPadding, verticalPadding));
+			
+			pack();
 		}
 	}
 	
@@ -169,7 +204,7 @@ public class PlayerStatusDisplay extends Table
 			setField(Field.CAPITAL, "$" + player.getCapital());
 			setField(Field.NET_WORTH, "$" + player.getNetWorth());
 			
-			C3Simulation simulation = player.getSimulation();
+			C3Simulation simulation = C3Simulator.getSimulation();
 			String simulationDate = simulation.getSimulationDateString();
 			setField(Field.DATE, simulationDate);
 		} // END non-updating block
