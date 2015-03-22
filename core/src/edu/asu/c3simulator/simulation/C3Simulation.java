@@ -34,4 +34,13 @@ public interface C3Simulation
 	 * @return
 	 */
 	public String getSimulationDateString(DateFormat format);
+	
+	public int getMinimumWageOfPosition(Employee.Position position);
+	
+	public int getMedianWageOfPosition(Employee.Position position);
+	
+	public int getMaximumWageOfPosition(Employee.Position position);
+	
+	public int getAverageWageOfPosition(Employee.Position position);
+	
 }

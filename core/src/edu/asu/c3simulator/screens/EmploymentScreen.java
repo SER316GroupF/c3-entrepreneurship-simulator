@@ -23,6 +23,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import edu.asu.c3simulator.simulation.Company;
 import edu.asu.c3simulator.simulation.Employee;
+import edu.asu.c3simulator.simulation.Employee.Position;
+import edu.asu.c3simulator.simulation.EmployeeFactory;
 
 /**
  * Employment Screen displays a panel of active employees hired by the currently
@@ -39,22 +41,25 @@ public class EmploymentScreen implements Screen
 	private class EmployeeListener extends ClickListener
 	{
 		private Employee employee;
+		private Label label;
 		
-		public EmployeeListener(Employee passedEmployee)
+		public EmployeeListener(Employee employee, Label label)
 		{
-			employee = passedEmployee;
+			this.employee = employee;
+			this.label = label;
 		}
 		
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
 			selectedEmployee = this.employee;
-			employeeName.setText("Name: " + employee.getEmployeeName());
-			employeePosition.setText("Position: " + employee.getEmployeePosition());
-			employeePayField.setText("" + employee.getHourlyWage());
+			selectedEmployeeLabel = this.label;
+			employeeName.setText("Name: " + employee.getName());
+			employeePosition.setText("Position: " + employee.getPosition());
+			employeePayField.setText("" + employee.getActualHourlyWage());
 			employeePreferredHourlyWage.setText("Income Preference: $"
 					+ employee.getPreferredHourlyWage() + " / hr");
-			employeeMorale.setText("Morale: " + employee.getMorale() + " / 10");
+			employeeMorale.setText("Morale: " + employee.getMorale() * 100 + " %");
 			netEarnings.setText("Net Earnings: " + employee.getNetEarnings());
 			averageAnnualBonus.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
 					+ "%");
@@ -75,7 +80,7 @@ public class EmploymentScreen implements Screen
 			//TODO: Do not keep number of employees generated magic
 			for(int employeesGenerated = 0; employeesGenerated < 3; employeesGenerated++)
 			{
-				Employee employee = Employee.getRandomEmployee();
+				Employee employee = EmployeeFactory.getRandomEmployee();
 				Actor employeeLabel = addEmployee(employee, newEmployeeOptionsPanel, false);
 				employeeLabel.addListener(new HireEmployeeListener(employee));
 			}
@@ -130,6 +135,7 @@ public class EmploymentScreen implements Screen
 	private Skin skin;
 	private Stage stage;
 	private Employee selectedEmployee;
+	private Label selectedEmployeeLabel;
 	
 	/**
 	 * Used in order to transition between the Main Hub, Business Management, and
@@ -179,10 +185,9 @@ public class EmploymentScreen implements Screen
 			@Override
 			public List<Employee> getEmployees()
 			{
-				Employee employee1 = new Employee("Jason Richards", "Manager", 14, 11,
-						10, 1600, 15.6f, 3.2f, 150);
-				Employee employee2 = new Employee("Janet Wilmore", "Product Creation", 8,
-						8, 10, 1000, 6.7f, 1.2f, 35);
+				Employee employee1 = new Employee("Jason Richards", Position.MANAGER, 0.4f, 0.67f);
+				Employee employee2 = new Employee("Janet Wilmore", Position.PRODUCT_DESIGNER, 0.8f,
+						0.99f);
 				
 				List<Employee> employees = new LinkedList<>();
 				employees.add(employee1);
@@ -218,7 +223,7 @@ public class EmploymentScreen implements Screen
 	 * <p>
 	 * Used as an intermediate function to construct the Employee Panel
 	 */
-	private Actor addEmployee(Employee employee, VerticalGroup group, boolean addEmployeeListener)
+	private Label addEmployee(Employee employee, VerticalGroup group, boolean addEmployeeListener)
 	{
 		Label label = new Label(employee.toString(), skin);
 		group.addActor(label);
@@ -226,11 +231,11 @@ public class EmploymentScreen implements Screen
 		
 		if(addEmployeeListener)
 		{
-			label.addListener(new EmployeeListener(employee));
+			label.addListener(new EmployeeListener(employee, label));
 		}
 		
 		return label;
-				
+		
 	}
 	
 	/**
@@ -241,9 +246,9 @@ public class EmploymentScreen implements Screen
 	 * @param group
 	 * 
 	 */
-	private void addEmployee(Employee employee, VerticalGroup group)
+	private Label addEmployee(Employee employee, VerticalGroup group)
 	{
-		addEmployee(employee, group, true);
+		return addEmployee(employee, group, true);
 	}
 	
 	/**
@@ -274,7 +279,7 @@ public class EmploymentScreen implements Screen
 			public void keyTyped(TextField textField, char c)
 			{
 				String proposal = employeePayField.getText().trim();
-				int proposalValue = selectedEmployee.getHourlyWage();
+				int proposalValue = selectedEmployee.getActualHourlyWage();
 				
 				if (proposal.length() <= 0)
 				{
@@ -284,8 +289,8 @@ public class EmploymentScreen implements Screen
 				try
 				{
 					proposalValue = Integer.parseInt(proposal);
-					selectedEmployee.setHourlyWage(proposalValue);
-					
+					selectedEmployee.setActualHourlyWage(proposalValue);
+					selectedEmployeeLabel.setText(selectedEmployee.toString());
 				}
 				catch (NumberFormatException exception)
 				{

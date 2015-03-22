@@ -1,219 +1,195 @@
 package edu.asu.c3simulator.simulation;
 
+import java.text.DateFormat;
 import java.util.Random;
+
+import edu.asu.c3simulator.C3Simulator;
 
 /**
  * The Employee class is used to store all of the attributes that an employee should have.
  * It is also used to randomly generate these attributes to apply to a list of employees
  * available for hire.
  * 
+ * Assumes employee can only be hired by one company at a time.
+ * 
  * @author nickkrogstad
  * 
  */
 public class Employee
 {
-	public String employeeName;
-	public static String employeePosition;
-	public int employeePay;
-	public static int employeePreferredHourlyWage;
-	public int employeeMorale;
-	public int netEarnings;
-	public float averageAnnualRaise;
-	public float averageAnnualBonus;
-	public int netBonuses;
-	public String randomEmployeePosition;
-	
-	public Employee(String name, String position, int pay, int preferredHourlyWage,
-			int morale, int net_earnings, float annualRaise, float annualBonus,
-			int net_bonus)
+	public static enum Position
 	{
-		employeeName = name;
-		employeePosition = position;
-		employeePay = pay;
-		employeePreferredHourlyWage = preferredHourlyWage;
-		employeeMorale = morale;
-		netEarnings = net_earnings;
-		averageAnnualRaise = annualRaise;
-		averageAnnualBonus = annualBonus;
-		netBonuses = net_bonus;
+		MANAGER,
+		PRODUCT_DESIGNER,
+		SALES_ASSOCIATE,
+		MARKETING,
+		UNEMPLOYED;
 	}
 	
-	private Employee()
+	private String name;
+	private Position position;
+	private int actualHourlyWage;
+	private int netEarnings;
+	private float averageAnnualRaise;
+	private float averageAnnualBonus;
+	private int netBonuses;
+	
+	/** Largest difference an employee will take before quitting, as a percentage. */
+	private float wageTolerance;
+	/** An employee's ambition to be paid higher based on their position. */
+	private float ambition;
+	
+	public Employee(String name, Position position, float wageTolerance, float ambition)
 	{
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.position = position;
+		this.wageTolerance = wageTolerance;
+		this.ambition = ambition;
 	}
 	
 	/**
-	 * @return A string used display only the name and pay of an employee for the Employee
-	 *         Panel
+	 * @return A string used to display only the name and pay of an employee for the
+	 *         Employee Panel
 	 */
 	@Override
 	public String toString()
 	{
 		StringBuilder string = new StringBuilder();
-		string.append(employeeName);
+		string.append(name);
 		string.append(" ($");
-		string.append(employeePay);
+		string.append(actualHourlyWage);
 		string.append(" / hr)");
 		
 		return string.toString();
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public Position getPosition()
+	{
+		return position;
+	}
+	
+	public void setPosition(Position position)
+	{
+		this.position = position;
+	}
+	
+	public int getActualHourlyWage()
+	{
+		return actualHourlyWage;
+	}
+	
+	public void setActualHourlyWage(int actualHourlyWage)
+	{
+		this.actualHourlyWage = actualHourlyWage;
+	}
+	
+	// TODO: Update Documentation
 	/**
-	 * @return An object of type Employee that has three randomly generated attributes:
-	 *         Name, Preferred Hourly Wage, and Position.
+	 * Employee Morale is determined by the difference between the employees preferred
+	 * hourly wage and their actual hourly wage. The employee's preferred hourly wage is
+	 * based on their wage tolerance. If the employees morale reaches 0 then they will
+	 * quit and be removed from the companie's active roster of employees.
+	 * 
+	 * @return Morale expressed as a percentage between 0 and 1
 	 */
-	public static Employee getRandomEmployee()
+	public float getMorale()
 	{
-		// TODO: Populate random employee
-		Employee employee = new Employee();
-		employee.employeeName = getRandomEmployeeName();
-		employee.employeePreferredHourlyWage = getPreferredHourlyWage();
-		employee.employeePosition = getEmployeePosition();
+		float maxPayDelta = (actualHourlyWage * wageTolerance);
+		float payDelta = getPreferredHourlyWage() - actualHourlyWage;
+		float moraleDock = payDelta / maxPayDelta;
 		
-		return employee;
-	}
-	
-	public String getEmployeeName()
-	{
-		return employeeName;
-	}
-	
-	public void setEmployeeName(String employeeName)
-	{
-		this.employeeName = employeeName;
-	}
-	
-	public static String getRandomEmployeeName()
-	{
-		String[] firstName = { "Nicholas", "Colton", "Sawyer", "Frankie", "Jennifer",
-				"Charles", "Kathy", "James", "Jacob", "Crystal", "Mike", "Cody", "Jorge",
-				"Sam", "Lisa", "Margaret", "Marth", "Roy", "Victoria", "Susan", "Ted" };
-		String[] lastName = { "Krogstad", "Tucker", "Hardenbech", "Connelley", "Li",
-				"Baker", "Tyke", "Mattingly", "Feng", "Lee", "Smith", "Houston",
-				"Franco", "White", "Andrade", "Manning", "Brady", "Boyle", "Terry" };
+		if (moraleDock > 1)
+		{
+			moraleDock = 1;
+		}
+		else if (moraleDock < 0)
+		{
+			moraleDock = 0;
+		}
 		
-		int randomFirst = (int) (Math.random() * firstName.length);
-		int randomLast = (int) (Math.random() * lastName.length);
+		return (1 - moraleDock);
 		
-		String randomEmployeeName = firstName[randomFirst] + " " + lastName[randomLast];
-		
-		return randomEmployeeName;
-	}
-	
-	public void setRandomEmployeeName()
-	{
-		this.employeeName = getRandomEmployeeName();
-	}
-	
-	public static String getEmployeePosition()
-	{
-		String[] positions = { "Manager", "Product Design", "Sales Associate",
-				"Marketing" };
-		int randomPositions = (int) (Math.random() * positions.length);
-		employeePosition = positions[randomPositions];
-		return employeePosition;
-	}
-	
-	public void setEmployeePosition(String employeePosition)
-	{
-		this.employeePosition = employeePosition;
-	}
-	
-	public int getHourlyWage()
-	{
-		return employeePay;
-	}
-	
-	public void setHourlyWage(int employeePay)
-	{
-		this.employeePay = employeePay;
 	}
 	
 	/**
-	 * Preferred Hourly Wage is determined by the selected employee's position and returns
-	 * an integer between the given pay range
+	 * Preferred Hourly Wage is determined by the selected employee's ambition which, in
+	 * turn, is dependent on the employee's position.
 	 */
-	public static int getPreferredHourlyWage()
+	public float getPreferredHourlyWage()
 	{
-		if (employeePosition == "Manager")
-		{
-			Random r = new Random();
-			int lowPay = 17;
-			int highPay = 24;
-			int i = r.nextInt(highPay - lowPay);
-			Employee.employeePreferredHourlyWage = i + lowPay;
-		}
+		C3Simulation simulation = getSimulation();
+		int minPay = simulation.getMinimumWageOfPosition(position);
+		int maxPay = simulation.getMaximumWageOfPosition(position);
+		float payRange = maxPay - minPay;
+		float preferredHourlyWage = ambition * payRange + minPay;
 		
-		else if (employeePosition == "Product Design")
-		{
-			Random r = new Random();
-			int lowPay = 14;
-			int highPay = 19;
-			int i = r.nextInt(highPay - lowPay);
-			employeePreferredHourlyWage = i + lowPay;
-		}
-		
-		else if (employeePosition == "Sales Associate")
-		{
-			Random r = new Random();
-			int lowPay = 11;
-			int highPay = 16;
-			int i = r.nextInt(highPay - lowPay);
-			employeePreferredHourlyWage = i + lowPay;
-		}
-		
-		else if (employeePosition == "Marketing")
-		{
-			Random r = new Random();
-			int lowPay = 8;
-			int highPay = 13;
-			int i = r.nextInt(highPay - lowPay);
-			employeePreferredHourlyWage = i + lowPay;
-		}
-		
-		return employeePreferredHourlyWage;
+		return preferredHourlyWage;
 	}
 	
-	public void setPreferredHourlyWage(int emoloyeePreferredHourlyWage)
+	public boolean isQuitting()
 	{
-		this.employeePreferredHourlyWage = emoloyeePreferredHourlyWage;
+		return getMorale() <= 0;
 	}
 	
-	/**
-	 * Employee Morale is determined by the difference between the employees pay
-	 * preference and their actual pay. If their morale reaches zero, the employee quits
-	 * and is removed from the active list of hired employees.
-	 */
-	public int getMorale()
+	private C3Simulation getSimulation()
 	{
-		int employeeMorale = 10;
-		final int MAX_DIFFERENCE = 4; // Largest difference an employee will take before
-										// quitting
-		
-		int payDifference = employeePreferredHourlyWage - employeePay;
-		
-		if (employeePay <= employeePreferredHourlyWage)
-		{
-			employeeMorale -= (payDifference * 2);
-		}
-		
-		if (employeePay >= employeePreferredHourlyWage)
-		{
-			employeeMorale = 10;
-		}
-		
-		if (payDifference > MAX_DIFFERENCE)
-		{
-			employeeMorale = 0;
-		}
-		
-		return employeeMorale;
-	}
-	
-	public void setEmployeeMorale(int employeeMorale)
-	{
-		this.employeeMorale = employeeMorale;
+		return new C3Simulation() {
+			
+			@Override
+			public String getSimulationDateString(DateFormat format)
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public String getSimulationDateString(String format)
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public String getSimulationDateString()
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public int getMinimumWageOfPosition(Position position)
+			{
+				return 11;
+			}
+			
+			@Override
+			public int getMedianWageOfPosition(Position position)
+			{
+				return 15;
+			}
+			
+			@Override
+			public int getMaximumWageOfPosition(Position position)
+			{
+				return 28;
+			}
+			
+			@Override
+			public int getAverageWageOfPosition(Position position)
+			{
+				return 17;
+			}
+		};
 	}
 	
 	public int getNetEarnings()
