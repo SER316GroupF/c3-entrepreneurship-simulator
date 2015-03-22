@@ -25,6 +25,8 @@ import edu.asu.c3simulator.widgets.WidgetFactory;
  */
 public class DifficultySelectionScreen implements Screen
 {
+	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
+	
 	/**
 	 * Width and Height at which this screen was designed. Can be used in resize
 	 * operations

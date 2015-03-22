@@ -146,15 +146,29 @@ public class SimpleTextField extends Widget
 	@Override
 	public float getPrefWidth()
 	{
-		float parentWidth = getParent().getWidth();
-		return Math.min(textWidth, parentWidth);
+		if (getParent() != null)
+		{
+			float parentWidth = getParent().getWidth();
+			return Math.min(textWidth, parentWidth);
+		}
+		else
+		{
+			return textWidth;
+		}
 	}
 	
 	@Override
 	public float getPrefHeight()
 	{
-		float prefHeight = textHeight + heightPadding();
-		return Math.min(prefHeight, getParent().getHeight());
+		if (getParent() != null)
+		{
+			float prefHeight = textHeight + heightPadding();
+			return Math.min(prefHeight, getParent().getHeight());
+		}
+		else
+		{
+			return textHeight;
+		}
 	}
 	
 	@Override
