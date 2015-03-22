@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import edu.asu.c3simulator.screens.EmploymentScreen;
+import edu.asu.c3simulator.screens.DifficultySelectionScreen;
 
 /**
  * Main driver for C3 program.
