@@ -3,11 +3,15 @@ package edu.asu.c3simulator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import edu.asu.c3simulator.screens.DifficultySelectionScreen;
 import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Player;
+import edu.asu.c3simulator.simulation.Simulation;
+import edu.asu.c3simulator.testing.stubs.PlayerTestingStub;
 
 /**
  * Main driver for C3 program.
@@ -21,7 +25,31 @@ public class C3Simulator extends Game
 	public static ShapeRenderer rendererLine;
 	public static ShapeRenderer rendererPoint;
 	
-	private C3Simulation simulation;
+	private static C3Simulation simulation;
+	private static Player player;
+	
+	public C3Simulator()
+	{
+		player = new PlayerTestingStub();
+		simulation = new Simulation(getPlayer(), 10000);
+	}
+	
+	public static Player getPlayer()
+	{
+		return player;
+	}
+	
+	public static C3Simulation getSimulation()
+	{
+		return simulation;
+	}
+	
+	public static void clearScreen()
+	{
+		int clearMask = GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT;
+		Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
+		Gdx.graphics.getGL20().glClear(clearMask);
+	}
 	
 	@Override
 	public void create()

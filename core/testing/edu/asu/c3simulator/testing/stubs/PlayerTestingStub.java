@@ -1,9 +1,9 @@
 package edu.asu.c3simulator.testing.stubs;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
@@ -33,37 +33,7 @@ public class PlayerTestingStub implements Player
 	@Override
 	public C3Simulation getSimulation()
 	{
-		return new C3Simulation() {
-			@Override
-			public String getSimulationDateString()
-			{
-				return "5 Jan, Year TEST";
-			}
-			
-			@Override
-			public String getSimulationDateString(String format)
-			{
-				// TODO Auto-generated method stub return null;
-				throw new UnsupportedOperationException(
-						"The method is not implemented yet.");
-			}
-			
-			@Override
-			public String getSimulationDateString(DateFormat format)
-			{
-				// TODO Auto-generated method stub return null;
-				throw new UnsupportedOperationException(
-						"The method is not implemented yet.");
-			}
-			
-			@Override
-			public void update(float deltaMilliseconds)
-			{
-				// TODO Auto-generated method stub
-				throw new UnsupportedOperationException(
-						"The method is not implemented yet.");
-			}
-		};
+		return C3Simulator.getSimulation();
 	}
 	
 	@Override
