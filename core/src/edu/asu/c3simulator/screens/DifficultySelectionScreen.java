@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.WidgetFactory;
 
 /**
@@ -25,8 +26,6 @@ import edu.asu.c3simulator.widgets.WidgetFactory;
  */
 public class DifficultySelectionScreen implements Screen
 {
-	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
-	
 	/**
 	 * Width and Height at which this screen was designed. Can be used in resize
 	 * operations
@@ -149,6 +148,7 @@ public class DifficultySelectionScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
+		C3Simulator.clearScreen();
 		stage.act(delta);
 		stage.draw();
 	}
