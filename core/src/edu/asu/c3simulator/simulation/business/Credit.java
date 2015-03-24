@@ -57,6 +57,10 @@ public class Credit
 		amountPayedInCurrentMonth = 0;
 	}
 	
+	/**
+	 * @return The maximum amount of loans this account is allowed to accrue at any given
+	 *         time.
+	 */
 	public float getLimit()
 	{
 		return limit;
@@ -82,6 +86,14 @@ public class Credit
 		return monthlyInterest;
 	}
 	
+	/**
+	 * Make a payment against the current debt amount. This is not to be confused with
+	 * {@link #processPayment(float)}, which should be used for money transfers and
+	 * expenditures outside of loan payments.
+	 * 
+	 * @param amount
+	 *            Payment amount
+	 */
 	public void makePayment(float amount)
 	{
 		amountPayedInCurrentMonth += amount;
@@ -141,11 +153,6 @@ public class Credit
 		return canBorrow;
 	}
 	
-	public static float getLimitIncreaseFactor()
-	{
-		return LIMIT_INCREASE_FACTOR;
-	}
-	
 	public float getAmountPayedInCurrentMonth()
 	{
 		return amountPayedInCurrentMonth;
@@ -174,7 +181,8 @@ public class Credit
 	/**
 	 * Reduces {@link #capital} by the specified amount.
 	 * 
-	 * @param amount Withdrawl amount
+	 * @param amount
+	 *            Withdrawl amount
 	 */
 	public void processPayment(float amount)
 	{
@@ -184,7 +192,8 @@ public class Credit
 	/**
 	 * Adds the specified amount to {@link #capital}
 	 * 
-	 * @param amount Deposit amount
+	 * @param amount
+	 *            Deposit amount
 	 */
 	public void processGrossProfit(float amount)
 	{

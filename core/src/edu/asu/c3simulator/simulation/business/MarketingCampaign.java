@@ -5,6 +5,9 @@ package edu.asu.c3simulator.simulation.business;
  */
 public interface MarketingCampaign
 {
+	/**
+	 * @return Monthly cost of this {@link MarketingCampaign}
+	 */
 	float getMonthlyCost();
 	
 	/**

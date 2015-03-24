@@ -8,8 +8,13 @@ package edu.asu.c3simulator.simulation.business;
  */
 public class ProductionInformation
 {
+	/** Product for which this information applies */
 	private Product target;
+	
+	/** Number of units of {@link #target} being produced by this company each month */
 	private int monthlyProduction;
+	
+	/** Amount spent on materials per unit produced */
 	private float materialBudgetPerUnit;
 	
 	public int getMonthlyProduction()

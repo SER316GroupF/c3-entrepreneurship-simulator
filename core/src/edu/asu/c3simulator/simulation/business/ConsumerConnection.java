@@ -10,7 +10,11 @@ package edu.asu.c3simulator.simulation.business;
  */
 public interface ConsumerConnection
 {
-
+	/**
+	 * @param product
+	 *            Target
+	 * @return Number of units of the given product that this {@link ConsumerConnection}
+	 *         is able to sell each month
+	 */
 	int getMonthlySalesPotential(Product product);
-	
 }
