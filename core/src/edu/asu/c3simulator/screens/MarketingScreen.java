@@ -1,9 +1,12 @@
 package edu.asu.c3simulator.screens;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Product;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
@@ -26,10 +30,14 @@ import edu.asu.c3simulator.widgets.NavigationPanel;
  * 
  * @author Alyahya, Mohammed
  */
-public class MarketingScreen implements Screen
+public class MarketingScreen implements SimulationScreen
 {
 	
-	private class productIconListener extends ClickListener
+	/**
+	 * The ProductIconListener takes in the label associated with the product icon and the
+	 * product object itself and then manipulate them when the icon is clicked.
+	 */
+	private class ProductIconListener extends ClickListener
 	{
 		private Label associatedLabel;
 		private Product associatedProduct;
@@ -41,7 +49,7 @@ public class MarketingScreen implements Screen
 		 *            The product that is represented by the object that is being listened
 		 *            to.
 		 */
-		public productIconListener(Label associatedLabel, Product associatedProduct)
+		public ProductIconListener(Label associatedLabel, Product associatedProduct)
 		{
 			this.associatedLabel = associatedLabel;
 			this.associatedProduct = associatedProduct;
@@ -50,10 +58,10 @@ public class MarketingScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
-			companyPromotionButton.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			associatedLabel.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+			companyPromotionButton.setColor(Color.WHITE);
+			associatedLabel.setColor(Color.GREEN);
 			if (selectedProductLabel != null && selectedProductLabel != associatedLabel)
-				selectedProductLabel.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				selectedProductLabel.setColor(Color.WHITE);
 			
 			selectedProduct = associatedProduct;
 			selectedProductLabel = associatedLabel;
@@ -61,7 +69,11 @@ public class MarketingScreen implements Screen
 		}
 	}
 	
-	private class marketingIconListener extends ClickListener
+	/**
+	 * The marketingIconListener takes in the label associated with the campaign icon and
+	 * the campaign object itself and then manipulate them when the icon is clicked.
+	 */
+	private class MarketingIconListener extends ClickListener
 	{
 		private Label associatedLabel;
 		private String marketingType;
@@ -72,7 +84,7 @@ public class MarketingScreen implements Screen
 		 * @param marketingType
 		 *            The marketing type that the icon is representing.
 		 */
-		public marketingIconListener(Label associatedLabel, String marketingType)
+		public MarketingIconListener(Label associatedLabel, String marketingType)
 		{
 			this.associatedLabel = associatedLabel;
 			this.marketingType = marketingType;
@@ -81,10 +93,10 @@ public class MarketingScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
-			associatedLabel.setColor(0.0f, 0.0f, 1.0f, 1.0f);
+			associatedLabel.setColor(Color.BLUE);
 			if (selectedMarketingLabel != null
 					&& selectedMarketingLabel != associatedLabel)
-				selectedMarketingLabel.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				selectedMarketingLabel.setColor(Color.WHITE);
 			
 			selectedMarketingMethod = marketingType;
 			selectedMarketingLabel = associatedLabel;
@@ -99,8 +111,9 @@ public class MarketingScreen implements Screen
 	private Label selectedProductLabel, selectedMarketingLabel;
 	private TextButton companyPromotionButton;
 	private String selectedMarketingMethod = "";
-	private boolean promoteCompany = false, productChosen = false,
-			marketingMethodChosen = false;
+	private boolean promoteCompany;
+	private boolean productChosen;
+	private boolean marketingMethodChosen;
 	
 	public MarketingScreen(Game game)
 	{
@@ -127,7 +140,8 @@ public class MarketingScreen implements Screen
 	 * 
 	 * @return the NavigationPanel actor that was created.
 	 */
-	private NavigationPanel createNavigationPanel()
+	@Override
+	public NavigationPanel createNavigationPanel()
 	{
 		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
 		
@@ -168,16 +182,16 @@ public class MarketingScreen implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				if (promoteCompany)
-					companyPromotionButton.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+					companyPromotionButton.setColor(Color.WHITE);
 				else
-					companyPromotionButton.setColor(0.0f, 1.0f, 0.0f, 1.0f);
+					companyPromotionButton.setColor(Color.GREEN);
 				promoteCompany = !promoteCompany;
 				productChosen = false;
 				if (selectedProduct != null)
 					selectedProduct = null;
 				if (selectedProductLabel != null)
 				{
-					selectedProductLabel.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+					selectedProductLabel.setColor(Color.WHITE);
 					selectedProductLabel = null;
 				}
 			}
@@ -189,7 +203,7 @@ public class MarketingScreen implements Screen
 		ScrollPane marketingGridScroll = new ScrollPane(getMarketingGrid(), skin);
 		TextButton marketinLabel = new TextButton("Select Marketing", skin);
 		marketinLabel.setDisabled(true);
-		marketinLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		marketinLabel.setColor(Color.GRAY);
 		TextButton nextButton = new TextButton("Next", skin);
 		nextButton.addListener(new ClickListener() {
 			@Override
@@ -197,10 +211,6 @@ public class MarketingScreen implements Screen
 			{
 				if (marketingMethodChosen && (productChosen || promoteCompany))
 				{
-					System.out.println("Moving to the next Step. "
-							+ selectedMarketingMethod
-							+ " will be used to market "
-							+ (productChosen ? selectedProduct.getName() : "the Company."));
 					game.setScreen(new MarketingWizard(game, MarketingScreen.this));
 				}
 			}
@@ -227,19 +237,20 @@ public class MarketingScreen implements Screen
 		Table productGrid = new Table();
 		Product[] products = getProducts();
 		
-		for (int i = 0; i < products.length; i++)
+		for (int index = 0; index < products.length; index++)
 		{
 			Table newProduct = new Table();
-			Label productLabel = new Label(products[i].getName(), skin);
-			Image productIcon = products[i].getProductImage();
-			productIcon.addListener(new productIconListener(productLabel, products[i]));
+			Label productLabel = new Label(products[index].getName(), skin);
+			Image productIcon = products[index].getProductImage();
+			productIcon
+					.addListener(new ProductIconListener(productLabel, products[index]));
 			
 			newProduct.add(productIcon).size(100f).row(); // TODO change to dynamic size
 			newProduct.add(productLabel);
 			
 			productGrid.add(newProduct).space(15);
 			
-			if ((i + 1) % 2 == 0 && i != products.length - 1)
+			if ((index + 1) % 2 == 0 && index != products.length - 1)
 				productGrid.row();
 		}
 		
@@ -247,29 +258,35 @@ public class MarketingScreen implements Screen
 	}
 	
 	/**
-	 * This method creates the the grid of marketing types icons that the user can choose
-	 * from and adds them to a table.
+	 * Creates the the grid of marketing types icons that the user can choose from and
+	 * adds them to a table.
 	 * 
 	 * @return The table that was created.
 	 */
 	private Table getMarketingGrid()
 	{
 		Table marketingGrid = new Table();
-		String[][] marketingIcons = {
-				{ "Internet Campaign", "images/placeholder-Computer-Icon.png" },
-				{ "Social Media", "images/placeholder-SocialMedia-icon.png" },
-				{ "Television and Radio", "images/placeholder--TV-icon.png" },
-				{ "Traditional Advertising", "images/placeholder-Billboard-icon.png" } };
 		
-		for (int i = 0; i < marketingIcons.length; i++)
+		HashMap<String, String> marketingIcons = new HashMap<String, String>();
+		marketingIcons.put("Internet Campaign", "images/placeholder-Computer-Icon.png");
+		marketingIcons.put("Social Media", "images/placeholder-SocialMedia-icon.png");
+		marketingIcons.put("Television and Radio", "images/placeholder--TV-icon.png");
+		marketingIcons.put("Traditional Advertising",
+				"images/placeholder-Billboard-icon.png");
+		
+		Set<String> marketingTypes = marketingIcons.keySet();
+		int iconCounter = 0;
+		int iconsPerLine = 2;
+		for (String marketingType : marketingTypes)
 		{
 			Table newMarketingMethod = new Table();
-			Label marketingMethodLabel = new Label(marketingIcons[i][0], skin);
-			FileHandle iconLocation = Gdx.files.internal(marketingIcons[i][1]);
+			Label marketingMethodLabel = new Label(marketingType, skin);
+			FileHandle iconLocation = Gdx.files.internal(marketingIcons
+					.get(marketingType));
 			Texture iconTexture = new Texture(iconLocation);
-			Image marketingtIcon = new Image(iconTexture);;
-			marketingtIcon.addListener(new marketingIconListener(marketingMethodLabel,
-					marketingIcons[i][0]));
+			Image marketingtIcon = new Image(iconTexture);
+			marketingtIcon.addListener(new MarketingIconListener(marketingMethodLabel,
+					marketingType));
 			
 			newMarketingMethod.add(marketingtIcon).size(200f).row(); // TODO change to
 																		// dynamic size
@@ -277,8 +294,12 @@ public class MarketingScreen implements Screen
 			
 			marketingGrid.add(newMarketingMethod).space(15);
 			
-			if ((i + 1) % 2 == 0 && i != marketingIcons.length - 1)
+			iconCounter++;
+			if (iconCounter >= iconsPerLine)
+			{
 				marketingGrid.row();
+				iconCounter = 0;
+			}
 		}
 		
 		return marketingGrid;

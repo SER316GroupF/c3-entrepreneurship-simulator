@@ -2,7 +2,6 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
@@ -24,15 +24,16 @@ import edu.asu.c3simulator.widgets.NavigationPanel;
  * 
  * @author Alyahya, Mohammed
  */
-public class CompanyPanel implements Screen
+public class CompanyPanel implements SimulationScreen
 {
-	@SuppressWarnings("unused")
 	private Game game;
 	private Stage stage;
 	private Skin skin;
 	
 	private SelectBox<String> businessSelectionBox;
-	private Label businessName, businessNetWorth, businessSellingPrice;
+	private Label businessName;
+	private Label businessNetWorth;
+	private Label businessSellingPrice;
 	
 	public CompanyPanel(Game game)
 	{
@@ -50,7 +51,8 @@ public class CompanyPanel implements Screen
 		Actor businessGraph = createBusinessGraph();
 		Actor businessButtons = createBusinessButtons();
 		
-		upperSection.add(businessSelection).spaceRight(100).center();
+		upperSection.add(businessSelection).spaceRight(0.1f * mainTable.getWidth())
+				.center();
 		upperSection.add(businessInfo).expand().fillX().left();
 		lowerSection.add(businessGraph).expand().center();
 		lowerSection.add(businessButtons).center().width(0.2f * mainTable.getWidth());
@@ -60,26 +62,12 @@ public class CompanyPanel implements Screen
 		
 		mainTable.setPosition(stage.getWidth() / 2 - mainTable.getWidth() / 2,
 				stage.getHeight() / 2 - mainTable.getHeight() / 2);
-		// upperSection.debug();
-		// lowerSection.debug();
-		// mainTable.debugTable();
 		
 		// TODO add Corner Advisor
 		// TODO add Home Button
 		
 		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		// navigationPanel.addButton("Advising", null);
-		navigationPanel.addButton("Company", null);
-		navigationPanel.addSubButton("Company", "Business", null);
-		navigationPanel.addSubButton("Company", "Assets", null);
-		navigationPanel.addButton("Tasks", null);
-		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", null);
-		navigationPanel.showSubButtonsFor("Company");
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
+		NavigationPanel navigationPanel = createNavigationPanel();
 		
 		stage.addActor(navigationPanel);
 		stage.addActor(mainTable);
@@ -151,12 +139,9 @@ public class CompanyPanel implements Screen
 		
 		labels.align(Align.left);
 		information.align(Align.left);
-		labels.space(5);
-		information.space(5);
 		
-		businessInfo.add(labels).spaceRight(10);
+		businessInfo.add(labels);
 		businessInfo.add(information).expand().fill().left();
-		// businessInfo.debug();
 		
 		return businessInfo;
 	}
@@ -229,6 +214,24 @@ public class CompanyPanel implements Screen
 	{
 		// TODO add items to the list
 		// TODO test how to manipulate it
+	}
+	
+	@Override
+	public NavigationPanel createNavigationPanel()
+	{
+		// TODO add screens
+		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
+		navigationPanel.addButton("Company", null);
+		navigationPanel.addSubButton("Company", "Business", null);
+		navigationPanel.addSubButton("Company", "Assets", null);
+		navigationPanel.addButton("Tasks", null);
+		navigationPanel.addSubButton("Tasks", "Manage", null);
+		navigationPanel.addSubButton("Tasks", "Completed", null);
+		navigationPanel.showSubButtonsFor("Company");
+		
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
+		return navigationPanel;
 	}
 	
 	@Override

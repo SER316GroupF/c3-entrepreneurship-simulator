@@ -6,6 +6,7 @@ import java.util.Set;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,11 +22,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.util.Product;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
- * This is the second page of the marketing campaign wizard.
- * It displays product/company information and marketing campaign options to enable the user to customize their campaign.
+ * This is the second page of the marketing campaign wizard. It displays product/company
+ * information and marketing campaign options to enable the user to customize their
+ * campaign.
  * 
  * @author Alyahya, Mohammed
  */
@@ -53,42 +54,12 @@ public class MarketingWizard implements Screen
 		// TODO add Corner Advisor
 		// TODO add Home Button
 		
-		NavigationPanel navigationPanel = createNavigationPanel();
-		
 		Table mainTable = createMainTable();
 		mainTable.setPosition(
 				stage.getWidth() - 0.01f * stage.getWidth() - mainTable.getWidth(),
 				0.01f * stage.getHeight());
 		
-		stage.addActor(navigationPanel);
 		stage.addActor(mainTable);
-	}
-	
-	/**
-	 * The method creates the navigation panel.
-	 * 
-	 * @return the NavigationPanel actor that was created.
-	 */
-	private NavigationPanel createNavigationPanel()
-	{
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		
-		// TODO Check if all screens should be left null since leaving the wizard should
-		// only be done through the back button.
-		navigationPanel.addButton("Products", null);
-		navigationPanel.addSubButton("Products", "Pre-Market", null);
-		navigationPanel.addSubButton("Products", "Current", null);
-		navigationPanel.addSubButton("Products", "Retired", null);
-		navigationPanel.addButton("Product Growth", null);
-		navigationPanel.addSubButton("Product Growth", "Supply", null);
-		navigationPanel.addSubButton("Product Growth", "Demand", null);
-		navigationPanel.addButton("Employment", null);
-		navigationPanel.addButton("Marketing", null);
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
 	}
 	
 	/**
@@ -99,7 +70,7 @@ public class MarketingWizard implements Screen
 	private Table createMainTable()
 	{
 		Table mainTable = new Table();
-		mainTable.setSize(0.80f * stage.getWidth(), 0.80f * stage.getHeight());
+		mainTable.setSize(0.98f * stage.getWidth(), 0.80f * stage.getHeight());
 		
 		Table upperSection = new Table();
 		Table lowerSection = new Table();
@@ -116,7 +87,7 @@ public class MarketingWizard implements Screen
 					skin);
 		
 		campaignTargetLabel.setDisabled(true);
-		campaignTargetLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		campaignTargetLabel.setColor(Color.GRAY);
 		
 		TextButton backButton = new TextButton("Back", skin);
 		backButton.addListener(new ClickListener() {
@@ -196,7 +167,8 @@ public class MarketingWizard implements Screen
 	}
 	
 	/**
-	 * This methods gets the campaign types available for the chosen marketing campaign from the data layer.
+	 * This methods gets the campaign types available for the chosen marketing campaign
+	 * from the data layer.
 	 * 
 	 * @return An array of the campaign types in String format.
 	 */
@@ -210,7 +182,8 @@ public class MarketingWizard implements Screen
 	}
 	
 	/**
-	 * This method updates the campaign options section based on the selected campaign type.
+	 * This method updates the campaign options section based on the selected campaign
+	 * type.
 	 */
 	private void updateCampaignOptions()
 	{
@@ -265,7 +238,7 @@ public class MarketingWizard implements Screen
 			Label campaignTargetLabel = new Label(infoLabel, skin);
 			Label campaignTargetInformation = new Label(
 					campaignTargetInfo.get(infoLabel), skin);
-			campaignTargetLabel.setColor(0.0f, 0.3f, 1.0f, 1.0f);
+			campaignTargetLabel.setColor(Color.BLUE);
 			
 			productAndConsumerInformation.add(campaignTargetLabel).top().left().row();
 			productAndConsumerInformation.add(campaignTargetInformation).top().left()
@@ -277,7 +250,8 @@ public class MarketingWizard implements Screen
 	}
 	
 	/**
-	 * @return A LinkedHashMap<infoLabel, info> that relates an info to its label for the selected product.
+	 * @return A LinkedHashMap<infoLabel, info> that relates an info to its label for the
+	 *         selected product.
 	 */
 	private LinkedHashMap<String, String> getProductInfo()
 	{
@@ -293,7 +267,8 @@ public class MarketingWizard implements Screen
 	}
 	
 	/**
-	 * @return A LinkedHashMap<infoLabel, info> that relates an info to its label for the company.
+	 * @return A LinkedHashMap<infoLabel, info> that relates an info to its label for the
+	 *         company.
 	 */
 	private LinkedHashMap<String, String> getCompanyInfo()
 	{

@@ -3,32 +3,42 @@ package edu.asu.c3simulator.screens;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import edu.asu.c3simulator.widgets.Location;
+import edu.asu.c3simulator.simulation.SimulationScreen;
+import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
  * Displays two options for general company goals and highlights selected option.
  * 
  * @author Alyahya, Mohammed some of Zack's code was reused here
  */
-public class BusinessDirectonScreen extends BusinessCreationGuideScreens
+public class BusinessDirectonScreen implements SimulationScreen
 {
+	private Game game;
+	private Stage stage;
 	private Skin skin;
 	private ButtonGroup optionCheckBoxesGroup;
 	private CheckBox longTermOption, shortTermOption;
 	
-	public BusinessDirectonScreen(Stage stage)
+	public BusinessDirectonScreen(Game game)
 	{
+		this.game = game;
+		this.stage = new Stage();
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		Table directions = new Table();
 		
@@ -46,19 +56,65 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 		optionCheckBoxesGroup.setMinCheckCount(0);
 		optionCheckBoxesGroup.setUncheckLast(true);
 		
-		directions.add(longTermLabel).height(100).top();
-		directions.add(shortTermLabel).height(100).top().spaceLeft(75);
+		directions.add(longTermLabel).top();
+		directions.add(shortTermLabel).top();
 		directions.row();
 		directions.add(longTermDirection).top();
-		directions.add(shortTermDirection).top().spaceLeft(75);
+		directions.add(shortTermDirection).top();
 		directions.row();
-		directions.add(longTermOption).height(100);
-		directions.add(shortTermOption).height(100).spaceLeft(75);
+		directions.add(longTermOption);
+		directions.add(shortTermOption);
 		
-		directions.padLeft(100);
 		directions.setTransform(true);
 		
-		addActor(directions, new Location(stage.getWidth() / 2, stage.getHeight() / 2));
+		directions.setPosition(stage.getWidth() / 2, stage.getHeight() / 2);
+		
+		TextButton continueButton = new TextButton("Continue >", skin);
+		continueButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				// TODO: Transition to Funding Screen
+				game.setScreen(new FundingScreen(game));
+			}
+		});
+		
+		continueButton.setPosition(stage.getWidth() - continueButton.getPrefWidth()
+				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));
+		
+		// TODO add Corner Advisor
+		// TODO add Home Button
+		
+		NavigationPanel navigationPanel = createNavigationPanel();
+		
+		stage.addActor(navigationPanel);
+		stage.addActor(continueButton);
+		stage.addActor(directions);
+	}
+	
+	/**
+	 * Resets the selection and makes sure both checkboxes are unchecked.
+	 */
+	public void resetSelection()
+	{
+		longTermOption.setChecked(false);
+		shortTermOption.setChecked(false);
+	}
+	
+	@Override
+	public NavigationPanel createNavigationPanel()
+	{
+		// TODO add screens
+		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
+		navigationPanel.addButton("Industry", null);
+		navigationPanel.addButton("Direction", null);
+		navigationPanel.addButton("Funding", null);
+		navigationPanel.addButton("Tasks", null);
+		
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
+		
+		return navigationPanel;
 	}
 	
 	/**
@@ -104,14 +160,14 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 				"Host monthly drawings for free", "products or discounts on future ",
 				"purchases." };
 		
-		VerticalGroup longTermDirectionText = new VerticalGroup();
-		longTermDirectionText.addActor(createParagraph(communityOutreach));
-		longTermDirectionText.addActor(createParagraph(revenue));
-		longTermDirectionText.addActor(createParagraph(customerService));
+		VerticalGroup shortTermDirectionText = new VerticalGroup();
+		shortTermDirectionText.addActor(createParagraph(communityOutreach));
+		shortTermDirectionText.addActor(createParagraph(revenue));
+		shortTermDirectionText.addActor(createParagraph(customerService));
 		
-		longTermDirectionText.space(25);
-		longTermDirectionText.left();
-		return longTermDirectionText;
+		shortTermDirectionText.space(25);
+		shortTermDirectionText.left();
+		return shortTermDirectionText;
 	}
 	
 	/**
@@ -155,5 +211,54 @@ public class BusinessDirectonScreen extends BusinessCreationGuideScreens
 			return "short term";
 		else
 			return "none";
+	}
+	
+	@Override
+	public void render(float delta)
+	{
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
+	}
+	
+	@Override
+	public void resize(int width, int height)
+	{
+		stage.getViewport().update(width, height);
+	}
+	
+	@Override
+	public void show()
+	{
+		Gdx.input.setInputProcessor(stage);
+		
+	}
+	
+	@Override
+	public void hide()
+	{
+		Gdx.input.setInputProcessor(null);
+		
+	}
+	
+	@Override
+	public void pause()
+	{
+		// TODO Auto-generated method stub
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void resume()
+	{
+		// TODO Auto-generated method stub
+		// throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+	
+	@Override
+	public void dispose()
+	{
+		stage.dispose();
+		this.game = null;
 	}
 }

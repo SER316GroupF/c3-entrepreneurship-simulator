@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
+import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Task;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
@@ -23,13 +24,13 @@ import edu.asu.c3simulator.widgets.NavigationPanel;
  * 
  * @author Alyahya, Mohammed
  */
-public class CompletedTasks implements Screen
+public class CompletedTasks implements SimulationScreen
 {
-	@SuppressWarnings("unused")
 	private Game game;
 	private Stage stage;
 	private Skin skin;
 	private VerticalGroup actionBasedTasksList, nonActionBasedTasksList;
+	private final Color LABEL_COLOR = Color.GRAY;
 	
 	public CompletedTasks(Game game)
 	{
@@ -50,10 +51,10 @@ public class CompletedTasks implements Screen
 		
 		TextButton actionBasedLabel = new TextButton("Action Based", skin);
 		actionBasedLabel.setDisabled(true);
-		actionBasedLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		actionBasedLabel.setColor(LABEL_COLOR);
 		TextButton nonActionBasedLabel = new TextButton("Non-Action Based", skin);
 		nonActionBasedLabel.setDisabled(true);
-		nonActionBasedLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		nonActionBasedLabel.setColor(LABEL_COLOR);
 		
 		actionBasedTasksList = new VerticalGroup();
 		nonActionBasedTasksList = new VerticalGroup();
@@ -80,21 +81,7 @@ public class CompletedTasks implements Screen
 		// TODO add Home Button
 		
 		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Company", null);
-		navigationPanel.addSubButton("Company", "Business", null);
-		navigationPanel.addSubButton("Company", "Assets", null);
-		navigationPanel.addButton("Tasks", null);
-		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", null);
-		navigationPanel.showSubButtonsFor("Tasks");
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		mainTable.debug();
-		leftSection.debug();
-		rightSection.debug();
+		NavigationPanel navigationPanel = createNavigationPanel();
 		
 		updateCompletedTasks();
 		
@@ -131,6 +118,8 @@ public class CompletedTasks implements Screen
 	 */
 	private ArrayList<Task> getCompletedTasks()
 	{
+		// TODO replace with functional code when tasks are implemented.
+		
 		String[] actionBasedList = { "task 1.1", "task 2.1", "task 3.1", "task 4.1",
 				"task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1",
 				"task 11.1", "task 12.1", "task 13.1", "task 14.1", "task 15.1" };
@@ -146,6 +135,24 @@ public class CompletedTasks implements Screen
 			availableTasks.add(new Task(taskName, "Non-Action Based"));
 		
 		return availableTasks;
+	}
+	
+	@Override
+	public NavigationPanel createNavigationPanel()
+	{
+		// TODO add screens
+		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
+		navigationPanel.addButton("Company", null);
+		navigationPanel.addSubButton("Company", "Business", null);
+		navigationPanel.addSubButton("Company", "Assets", null);
+		navigationPanel.addButton("Tasks", null);
+		navigationPanel.addSubButton("Tasks", "Manage", null);
+		navigationPanel.addSubButton("Tasks", "Completed", null);
+		navigationPanel.showSubButtonsFor("Tasks");
+		
+		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
+				- (0.3f * stage.getHeight()));
+		return navigationPanel;
 	}
 	
 	@Override

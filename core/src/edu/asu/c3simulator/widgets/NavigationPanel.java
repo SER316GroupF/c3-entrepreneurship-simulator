@@ -65,8 +65,13 @@ public class NavigationPanel extends Table
 	private Skin skin;
 	private LinkedHashMap<String, Screen> buttons;
 	private LinkedHashMap<String, LinkedHashMap<String, Screen>> subButtons;
-	private float panelWidth = 0, panelHeight = 0, leftEdge_X = 0, bottomEdge_Y = 0;
+	private float panelWidth = 0;
+	private float panelHeight = 0;
+	private float leftEdgeX = 0;
+	private float bottomEdgeY = 0;
 	private int spaceBetweenButtons = 5;
+	
+	/** The name of the currently open collapsible button displaying its sub-buttons */
 	private String displayedCollapsibleButton = "";
 	
 	public NavigationPanel(Game game, Skin skin)
@@ -334,13 +339,13 @@ public class NavigationPanel extends Table
 	@Override
 	public void setPosition(float x, float y)
 	{
-		leftEdge_X = x;
-		bottomEdge_Y = y;
+		leftEdgeX = x;
+		bottomEdgeY = y;
 		setLocation();
 	}
 	
 	private void setLocation()
 	{
-		super.setPosition(leftEdge_X, bottomEdge_Y - getPanelHeight());
+		super.setPosition(leftEdgeX, bottomEdgeY - getPanelHeight());
 	}
 }
