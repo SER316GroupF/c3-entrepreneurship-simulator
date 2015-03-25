@@ -139,8 +139,8 @@ public class Company
 			}
 			else
 			{
-				int newPublicOpionion = getPublicOpinionOf(product) + publicityGain;
-				publicOpinionOfProducts.put(product, newPublicOpionion);
+				int newPublicOpinion = getPublicOpinionOf(product) + publicityGain;
+				publicOpinionOfProducts.put(product, newPublicOpinion);
 			}
 			
 			if (campaign.isFinished())
