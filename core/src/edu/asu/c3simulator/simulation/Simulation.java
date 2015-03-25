@@ -48,6 +48,7 @@ public class Simulation implements C3Simulation, Observable<Simulation>
 		}
 	}
 	
+	/** Displays day, month abbreviation, year abbreviation (e.g. 5 Mar. 14) */
 	private static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(
 			"dd MMM yy");
 	

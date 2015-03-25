@@ -110,7 +110,9 @@ public class PlayerStatusDisplay extends Table
 		String valueText = fieldValues.get(field);
 		
 		if (valueText == null)
+		{
 			valueText = "";
+		}
 		
 		SimpleTextField label = new SimpleTextField(labelText);
 		SimpleTextField valueLabel = new SimpleTextField(valueText);
