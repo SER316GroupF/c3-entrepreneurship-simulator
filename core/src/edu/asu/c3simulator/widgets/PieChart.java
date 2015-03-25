@@ -28,7 +28,7 @@ public class PieChart<K> extends AbstractChart<K, Float>
 {
 	private float radius;
 	
-	@SuppressWarnings("unchecked")
+	@SafeVarargs
 	public PieChart(Association<K, Float> firstValue,
 			Association<K, Float>... additionalValues)
 	{
