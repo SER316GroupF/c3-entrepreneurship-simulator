@@ -44,7 +44,7 @@ public class Histogram<K> extends AbstractChart<K, Float>
 	
 	private float textHeight;
 	
-	@SuppressWarnings("unchecked")
+	@SafeVarargs
 	public Histogram(Association<K, Float> firstValue,
 			Association<K, Float>... additionalValues)
 	{

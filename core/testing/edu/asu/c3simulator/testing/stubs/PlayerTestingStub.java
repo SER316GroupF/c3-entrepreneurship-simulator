@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Employee.Position;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 import edu.asu.c3simulator.util.ObservationListener;
@@ -34,6 +35,7 @@ public class PlayerTestingStub implements Player
 	public C3Simulation getSimulation()
 	{
 		return C3Simulator.getSimulation();
+
 	}
 	
 	@Override

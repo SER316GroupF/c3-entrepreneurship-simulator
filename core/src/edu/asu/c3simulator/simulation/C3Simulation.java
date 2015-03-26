@@ -63,4 +63,14 @@ public interface C3Simulation
 	 *            The {@link Subroutine} to call at the specified in-game time
 	 */
 	public void registerTimedEvent(Date time, Subroutine event);
+
+
+	public int getMinimumWageOfPosition(Employee.Position position);
+	
+	public int getMedianWageOfPosition(Employee.Position position);
+	
+	public int getMaximumWageOfPosition(Employee.Position position);
+	
+	public int getAverageWageOfPosition(Employee.Position position);
+
 }
