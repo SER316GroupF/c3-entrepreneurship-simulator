@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import edu.asu.c3simulator.simulation.Employee.Position;
 import edu.asu.c3simulator.util.Observable;
 import edu.asu.c3simulator.util.ObservationListener;
 import edu.asu.c3simulator.util.Subroutine;
@@ -211,5 +212,33 @@ public class Simulation implements C3Simulation, Observable<Simulation>
 	public void setScaledTimeUnit(int scaledTimeUnit)
 	{
 		this.scaledTimeUnit = scaledTimeUnit;
+	}
+
+	@Override
+	public int getMinimumWageOfPosition(Position position)
+	{
+		// TODO Auto-generated method stub return 0;
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
+	@Override
+	public int getMedianWageOfPosition(Position position)
+	{
+		// TODO Auto-generated method stub return 0;
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
+	@Override
+	public int getMaximumWageOfPosition(Position position)
+	{
+		// TODO Auto-generated method stub return 0;
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
+	@Override
+	public int getAverageWageOfPosition(Position position)
+	{
+		// TODO Auto-generated method stub return 0;
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
 }

@@ -1,9 +1,13 @@
 package edu.asu.c3simulator.testing.stubs;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Employee.Position;
+import edu.asu.c3simulator.simulation.Simulation;
+import edu.asu.c3simulator.util.ObservationListener;
+import edu.asu.c3simulator.util.Subroutine;
 
 /**
  * Stub to return default "dummy" values for testing purposes.
@@ -57,5 +61,26 @@ public class SimulationTestingStub implements C3Simulation
 	public int getAverageWageOfPosition(Position position)
 	{
 		return 17;
+	}
+
+	@Override
+	public void update(float deltaMilliseconds)
+	{
+		// TODO Auto-generated method stub 
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
+	@Override
+	public void registerDateListener(ObservationListener<? super Simulation> listener)
+	{
+		// TODO Auto-generated method stub 
+		throw new UnsupportedOperationException("The method is not implemented yet.");
+	}
+
+	@Override
+	public void registerTimedEvent(Date time, Subroutine event)
+	{
+		// TODO Auto-generated method stub 
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
 }
