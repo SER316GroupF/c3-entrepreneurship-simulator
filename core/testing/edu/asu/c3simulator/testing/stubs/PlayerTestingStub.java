@@ -1,12 +1,14 @@
 package edu.asu.c3simulator.testing.stubs;
 
-import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.simulation.C3Simulation;
 import edu.asu.c3simulator.simulation.Employee.Position;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
-import edu.asu.c3simulator.util.Observer;
+import edu.asu.c3simulator.util.ObservationListener;
 
 /**
  * Stub to return default "dummy" values for testing purposes.
@@ -16,10 +18,11 @@ import edu.asu.c3simulator.util.Observer;
  */
 public class PlayerTestingStub implements Player
 {
-	@Override
-	public void registerObserver(Observer<Player> observer)
+	private List<ObservationListener<? super Player>> listeners;
+	
+	public PlayerTestingStub()
 	{
-		
+		listeners = new ArrayList<>();
 	}
 	
 	@Override
@@ -31,53 +34,8 @@ public class PlayerTestingStub implements Player
 	@Override
 	public C3Simulation getSimulation()
 	{
-		return new C3Simulation() {
-			@Override
-			public String getSimulationDateString()
-			{
-				return "5 Jan, Year TEST";
-			}
-			
-			@Override
-			public String getSimulationDateString(String format)
-			{
-				// TODO Auto-generated method stub return null;
-				throw new UnsupportedOperationException(
-						"The method is not implemented yet.");
-			}
-			
-			@Override
-			public String getSimulationDateString(DateFormat format)
-			{
-				// TODO Auto-generated method stub return null;
-				throw new UnsupportedOperationException(
-						"The method is not implemented yet.");
-			}
-			
-			@Override
-			public int getMinimumWageOfPosition(Position position)
-			{
-				return 11;
-			}
-			
-			@Override
-			public int getMedianWageOfPosition(Position position)
-			{
-				return 15;
-			}
-			
-			@Override
-			public int getMaximumWageOfPosition(Position position)
-			{
-				return 28;
-			}
-			
-			@Override
-			public int getAverageWageOfPosition(Position position)
-			{
-				return 17;
-			}
-		};
+		return C3Simulator.getSimulation();
+
 	}
 	
 	@Override
@@ -96,5 +54,11 @@ public class PlayerTestingStub implements Player
 	public String getID()
 	{
 		return "test";
+	}
+	
+	@Override
+	public void registerObservationListener(ObservationListener<? super Player> listener)
+	{
+		listeners.add(listener);
 	}
 }
