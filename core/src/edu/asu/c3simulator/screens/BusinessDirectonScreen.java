@@ -179,7 +179,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 	}
 	
 	/**
-	 * A method that creates the paragraph that will be displayed and organize it in a
+	 * Create the paragraph that will be displayed and organize it in a
 	 * table.
 	 * 
 	 * @param text
