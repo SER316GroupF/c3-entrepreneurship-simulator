@@ -105,15 +105,13 @@ public class IndustryScreen implements SimulationScreen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override

@@ -24,9 +24,9 @@ import edu.asu.c3simulator.util.Product;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
- * Display a list of all products created by the business and give the user the ability to
+ * Display a list of all products created by the business. Give the user the ability to
  * either market one of them or the company as a whole. The user is also able to choose
- * from different types of marketing campaigns. This is the first step of two-step wizard.
+ * from different types of marketing campaigns. This is the first step of a two-step wizard.
  * 
  * @author Alyahya, Mohammed
  */
@@ -313,7 +313,7 @@ public class MarketingScreen implements SimulationScreen
 	 */
 	private Product[] getProducts()
 	{
-		// TODO get products
+		// TODO get current product products from the data layer of the company.
 		Product[] products = { new Product("T-shirt 1", "default"),
 				new Product("T-shirt 2", "default"), new Product("Short 1", "default"),
 				new Product("Short 2", "default"), new Product("Hoodie 1", "default"),
@@ -369,15 +369,13 @@ public class MarketingScreen implements SimulationScreen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override

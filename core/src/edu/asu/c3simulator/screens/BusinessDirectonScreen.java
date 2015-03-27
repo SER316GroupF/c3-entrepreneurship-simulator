@@ -34,6 +34,14 @@ public class BusinessDirectonScreen implements SimulationScreen
 	private Skin skin;
 	private ButtonGroup optionCheckBoxesGroup;
 	private CheckBox longTermOption, shortTermOption;
+	private static final int PARAGRAPH_MARGIN = 25;
+	
+	public static enum Direction
+	{
+		LONG_TERM,
+		SHORT_TERM,
+		NONE;
+	}
 	
 	public BusinessDirectonScreen(Game game)
 	{
@@ -118,7 +126,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 	}
 	
 	/**
-	 * This method creates the long term labels and button that will be displayed in the
+	 * Create the long term labels and button that will be displayed in the
 	 * screen.
 	 * 
 	 * @return the GUI that was created.
@@ -138,13 +146,13 @@ public class BusinessDirectonScreen implements SimulationScreen
 		longTermDirectionText.addActor(createParagraph(revenue));
 		longTermDirectionText.addActor(createParagraph(customerService));
 		
-		longTermDirectionText.space(25);
+		longTermDirectionText.space(PARAGRAPH_MARGIN);
 		longTermDirectionText.left();
 		return longTermDirectionText;
 	}
 	
 	/**
-	 * This method creates the short term labels and button that will be displayed in the
+	 * Create the short term labels and button that will be displayed in the
 	 * screen.
 	 * 
 	 * @return the GUI that was created.
@@ -165,7 +173,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 		shortTermDirectionText.addActor(createParagraph(revenue));
 		shortTermDirectionText.addActor(createParagraph(customerService));
 		
-		shortTermDirectionText.space(25);
+		shortTermDirectionText.space(PARAGRAPH_MARGIN);
 		shortTermDirectionText.left();
 		return shortTermDirectionText;
 	}
@@ -187,15 +195,13 @@ public class BusinessDirectonScreen implements SimulationScreen
 		// REFACTOR: Load lines from file
 		for (String stringLine : text)
 		{
-			lines.add(new Label(stringLine, skin));
-		}
-		
-		for (Label line : lines)
-		{
+			Label line = new Label(stringLine, skin);
+			lines.add(line);
 			line.setAlignment(Align.left);
 			requestedParagraph.add(line).left();
 			requestedParagraph.row();
 		}
+		
 		return requestedParagraph;
 	}
 	
@@ -203,14 +209,14 @@ public class BusinessDirectonScreen implements SimulationScreen
 	 * @return The Business Direction that was chosen by the user. "none" will be returned
 	 *         if no option was chosen.
 	 */
-	public String getChosenOption()
+	public Direction getChosenOption()
 	{
 		if (longTermOption.isChecked())
-			return "long term";
+			return Direction.LONG_TERM;
 		else if (shortTermOption.isChecked())
-			return "short term";
+			return Direction.SHORT_TERM;
 		else
-			return "none";
+			return Direction.NONE;
 	}
 	
 	@Override
@@ -244,15 +250,13 @@ public class BusinessDirectonScreen implements SimulationScreen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override

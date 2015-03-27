@@ -11,9 +11,14 @@ public class Task
 	/** The name of the Task */
 	private String name;
 	/** The task's type: Action Based or Non-Action Based */
-	private String type;
+	private Type type;
+	public static enum Type
+	{
+		ACTION_BASED,
+		NON_ACTION_BASED;
+	}
 	
-	public Task(String name, String type)
+	public Task(String name, Type type)
 	{
 		this.name = name;
 		this.type = type;
@@ -29,12 +34,12 @@ public class Task
 		this.name = name;
 	}
 	
-	public String getType()
+	public Type getType()
 	{
 		return type;
 	}
 	
-	public void setType(String type)
+	public void setType(Type type)
 	{
 		this.type = type;
 	}

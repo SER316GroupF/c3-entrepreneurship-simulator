@@ -106,6 +106,9 @@ public class MarketingWizard implements Screen
 		Table productAndConsumerInformation = new Table();
 		
 		Label campaignTypesLabel = new Label("Campaign Types", skin);
+		
+		// this is not java.util.List but Libgdx's own list which is a displayable actor
+		// (com.badlogic.gdx.scenes.scene2d.ui.List)
 		List<String> campaignTypesList = new List<String>(skin);
 		campaignTypesList.setItems(getCampaignTypes());
 		campaignTypesList.addListener(new ChangeListener() {
@@ -317,15 +320,13 @@ public class MarketingWizard implements Screen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override

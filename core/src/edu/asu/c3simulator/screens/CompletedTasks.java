@@ -101,7 +101,7 @@ public class CompletedTasks implements SimulationScreen
 		for (Task task : completedTasks)
 		{
 			Label newCompletedTask = new Label(" " + task.getName(), skin);
-			if (task.getType().equalsIgnoreCase("Action Based"))
+			if (task.getType() == Task.Type.ACTION_BASED)
 				actionBasedTasksList.addActor(newCompletedTask);
 			else
 				nonActionBasedTasksList.addActor(newCompletedTask);
@@ -117,22 +117,23 @@ public class CompletedTasks implements SimulationScreen
 	 * @return an ArrayList of the completed tasks that are going to be displayed.
 	 */
 	private ArrayList<Task> getCompletedTasks()
-	{
-		// TODO replace with functional code when tasks are implemented.
-		
+	{	
 		String[] actionBasedList = { "task 1.1", "task 2.1", "task 3.1", "task 4.1",
 				"task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1",
 				"task 11.1", "task 12.1", "task 13.1", "task 14.1", "task 15.1" };
 		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
 				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
+		// TODO replace with functional code that request completed tasks from company
+		// datta layer when tasks are implemented.
+		
 		ArrayList<Task> availableTasks = new ArrayList<Task>();
 		
 		for (String taskName : actionBasedList)
-			availableTasks.add(new Task(taskName, "Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.ACTION_BASED));
 		
 		for (String taskName : nonActionBasedList)
-			availableTasks.add(new Task(taskName, "Non-Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.NON_ACTION_BASED));
 		
 		return availableTasks;
 	}
@@ -186,15 +187,13 @@ public class CompletedTasks implements SimulationScreen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override

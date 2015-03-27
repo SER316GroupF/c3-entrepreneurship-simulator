@@ -93,7 +93,7 @@ public class TaskManagement extends Table
 				if (checkedButton.isChecked())
 				{
 					if (displayedTasks.get(checkedButton).getType()
-							.equalsIgnoreCase("Action Based"))
+							== Task.Type.ACTION_BASED)
 					{
 						actionBasedTasksList.addActor(checkedButton);
 						actionBasedTasksGroup.add(checkedButton);
@@ -211,7 +211,7 @@ public class TaskManagement extends Table
 		{
 			CheckBox newTaskCheckBox = new CheckBox(" " + task.getName(), skin);
 			displayedTasks.put(newTaskCheckBox, task);
-			if (task.getType().equalsIgnoreCase("Action Based"))
+			if (task.getType() == Task.Type.ACTION_BASED)
 			{
 				actionBasedTasksList.addActor(newTaskCheckBox);
 				actionBasedTasksGroup.add(newTaskCheckBox);
@@ -239,13 +239,16 @@ public class TaskManagement extends Table
 		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
 				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
+		// TODO replace with functional code that request completed tasks from company
+		// datta layer when tasks are implemented.
+		
 		ArrayList<Task> availableTasks = new ArrayList<Task>();
 		
 		for (String taskName : actionBasedList)
-			availableTasks.add(new Task(taskName, "Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.ACTION_BASED));
 		
 		for (String taskName : nonActionBasedList)
-			availableTasks.add(new Task(taskName, "Non-Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.NON_ACTION_BASED));
 		
 		return availableTasks;
 	}

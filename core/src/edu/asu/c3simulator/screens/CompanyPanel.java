@@ -174,7 +174,6 @@ public class CompanyPanel implements SimulationScreen
 		businessButtons.addActor(renameButton);
 		businessButtons.addActor(sellButton);
 		businessButtons.align(Align.center);
-		businessButtons.space(10);
 		
 		return businessButtons;
 	}
@@ -265,15 +264,13 @@ public class CompanyPanel implements SimulationScreen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-		// throw new UnsupportedOperationException("The method is not implemented yet.");
+		// do nothing
 	}
 	
 	@Override
