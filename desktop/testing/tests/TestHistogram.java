@@ -139,6 +139,7 @@ public class TestHistogram
 	public void testDuplicateKeys()
 	{
 		new IntegratedTest() {
+			boolean passed;
 			
 			@Override
 			protected void runGLCode()
@@ -149,17 +150,21 @@ public class TestHistogram
 				try
 				{
 					testTarget = new Histogram<>(value, value2);
+					passed = false;
 				}
 				catch (IllegalArgumentException expected)
 				{
-					fail();
+					passed = true;
 				}
 			}
 			
 			@Override
 			protected void runAssertions()
 			{
-				
+				if (!passed)
+				{
+					fail();
+				}
 			}
 		};
 	}
@@ -168,6 +173,7 @@ public class TestHistogram
 	public void testNegativeConstruct()
 	{
 		new IntegratedTest() {
+			boolean passed;
 			
 			@Override
 			protected void runGLCode()
@@ -177,18 +183,21 @@ public class TestHistogram
 				try
 				{
 					testTarget = new Histogram<>(value);
-					fail();
+					passed = false;
 				}
 				catch (IllegalArgumentException expected)
 				{
-					
+					passed = true;
 				}
 			}
 			
 			@Override
 			protected void runAssertions()
 			{
-				
+				if (!passed)
+				{
+					fail();
+				}
 			}
 		};
 	}

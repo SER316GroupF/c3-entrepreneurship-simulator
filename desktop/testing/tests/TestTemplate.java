@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,10 +28,52 @@ import edu.asu.c3simulator.widgets.SimpleTextField;
  */
 public class TestTemplate
 {
+	private static Object applicationSynch;
+	private static LwjglApplication application;
+	
 	/**
 	 * Subject of these tests
 	 */
 	private Widget testTarget;
+	
+	private static class Monitor implements LifecycleListener
+	{
+		@Override
+		public void pause()
+		{
+			// DO NOTHING
+		}
+		
+		@Override
+		public void resume()
+		{
+			// DO NOTHING
+		}
+		
+		@Override
+		public void dispose()
+		{
+			synchronized (applicationSynch)
+			{
+				applicationSynch.notify();
+			}
+		}
+	}
+	
+	private static void waitForApplicationToExit()
+	{
+		synchronized (applicationSynch)
+		{
+			try
+			{
+				applicationSynch.wait();
+			}
+			catch (InterruptedException e)
+			{
+				
+			}
+		}
+	}
 	
 	/**
 	 * Create an Application that will give access to an OpenGL context as well as a
@@ -41,10 +84,13 @@ public class TestTemplate
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280;
-		config.height = 720;
-		new LwjglApplication(new SandboxApplication(), config);
+		if (application == null)
+		{
+			LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+			config.width = 1280;
+			config.height = 720;
+			application = new LwjglApplication(new SandboxApplication(), config);
+		}
 	}
 	
 	/**
@@ -55,7 +101,7 @@ public class TestTemplate
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception
 	{
-		Gdx.app.exit();
+		
 	}
 	
 	@Before
