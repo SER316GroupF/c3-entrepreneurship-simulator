@@ -188,4 +188,18 @@ public class ProductTestingStub implements Product
 		return null;
 	}
 
+	@Override
+	public int getNumSold()
+	{
+		// TODO Get the actual number sold
+		return 20;
+	}
+
+	@Override
+	public float getTotalWorth()
+	{
+		DecimalFormat df = new DecimalFormat("#.##");
+		return Float.valueOf(df.format(getNumSold() * getSellingPrice()));
+	}
+
 }

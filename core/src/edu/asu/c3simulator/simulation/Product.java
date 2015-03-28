@@ -12,6 +12,8 @@ public interface Product
 	public float getDistributionCost();
 	public float getSellingPrice();
 	public int getEfficiency();
+	public int getNumSold();
+	public float getTotalWorth();
 	public String getLabor();
 	
 	//setters for chainging product names/modifying cost attributes
