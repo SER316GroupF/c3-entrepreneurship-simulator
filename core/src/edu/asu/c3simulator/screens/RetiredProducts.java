@@ -148,9 +148,9 @@ public class RetiredProducts implements Screen
 		Table productButtons = new Table();
 		FileHandle edit = Gdx.files.internal("images/edit.png");
 		productButtons.add(new Image(new Texture(edit))).left().size(100);
-		FileHandle retire = Gdx.files.internal("images/retire.png");
-		productButtons.add(new Image(new Texture(retire))).right().size(100)
-				.space(Value.percentWidth(1.5f));
+		FileHandle relaunch = Gdx.files.internal("images/re-launch.png");
+		productButtons.add(new Image(new Texture(relaunch))).right().size(100)
+				.space(Value.percentWidth(1f));
 		productInfo.add(productButtons).left();
 		ScrollPane productPane = new ScrollPane(productInfo.top(), skin);
 		return productPane;
