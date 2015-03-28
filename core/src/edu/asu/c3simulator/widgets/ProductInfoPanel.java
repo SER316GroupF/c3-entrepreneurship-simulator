@@ -21,9 +21,12 @@ import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
 public class ProductInfoPanel
 {
 	Table productInfo;
+	Product testProduct;
+	Skin skin;
 	public ProductInfoPanel(Skin skin){
 		// TODO: remove product interface, implement actual product class, refresh product info
-		Product testProduct = new ProductTestingStub();
+		this.skin = skin;
+		testProduct = new ProductTestingStub();
 		productInfo = new Table(skin);
 		Label text = new Label("Production cost: $"
 				+ testProduct.getProductionCost(), skin);
@@ -54,6 +57,18 @@ public class ProductInfoPanel
 				+ testProduct.getSellingPrice(), skin);
 		productInfo.add(text7).left().row();
 		productInfo.add("").expand().row();
+	}
+	//added lines for product history panel
+	public void historyPanel(){
+		Label labelSold = new Label("Total sold: " + testProduct.getNumSold(),
+				skin);
+		productInfo.add(labelSold).left().row();
+		productInfo.add("").row();
+		Label labelWorth = new Label("Total worth: $" + testProduct.getTotalWorth(),
+				skin);
+		productInfo.add(labelWorth).left().row();
+		productInfo.add("").row();
+		productInfo.add();
 	}
 	public Table getProductInfo(){
 		return productInfo;
