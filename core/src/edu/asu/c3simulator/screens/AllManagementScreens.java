@@ -17,7 +17,7 @@ import com.badlogic.gdx.Screen;
  */
 public enum AllManagementScreens
 {
-	PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, GROWTH_DEMAND, EMPLOYMENT, MARKETING;
+	PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, PRODUCT_HISTORY, GROWTH_DEMAND, EMPLOYMENT, MARKETING;
 
 	/**
 	 * True if {@link #initialize(Game)} has been called. This value must be
@@ -36,6 +36,7 @@ public enum AllManagementScreens
 			PRE_MARKET.instance = new PreMarketProducts(game);
 			CURRENT_PRODUCTS.instance = new CurrentProducts(game);
 			RETIRED_PRODUCTS.instance = new RetiredProducts(game);
+			PRODUCT_HISTORY.instance = new ProductHistory(game);
 			CURRENT_PRODUCTS_GROWTH.instance = null;
 			GROWTH_DEMAND.instance = null;
 			EMPLOYMENT.instance = null;
@@ -43,6 +44,7 @@ public enum AllManagementScreens
 			((PreMarketProducts) PRE_MARKET.instance).initialize();
 			((RetiredProducts) RETIRED_PRODUCTS.instance).initialize();
 			((CurrentProducts) CURRENT_PRODUCTS.instance).initialize();
+			((ProductHistory) PRODUCT_HISTORY.instance).initialize();
 			// TODO: initialize more as they are created
 		}
 	}

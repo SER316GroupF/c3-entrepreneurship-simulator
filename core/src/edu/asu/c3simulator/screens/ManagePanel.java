@@ -40,6 +40,8 @@ public class ManagePanel extends Table
 				AllManagementScreens.CURRENT_PRODUCTS.getInstance());
 		navigation.addSubButton("Products", "Retired Products",
 				AllManagementScreens.RETIRED_PRODUCTS.getInstance());
+		navigation.addSubButton("Products", "Product History",
+				AllManagementScreens.PRODUCT_HISTORY.getInstance());
 		// Growth Sub Buttons
 		navigation.addSubButton("Growth", "Current Products Growth", null);
 		navigation.addSubButton("Growth", "Demand", null);
