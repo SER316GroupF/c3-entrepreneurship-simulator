@@ -1,5 +1,6 @@
 package edu.asu.c3simulator.simulation.business;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
  */
 public class Company
 {
+	public static final int DEFAULT_PUBLIC_OPINION = 10;
+	
 	private String name;
 	private List<Employee> employees;
 	
@@ -28,6 +31,7 @@ public class Company
 	 */
 	private HashMap<Product, ProductionInformation> productLine;
 	
+	// XXX: These hash maps can be refactored down to a single map using nodes
 	private HashMap<Product, Integer> inventory;
 	private HashMap<Product, Integer> salesInCurrentMonth;
 	private HashMap<Product, Float> retailPrice;
@@ -37,6 +41,56 @@ public class Company
 	
 	private HashMap<Product, Integer> publicOpinionOfProducts;
 	private int publicOpinionOfCompany;
+	
+	/**
+	 * Initialize a company with no products, employees, sales outlets, inventory, or
+	 * debt. The public opinion of the company will be set to
+	 * {@link #DEFAULT_PUBLIC_OPINION}
+	 * 
+	 * @param name
+	 *            Name of the company
+	 * @param initialCapital
+	 *            Starting funds of the company
+	 */
+	public Company(String name, float initialCapital)
+	{
+		this.name = name;
+		this.credit = new Credit(initialCapital);
+		this.publicOpinionOfCompany = DEFAULT_PUBLIC_OPINION;
+		
+		this.employees = new ArrayList<>();
+		this.productLine = new HashMap<>();
+		this.inventory = new HashMap<>();
+		this.salesInCurrentMonth = new HashMap<>();
+		this.retailPrice = new HashMap<>();
+		this.activeMarketing = new LinkedList<>();
+		this.salesOutlets = new ArrayList<>();
+		this.publicOpinionOfProducts = new HashMap<>();
+	}
+	
+	/**
+	 * Add a product to this company's product line. This company will produce and sell
+	 * the product as soon as possible.
+	 * 
+	 * @param information
+	 *            Specifies what product is being added, and how it is being produced.
+	 * @param retailPrice
+	 *            How much each unit of this product will be sold to consumers for
+	 * 
+	 * @see ProductionInformation
+	 */
+	public void addProduct(ProductionInformation information, float retailPrice)
+	{
+		if (retailPrice < 0)
+		{
+			throw new IllegalArgumentException("Retail Price must be non-negative!");
+		}
+		
+		Product product = information.getTarget();
+		
+		this.productLine.put(product, information);
+		this.retailPrice.put(product, retailPrice);
+	}
 	
 	/**
 	 * Simulates the sale of a product, by calculating profits and adding it to the
@@ -50,7 +104,7 @@ public class Company
 	 * @param quantity
 	 *            The quantity to buy/sell
 	 * @return True if the sale was successful, false if the sale was unable to be
-	 *         processed. Note, a false return is indicitive of the quantity being too
+	 *         processed. Note, a false return is indicative of the quantity being too
 	 *         high for this company to support a sale. For instance, the quantity may
 	 *         cause the company to exceed its monthly sales potential, as specified by
 	 *         {@link #getMonthlySalePotential(Product)}
@@ -63,12 +117,20 @@ public class Company
 		{
 			return false;
 		}
-		else
+		else if (quantity > getSaleCapacity(product))
+		{
+			return false;
+		}
+		else if (isSellerOf(product))
 		{
 			float grossProfit = getRetailPriceOf(product) * quantity;
 			credit.processGrossProfit(grossProfit);
 			this.salesInCurrentMonth.put(product, salesInCurrentMonth);
 			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
@@ -180,7 +242,7 @@ public class Company
 	 * <p>
 	 * Otherwise, the corresponding value in {@link #inventory} will be returned.
 	 */
-	private int getInventoryOf(Product product)
+	public int getInventoryOf(Product product)
 	{
 		if (inventory.containsKey(product))
 		{
@@ -369,6 +431,16 @@ public class Company
 	public int getPublicOpinionOfCompany()
 	{
 		return publicOpinionOfCompany;
+	}
+	
+	/**
+	 * @param product
+	 *            Target
+	 * @return True if this company sells the target product. False otherwise.
+	 */
+	public boolean isSellerOf(Product product)
+	{
+		return productLine.containsKey(product);
 	}
 	
 }

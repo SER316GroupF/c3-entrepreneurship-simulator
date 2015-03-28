@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.util.Association;
+import edu.asu.c3simulator.util.Support;
 
 /**
  * Pie chart. See <a href="http://en.wikipedia.org/wiki/Pie_chart">Pie Chart</a>
@@ -36,11 +37,22 @@ public class PieChart<K> extends AbstractChart<K, Float>
 		
 		this.radius = 50;
 		
+		validate(firstValue);
 		this.add(firstValue.getKey(), firstValue.getValue());
 		
 		for (Association<K, Float> value : additionalValues)
 		{
+			validate(value);
+			
 			this.add(value.getKey(), value.getValue());
+		}
+	}
+	
+	private void validate(Association<K, Float> value)
+	{
+		if (value.getValue() < 0)
+		{
+			throw new IllegalArgumentException("Negative values not supported");
 		}
 	}
 	
@@ -64,7 +76,7 @@ public class PieChart<K> extends AbstractChart<K, Float>
 		
 		for (Float value : values.values())
 		{
-			total += value;
+			total = Support.validatedAddition(total, value.floatValue());
 		}
 		
 		return total;
