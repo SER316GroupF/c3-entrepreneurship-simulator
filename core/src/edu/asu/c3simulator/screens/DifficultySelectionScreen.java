@@ -79,7 +79,6 @@ public class DifficultySelectionScreen implements Screen
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Easy");
 				game.setScreen(new MainHub(game));
@@ -91,7 +90,6 @@ public class DifficultySelectionScreen implements Screen
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Hard");
 				game.setScreen(new MainHub(game));
