@@ -95,8 +95,7 @@ public class CurrentProducts implements Screen
 	 */
 	public void initialize()
 	{
-		manage = new ManagePanel(game);
-		stage.addActor(manage);
+		manage = new ManagePanel(game, stage);
 	}
 
 	/**

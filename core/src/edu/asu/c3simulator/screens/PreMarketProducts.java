@@ -31,6 +31,7 @@ import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.ProductDesigns;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
 import edu.asu.c3simulator.widgets.SellCompany;
 
@@ -93,8 +94,7 @@ public class PreMarketProducts implements Screen
 	 */
 	public void initialize()
 	{
-		manage = new ManagePanel(game);
-		stage.addActor(manage);
+		manage = new ManagePanel(game, stage);
 	}
 
 	/**
@@ -108,23 +108,26 @@ public class PreMarketProducts implements Screen
 		TextButton text = new TextButton("Designs", skin);
 		text.setDisabled(true);
 		text.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		
+		
 
 		Table productTable = new Table();
-		// TODO: replace with real products and product icons.
-		productTable.add(new HomeButton(game));
-		productTable.add(new HomeButton(game));
-		productTable.add(new HomeButton(game));
-		productTable.row();
-		productTable.add(new HomeButton(game));
-		productTable.add(new HomeButton(game));
-		productTable.row();
-		productTable.add(new HomeButton(game));
-		productTable.row();
-		productTable.add(new HomeButton(game));
+		Table testTable = new Table();
+		ProductDesigns newProductPopupWindow = new ProductDesigns(testTable, stage, skin);
 		// button for creating new products
 		Table createNewTable = new Table();
+		
 		FileHandle img = Gdx.files.internal("images/Create-new.png");
-		createNewTable.add(new Image(new Texture(img)));
+		Image newProductButton = new Image(new Texture(img));
+		newProductButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				newProductPopupWindow.displayProductDesignOptions();
+			}
+			});
+		productTable.add(testTable);
+		createNewTable.add(newProductButton);
 		createNewTable.row();
 		createNewTable.add(new Label("Create new", skin));
 		productTable.add(createNewTable);
