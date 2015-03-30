@@ -69,13 +69,13 @@ public class MainHub implements Screen
 		//advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 		navigation = new NavigationPanel(game, skin);
 
-		navigation.addButton("Businesses", game.getScreen());
+		navigation.addButton("Businesses", null);
 		navigation.addButton("Manage",
 				AllManagementScreens.PRE_MARKET.getInstance());
-		navigation.addButton("Council", game.getScreen());
-		navigation.addSubButton("Businesses", "1.Create New", game.getScreen());
-		navigation.addSubButton("Businesses", "2.Create New", game.getScreen());
-		navigation.addSubButton("Businesses", "3.Create New", game.getScreen());
+		navigation.addButton("Council", AllManagementScreens.COMPANY_PANEL.getInstance());
+		navigation.addSubButton("Businesses", "1.Create New", null);
+		navigation.addSubButton("Businesses", "2.Create New", null);
+		navigation.addSubButton("Businesses", "3.Create New", null);
 
 		Label playerLabel = new Label("Player", skin);
 		playerLabel.setPosition(40, 680);
