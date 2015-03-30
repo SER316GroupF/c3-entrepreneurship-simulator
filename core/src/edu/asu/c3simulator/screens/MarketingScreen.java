@@ -314,11 +314,11 @@ public class MarketingScreen implements SimulationScreen
 	private Product[] getProducts()
 	{
 		// TODO get current product products from the data layer of the company.
-		Product[] products = { new Product("T-shirt 1", "default"),
-				new Product("T-shirt 2", "default"), new Product("Short 1", "default"),
-				new Product("Short 2", "default"), new Product("Hoodie 1", "default"),
-				new Product("Pants 1", "default"), new Product("Pants 2", "default"),
-				new Product("Pants 3", "default"), new Product("Pants 4", "default") };
+		Product[] products = { new Product("T-shirt 1"),
+				new Product("T-shirt 2"), new Product("Short 1"),
+				new Product("Short 2"), new Product("Hoodie 1"),
+				new Product("Pants 1"), new Product("Pants 2"),
+				new Product("Pants 3"), new Product("Pants 4") };
 		return products;
 	}
 	
