@@ -12,7 +12,7 @@ public class Credit
 	private static final float LIMIT_INCREASE_FACTOR = 0.05f;
 	private static final float DEFAULT_INTEREST_RATE = 0.05f;
 	private static final float DEFAULT_CREDIT_LIMIT = 10000;
-	private static final float DEFAULT_PENALTY = 10000;
+	private static final float DEFAULT_PENALTY = 500;
 	
 	private float limit;
 	private float currentlyOwed;
@@ -61,7 +61,7 @@ public class Credit
 	 * @return The maximum amount of loans this account is allowed to accrue at any given
 	 *         time.
 	 */
-	public float getLimit()
+	public float getCreditLimit()
 	{
 		return limit;
 	}
@@ -96,6 +96,7 @@ public class Credit
 	 */
 	public void makePayment(float amount)
 	{
+		capital -= amount;
 		amountPayedInCurrentMonth += amount;
 		currentlyOwed -= amount;
 	}
@@ -110,7 +111,7 @@ public class Credit
 	{
 		float maxAmount = limit - currentlyOwed;
 		
-		return amount <= maxAmount;
+		return (amount <= maxAmount) && (amount >= 0);
 	}
 	
 	/**

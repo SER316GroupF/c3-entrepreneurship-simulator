@@ -1,17 +1,15 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.asu.c3simulator.testing.automated.IntegratedTest;
 import edu.asu.c3simulator.util.Association;
 import edu.asu.c3simulator.widgets.Histogram;
-import edu.asu.c3simulator.widgets.PieChart;
 
 public class TestHistogram
 {
@@ -141,6 +139,7 @@ public class TestHistogram
 	public void testDuplicateKeys()
 	{
 		new IntegratedTest() {
+			boolean passed;
 			
 			@Override
 			protected void runGLCode()
@@ -151,17 +150,21 @@ public class TestHistogram
 				try
 				{
 					testTarget = new Histogram<>(value, value2);
+					passed = false;
 				}
 				catch (IllegalArgumentException expected)
 				{
-					fail();
+					passed = true;
 				}
 			}
 			
 			@Override
 			protected void runAssertions()
 			{
-				
+				if (!passed)
+				{
+					fail();
+				}
 			}
 		};
 	}
@@ -170,6 +173,7 @@ public class TestHistogram
 	public void testNegativeConstruct()
 	{
 		new IntegratedTest() {
+			boolean passed;
 			
 			@Override
 			protected void runGLCode()
@@ -179,18 +183,21 @@ public class TestHistogram
 				try
 				{
 					testTarget = new Histogram<>(value);
-					fail();
+					passed = false;
 				}
 				catch (IllegalArgumentException expected)
 				{
-					
+					passed = true;
 				}
 			}
 			
 			@Override
 			protected void runAssertions()
 			{
-				
+				if (!passed)
+				{
+					fail();
+				}
 			}
 		};
 	}

@@ -112,8 +112,10 @@ public class TestPieChart
 			@Override
 			protected void runGLCode()
 			{
-				Association<String, Float> value = new Association<>("Test1", Float.POSITIVE_INFINITY);
-				Association<String, Float> value2 = new Association<>("Test2", Float.POSITIVE_INFINITY);
+				Association<String, Float> value = new Association<>("Test1",
+						Float.POSITIVE_INFINITY);
+				Association<String, Float> value2 = new Association<>("Test2",
+						Float.POSITIVE_INFINITY);
 				Association<String, Float> value3 = new Association<>("Test3", 1.0f);
 				Association<String, Float> value4 = new Association<>("Test4", 9.0f);
 				testTarget = new PieChart<>(value, value2, value3, value4);
@@ -169,6 +171,7 @@ public class TestPieChart
 	public void testNegativeConstruct()
 	{
 		new IntegratedTest() {
+			private boolean passed;
 			
 			@Override
 			protected void runGLCode()
@@ -178,18 +181,21 @@ public class TestPieChart
 				try
 				{
 					testTarget = new PieChart<>(value);
-					fail();
+					passed = false;
 				}
 				catch (IllegalArgumentException expected)
 				{
-					
+					passed = true;
 				}
 			}
 			
 			@Override
 			protected void runAssertions()
 			{
-				
+				if (!passed)
+				{
+					fail();
+				}
 			}
 		};
 	}
