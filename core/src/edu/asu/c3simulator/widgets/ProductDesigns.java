@@ -14,25 +14,24 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.asu.c3simulator.util.Product;
 
 /**
- * This class creates a popup window that display all designs to the user in order to
- * create a new product and return the product create to the table it is going to be
- * displayed on.
+ * Creates a popup window that display all designs to the user in order to create a new
+ * product and return the product create to the table it is going to be displayed on.
  * 
  * @author Alyahya, Mohammed
  */
 public class ProductDesigns
 {
 	/**
-	 * This listener checks if any of the icons is clicked and attempts appropriate
-	 * action.
+	 * This listener checks if any of the icons is clicked and then proceeds to add it to
+	 * the products display table.
 	 * 
 	 * @author Alyahya, Mohammed
 	 */
-	private class productIconListener extends ClickListener
+	private class ProductIconListener extends ClickListener
 	{
 		private Product associatedProduct;
 		
-		public productIconListener(Product associatedProduct)
+		public ProductIconListener(Product associatedProduct)
 		{
 			this.associatedProduct = associatedProduct;
 		}
@@ -43,13 +42,6 @@ public class ProductDesigns
 			Table newProduct = new Table();
 			Label productLabel = new Label(associatedProduct.getName(), skin);
 			Image productIcon = associatedProduct.getProductImage();
-			productIcon.addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y)
-				{
-					
-				}
-			});
 			
 			newProduct.add(productIcon).size(100f).row();
 			newProduct.add(productLabel);
@@ -91,12 +83,12 @@ public class ProductDesigns
 		Table productGrid = new Table();
 		Product[] products = getAvailableProducts();
 		
-		for (int i = 0; i < products.length; i++)
+		for (int productIndex = 0; productIndex < products.length; productIndex++)
 		{
 			Table newProduct = new Table();
-			Label productLabel = new Label(products[i].getName(), skin);
-			Image productIcon = products[i].getProductImage();
-			productIcon.addListener(new productIconListener(products[i]));
+			Label productLabel = new Label(products[productIndex].getName(), skin);
+			Image productIcon = products[productIndex].getProductImage();
+			productIcon.addListener(new ProductIconListener(products[productIndex]));
 			
 			newProduct.add(productIcon).size(0.20f * stage.getWidth(),
 					0.40f * stage.getHeight());
@@ -104,7 +96,7 @@ public class ProductDesigns
 			
 			productGrid.add(newProduct).space(15);
 			
-			if (i != products.length - 1)
+			if (productIndex != products.length - 1)
 				productGrid.row();
 		}
 		
@@ -124,7 +116,7 @@ public class ProductDesigns
 	}
 	
 	/**
-	 * This method should get available designs from the game and return it
+	 * Get available designs from the game and return it.
 	 * 
 	 * @return an array of the available designs of products.
 	 */

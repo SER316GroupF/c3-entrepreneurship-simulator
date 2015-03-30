@@ -3,6 +3,7 @@ package edu.asu.c3simulator.screens;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -20,17 +21,21 @@ import com.badlogic.gdx.utils.Array;
 import edu.asu.c3simulator.util.Task;
 
 /**
- * This class creates and displays the GUI component for managing tasks. The class
- * separates available tasks into Action Based and Non-Action Based categories. The user
- * can check all the tasks they want and press the add tasks button for tasks to be moved
- * to the selected tasks column. Also, it is possible to remove tasks from the current
- * tasks back to their categories by checking them and clicking the remove button.
+ * Creates and displays the GUI component for managing tasks. The class separates
+ * available tasks into Action Based and Non-Action Based categories. The user can check
+ * all the tasks they want and press the add tasks button for tasks to be moved to the
+ * selected tasks column. Also, it is possible to remove tasks from the current tasks back
+ * to their categories by checking them and clicking the remove button.
  * 
  * @author Alyahya, Mohammed
  */
 public class TaskManagement extends Table
 {
-	private class addTasksButtonListener extends ClickListener
+	/**
+	 * Listens to the "Add Tasks" button. Moves all the checked tasks to the chosen tasks
+	 * list.
+	 */
+	private class AddTasksButtonListener extends ClickListener
 	{
 		@Override
 		public void clicked(InputEvent event, float x, float y)
@@ -71,7 +76,11 @@ public class TaskManagement extends Table
 		}
 	}
 	
-	private class removeTasksButtonListener extends ClickListener
+	/**
+	 * Listens to the "Remove" button. Moves all the checked tasks to the avialable tasks
+	 * list based on their type.
+	 */
+	private class RemoveTasksButtonListener extends ClickListener
 	{
 		@Override
 		public void clicked(InputEvent event, float x, float y)
@@ -81,11 +90,10 @@ public class TaskManagement extends Table
 			for (int index = 1; index <= numberOfButtons; index++)
 			{
 				Button checkedButton = chosenTasks.get(numberOfButtons - index);
-				CheckBox checkBoxButton = (CheckBox) checkedButton;
 				if (checkedButton.isChecked())
 				{
-					if (displayedTasks.get(checkBoxButton).getType()
-							.equalsIgnoreCase("Action Based"))
+					if (displayedTasks.get(checkedButton).getType()
+							== Task.Type.ACTION_BASED)
 					{
 						actionBasedTasksList.addActor(checkedButton);
 						actionBasedTasksGroup.add(checkedButton);
@@ -109,7 +117,7 @@ public class TaskManagement extends Table
 	private VerticalGroup actionBasedTasksList, nonActionBasedTasksList, chosenTasksList;
 	private ButtonGroup actionBasedTasksGroup, nonActionBasedTasksGroup,
 			chosenTasksGroup;
-	private Hashtable<CheckBox, Task> displayedTasks;
+	private Hashtable<Button, Task> displayedTasks;
 	
 	/**
 	 * @param stage
@@ -120,7 +128,7 @@ public class TaskManagement extends Table
 	{
 		this.skin = skin;
 		
-		displayedTasks = new Hashtable<CheckBox, Task>();
+		displayedTasks = new Hashtable<Button, Task>();
 		
 		this.setSize(0.70f * stage.getWidth(), 0.70f * stage.getHeight());
 		
@@ -131,12 +139,12 @@ public class TaskManagement extends Table
 		
 		TextButton actionBasedLabel = new TextButton("Action Based", skin);
 		actionBasedLabel.setDisabled(true);
-		actionBasedLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		actionBasedLabel.setColor(Color.GRAY);
 		TextButton nonActionBasedLabel = new TextButton("Non-Action Based", skin);
 		nonActionBasedLabel.setDisabled(true);
-		nonActionBasedLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		nonActionBasedLabel.setColor(Color.GRAY);
 		TextButton addTasksButton = new TextButton("Add Tasks", skin);
-		addTasksButton.addListener(new addTasksButtonListener());
+		addTasksButton.addListener(new AddTasksButtonListener());
 		
 		actionBasedTasksList = new VerticalGroup();
 		nonActionBasedTasksList = new VerticalGroup();
@@ -166,14 +174,14 @@ public class TaskManagement extends Table
 		
 		TextButton tasksListLabel = new TextButton("Chosen Tasks", skin);
 		tasksListLabel.setDisabled(true);
-		tasksListLabel.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		tasksListLabel.setColor(Color.GRAY);
 		chosenTasksList = new VerticalGroup();
 		chosenTasksGroup = new ButtonGroup();
 		chosenTasksGroup.setMaxCheckCount(-1);
 		chosenTasksGroup.setMinCheckCount(0);
 		ScrollPane chosenTasksScroll = new ScrollPane(chosenTasksList, skin);
 		TextButton removeTasksButton = new TextButton("remove", skin);
-		removeTasksButton.addListener(new removeTasksButtonListener());
+		removeTasksButton.addListener(new RemoveTasksButtonListener());
 		
 		leftSection.add(tasksListLabel).fillX().align(Align.center);
 		leftSection.row();
@@ -203,7 +211,7 @@ public class TaskManagement extends Table
 		{
 			CheckBox newTaskCheckBox = new CheckBox(" " + task.getName(), skin);
 			displayedTasks.put(newTaskCheckBox, task);
-			if (task.getType().equalsIgnoreCase("Action Based"))
+			if (task.getType() == Task.Type.ACTION_BASED)
 			{
 				actionBasedTasksList.addActor(newTaskCheckBox);
 				actionBasedTasksGroup.add(newTaskCheckBox);
@@ -231,13 +239,16 @@ public class TaskManagement extends Table
 		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
 				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
+		// TODO replace with functional code that request completed tasks from company
+		// datta layer when tasks are implemented.
+		
 		ArrayList<Task> availableTasks = new ArrayList<Task>();
 		
 		for (String taskName : actionBasedList)
-			availableTasks.add(new Task(taskName, "Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.ACTION_BASED));
 		
 		for (String taskName : nonActionBasedList)
-			availableTasks.add(new Task(taskName, "Non-Action Based"));
+			availableTasks.add(new Task(taskName, Task.Type.NON_ACTION_BASED));
 		
 		return availableTasks;
 	}
@@ -264,8 +275,7 @@ public class TaskManagement extends Table
 		Array<Button> chosenTaskButtons = chosenTasksGroup.getButtons();
 		for (Button checkedButton : chosenTaskButtons)
 		{
-			CheckBox checkBoxButton = (CheckBox) checkedButton;
-			chosenTasks.add(displayedTasks.get(checkBoxButton));
+			chosenTasks.add(displayedTasks.get(checkedButton));
 		}
 		
 		return chosenTasks;

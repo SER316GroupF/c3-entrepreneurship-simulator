@@ -1,17 +1,15 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.asu.c3simulator.testing.automated.IntegratedTest;
 import edu.asu.c3simulator.util.Association;
 import edu.asu.c3simulator.widgets.Histogram;
-import edu.asu.c3simulator.widgets.PieChart;
 
 public class TestHistogram
 {

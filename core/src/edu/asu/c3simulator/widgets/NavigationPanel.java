@@ -1,10 +1,14 @@
 package edu.asu.c3simulator.widgets;
 
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,70 +16,100 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
- * This class creates a navigation panel by creating the buttons and linking them with
- * their screens. It also supports having one level of sub-buttons to a parent button. A
- * parent button will only show and hide sub-buttons when clicked. Only one of the parent
- * buttons can show its sub-buttons at the same time. If a parent button is clicked, the
- * already extended sub-buttons will collapse before extending the new set of sub-buttons.
+ * Logically, {@link NavigationPanel} is a tree of buttons, each of which either expands a
+ * branch of the tree (displays "sub-buttons"), or redirects the application to a
+ * different screen.
+ * <p>
+ * A parent button will only show and hide sub-buttons when clicked. Only one of the
+ * parent buttons can show its sub-buttons at the same time. If a parent button is
+ * clicked, the already extended sub-buttons will collapse before extending the new set of
+ * sub-buttons.
  * 
  * @author Alyahya, Mohammed
+ * @author Moore, Zachary
  */
 public class NavigationPanel extends Table
 {
-	private class NavigationButtonListener extends ClickListener
+	/**
+	 * Functions as a node for storing meta-data related to each button, including it's
+	 * sub-buttons and actor, and functions as the button's listener.
+	 */
+	private class ButtonNodeListener extends ClickListener
 	{
-		String screenName;
 		Screen targetedScreen;
+		Table targetedButton;
+		List<ButtonNodeListener> subButtons;
 		
-		public NavigationButtonListener(String screenName, Screen targetedScreen)
+		public ButtonNodeListener(Screen targetedScreen, Table targetedButton)
 		{
-			this.screenName = screenName;
 			this.targetedScreen = targetedScreen;
+			this.targetedButton = targetedButton;
+			this.subButtons = new LinkedList<>();
 		}
 		
-		@Override
-		public void clicked(InputEvent event, float x, float y)
+		public void addSubButton(ButtonNodeListener subButton)
 		{
-			System.out.println(screenName);
-			game.setScreen(targetedScreen);
-		}
-	}
-	
-	private class CollapsibleButtonListener extends ClickListener
-	{
-		String screenName;
-		
-		public CollapsibleButtonListener(String screenName)
-		{
-			this.screenName = screenName;
-		}
-		
-		@Override
-		public void clicked(InputEvent event, float x, float y)
-		{
-			if (displayedCollapsibleButton.equalsIgnoreCase(screenName))
-				displayedCollapsibleButton = "";
-			else
-				displayedCollapsibleButton = screenName;
+			subButtons.add(subButton);
 			recreateNavigationPanel();
+		}
+		
+		public void expand()
+		{
+			expandedButton = this;
+			recreateNavigationPanel();
+		}
+		
+		public void collapse()
+		{
+			expandedButton = null;
+			recreateNavigationPanel();
+		}
+		
+		public boolean isRedirect()
+		{
+			return subButtons.isEmpty();
+		}
+		
+		public void activateRedirect()
+		{
+			if (targetedScreen != null)
+				game.setScreen(targetedScreen);
+		}
+		
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			if (this.isRedirect())
+				activateRedirect();
+			else if (this == expandedButton)
+				collapse();
+			else
+				expand();
 		}
 	}
 	
 	private Game game;
 	private Skin skin;
-	private LinkedHashMap<String, Screen> buttons;
-	private LinkedHashMap<String, LinkedHashMap<String, Screen>> subButtons;
-	private float panelWidth = 0, panelHeight = 0, leftEdge_X = 0, bottomEdge_Y = 0;
+	
+	/** Keeps track of all buttons currently */
+	private Map<String, ButtonNodeListener> buttons;
+	private List<ButtonNodeListener> topButtons;
+	
+	/** The physical bounds of this panel, in pixels, positioned by it's top-left corner */
+	private Rectangle bounds;
 	private int spaceBetweenButtons = 5;
-	private String displayedCollapsibleButton = "";
+	
+	/** The name of the currently open collapsible button displaying its sub-buttons */
+	private ButtonNodeListener expandedButton;
 	
 	public NavigationPanel(Game game, Skin skin)
 	{
 		super();
 		this.game = game;
 		this.skin = skin;
-		buttons = new LinkedHashMap<String, Screen>();
-		subButtons = new LinkedHashMap<String, LinkedHashMap<String, Screen>>();
+		buttons = new HashMap<>();
+		topButtons = new LinkedList<>();
+		bounds = new Rectangle();
 	}
 	
 	/**
@@ -89,10 +123,14 @@ public class NavigationPanel extends Table
 	 */
 	public void addButton(String buttonName, Screen targetedScreen)
 	{
-		buttons.put(buttonName, targetedScreen);
-		createAndLinkButton(buttonName, targetedScreen);
-		row();
-		setLocation();
+		TextButton button = new TextButton(buttonName, skin);
+		ButtonNodeListener node = new ButtonNodeListener(targetedScreen, button);
+		button.addListener(node);
+		
+		buttons.put(buttonName, node);
+		topButtons.add(node);
+		
+		recreateNavigationPanel();
 	}
 	
 	/**
@@ -108,28 +146,12 @@ public class NavigationPanel extends Table
 	 *            The screen that the button maps to. If null, no actionListener will be
 	 *            added to the button.
 	 */
-	public boolean addSubButton(String parentButtonName, String buttonName,
+	public void addSubButton(String parentButtonName, String buttonName,
 			Screen targetedScreen)
 	{
-		String storedParentButtonName = storedButtonName(parentButtonName);
-		if (!storedParentButtonName.equalsIgnoreCase(""))
-		{
-			if (subButtons.containsKey(storedParentButtonName))
-			{
-				LinkedHashMap<String, Screen> relativeSubButtons = subButtons
-						.get(storedParentButtonName);
-				relativeSubButtons.put(buttonName, targetedScreen);
-			}
-			else
-			{
-				LinkedHashMap<String, Screen> newSubButtons = new LinkedHashMap<String, Screen>();
-				newSubButtons.put(buttonName, targetedScreen);
-				subButtons.put(storedParentButtonName, newSubButtons);
-			}
-			recreateNavigationPanel();
-			return true;
-		}
-		return false;
+		ButtonNodeListener parent = buttons.get(parentButtonName);
+		ButtonNodeListener subButton = createSubButton(buttonName, targetedScreen);
+		parent.addSubButton(subButton);
 	}
 	
 	/**
@@ -142,34 +164,9 @@ public class NavigationPanel extends Table
 	 */
 	public void removeButton(String buttonName)
 	{
-		String storedButtonName = storedButtonName(buttonName);
-		if (!storedButtonName.equalsIgnoreCase(""))
-		{
-			buttons.remove(buttonName);
-			subButtons.remove(buttonName);
-			recreateNavigationPanel();
-		}
-		else
-			removeSubButton(buttonName);
-	}
-	
-	private void removeSubButton(String buttonName)
-	{
-		Set<String> buttonNames = buttons.keySet();
-		for (String storedButtonName : buttonNames)
-		{
-			LinkedHashMap<String, Screen> subButtonsHashtable = subButtons
-					.get(storedButtonName);
-			Set<String> subButtonNames = subButtonsHashtable.keySet();
-			for (String subButtonName : subButtonNames)
-			{
-				if (subButtonName.equalsIgnoreCase(buttonName))
-				{
-					subButtonsHashtable.remove(subButtonName);
-					recreateNavigationPanel();
-				}
-			}
-		}
+		ButtonNodeListener node = buttons.get(buttonName);
+		buttons.remove(buttonName);
+		topButtons.remove(node);
 	}
 	
 	/**
@@ -183,109 +180,61 @@ public class NavigationPanel extends Table
 	 */
 	public void changeTargetedScreen(String buttonName, Screen targetedScreen)
 	{
-		String storedButtonName = storedButtonName(buttonName);
-		if (!storedButtonName.equalsIgnoreCase(""))
-		{
-			buttons.put(storedButtonName, targetedScreen);
-			recreateNavigationPanel();
-		}
-		else
-			changeSubButtonTargetedScreen(buttonName, targetedScreen);
-	}
-	
-	private void changeSubButtonTargetedScreen(String buttonName, Screen targetedScreen)
-	{
-		Set<String> buttonNames = buttons.keySet();
-		for (String storedButtonName : buttonNames)
-		{
-			LinkedHashMap<String, Screen> subButtonsHashtable = subButtons
-					.get(storedButtonName);
-			Set<String> subButtonNames = subButtonsHashtable.keySet();
-			for (String subButtonName : subButtonNames)
-			{
-				if (subButtonName.equalsIgnoreCase(buttonName))
-				{
-					subButtonsHashtable.put(subButtonName, targetedScreen);
-					recreateNavigationPanel();
-				}
-			}
-		}
+		ButtonNodeListener node = buttons.get(buttonName);
+		node.targetedScreen = targetedScreen;
 	}
 	
 	private void recreateNavigationPanel()
 	{
 		clearChildren();
-		panelWidth = 0;
-		panelHeight = 0;
-		Set<String> buttonNames = buttons.keySet();
-		for (String buttonName : buttonNames)
+		bounds.width = 0;
+		bounds.height = 0;
+		
+		for (ButtonNodeListener node : topButtons)
 		{
-			createAndLinkButton(buttonName, buttons.get(buttonName));
-			row();
-			if (displayedCollapsibleButton.equalsIgnoreCase(buttonName)
-					&& subButtons.containsKey(buttonName))
+			addButtonToPhysicalTable(node.targetedButton);
+			if (node == expandedButton)
 			{
-				LinkedHashMap<String, Screen> subButtonsHashtable = subButtons
-						.get(buttonName);
-				Set<String> subButtonNames = subButtonsHashtable.keySet();
-				for (String subButtonName : subButtonNames)
+				for (ButtonNodeListener subNode : node.subButtons)
 				{
-					createAndLinkSubButton(subButtonName,
-							subButtonsHashtable.get(subButtonName));
-					row();
+					addButtonToPhysicalTable(subNode.targetedButton);
 				}
 			}
 		}
+		
 		setLocation();
 	}
 	
-	private void createAndLinkButton(String buttonName, Screen targetedScreen)
+	private void addButtonToPhysicalTable(Table button)
 	{
-		TextButton newButton = new TextButton(buttonName, skin);
-		
-		if (subButtons.containsKey(buttonName))
-			newButton.addListener(new CollapsibleButtonListener(buttonName));
-		else if (targetedScreen != null)
-			newButton
-					.addListener(new NavigationButtonListener(buttonName, targetedScreen));
-		
-		setPanelSize(newButton.getPrefWidth(), newButton.getPrefHeight());
-		add(newButton).expandX().fillX().spaceBottom(spaceBetweenButtons);
+		adjustPanelSize(button.getPrefWidth(), button.getPrefHeight());
+		add(button).expandX().fillX().spaceBottom(spaceBetweenButtons);
+		row();
 	}
 	
-	private void createAndLinkSubButton(String buttonName, Screen targetedScreen)
+	private void adjustPanelSize(float newButtonWidth, float newButtonHeight)
 	{
-		Table newTable = new Table();
-		TextButton newButton = new TextButton(buttonName, skin);
+		if (bounds.width < newButtonWidth)
+			bounds.width = (int) newButtonWidth;
+		bounds.height += newButtonHeight + spaceBetweenButtons;
+		this.setSize(bounds.width, bounds.height);
+	}
+	
+	private ButtonNodeListener createSubButton(String buttonName, Screen targetedScreen)
+	{
+		TextButton substance = new TextButton(buttonName, skin);
 		TextButton indentation = new TextButton("", skin);
-		newButton.getColor().sub(0, 0, 0, 0.3f);
-		// indentation.getColor().sub(0, 0, 0, 0.3f);
-		if (targetedScreen != null)
-			newButton
-					.addListener(new NavigationButtonListener(buttonName, targetedScreen));
-		setPanelSize(newButton.getPrefWidth(), newButton.getPrefHeight());
-		newTable.add(indentation).fillY();
-		newTable.add(newButton).expandX().fillX();
-		add(newTable).expandX().fillX().spaceBottom(spaceBetweenButtons);
-	}
-	
-	private void setPanelSize(float newButtonWidth, float newButtonHeight)
-	{
-		if (panelWidth < newButtonWidth)
-			panelWidth = newButtonWidth;
-		panelHeight += newButtonHeight + spaceBetweenButtons;
-		this.setSize(panelWidth, panelHeight);
-	}
-	
-	private String storedButtonName(String passedButtonName)
-	{
-		Set<String> buttonNames = buttons.keySet();
-		for (String buttonName : buttonNames)
-		{
-			if (buttonName.equalsIgnoreCase(passedButtonName))
-				return buttonName;
-		}
-		return "";
+		substance.getColor().sub(0, 0, 0, 0.3f);
+		
+		Table button = new Table();
+		button.add(indentation).fillY();
+		button.add(substance).expandX().fillX();
+		
+		ButtonNodeListener node = new ButtonNodeListener(targetedScreen, button);
+		button.addListener(node);
+		
+		buttons.put(buttonName, node);
+		return node;
 	}
 	
 	/**
@@ -297,34 +246,35 @@ public class NavigationPanel extends Table
 	 */
 	public void showSubButtonsFor(String parentButton)
 	{
-		displayedCollapsibleButton = storedButtonName(parentButton);
-		recreateNavigationPanel();
+		ButtonNodeListener target = buttons.get(parentButton);
+		target.expand();
 	}
 	
 	/**
-	 * This method will hide all sub-buttons shown on screen
+	 * Collapse all sub-buttons currently displayed by this panel
 	 */
 	public void hideAllSubButton()
 	{
-		displayedCollapsibleButton = "";
+		expandedButton = null;
 		recreateNavigationPanel();
 	}
 	
 	public float getPanelWidth()
 	{
-		return panelWidth;
+		return bounds.width;
 	}
 	
 	public float getPanelHeight()
 	{
-		return panelHeight;
+		return bounds.height;
 	}
 	
 	/**
-	 * This method will set the position of the navigation panel on the screen. The x and
-	 * y coordinates passed will be at the top left point of the navigation panel. This is
-	 * done so that the navigation panel will expand or contrast downward only when
-	 * sub-buttons are shown or hidden.
+	 * Sets the position of the navigation panel, relative to this panel's top-left
+	 * corner.
+	 * <p>
+	 * This is done so that the navigation panel will expand or contrast downward only
+	 * when sub-buttons are shown or hidden.
 	 *
 	 * @param x
 	 *            relative to the screen (0 is at the left edge of the screen).
@@ -334,13 +284,17 @@ public class NavigationPanel extends Table
 	@Override
 	public void setPosition(float x, float y)
 	{
-		leftEdge_X = x;
-		bottomEdge_Y = y;
+		bounds.x = (int) x;
+		bounds.y = (int) y;
 		setLocation();
 	}
 	
+	/**
+	 * Converts this panel's coordinate system (top-left) into the {@link Actor}
+	 * coordinate system (bottom-left).
+	 */
 	private void setLocation()
 	{
-		super.setPosition(leftEdge_X, bottomEdge_Y - getPanelHeight());
+		super.setPosition(bounds.x, bounds.y - getPanelHeight());
 	}
 }
