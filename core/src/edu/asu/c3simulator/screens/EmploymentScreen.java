@@ -50,10 +50,12 @@ public class EmploymentScreen implements Screen
 	 * clicked, the selected employee will be set as the selected employee, and their
 	 * information will be displayed in the employee model.
 	 */
+	private ManagePanel manage;
 	private class EmployeeListener extends ClickListener
 	{
 		private Employee employee;
 		private Label label;
+		
 		
 		public EmployeeListener(Employee employee, Label label)
 		{
@@ -233,6 +235,11 @@ public class EmploymentScreen implements Screen
 		stage.addActor(roster);
 		stage.addActor(employeePane);
 		
+	}
+	
+	public void initialize()
+	{
+		manage = new ManagePanel(game, stage);
 	}
 	
 	/**

@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Product;
+import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
@@ -122,16 +123,14 @@ public class MarketingScreen implements SimulationScreen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
-		
-		NavigationPanel navigationPanel = createNavigationPanel();
 		
 		Table mainTable = createMainTable();
 		mainTable.setPosition(
 				stage.getWidth() - 0.01f * stage.getWidth() - mainTable.getWidth(),
 				0.01f * stage.getHeight());
+		HomeButton home = new HomeButton(game);
 		
-		stage.addActor(navigationPanel);
+		stage.addActor(home);
 		stage.addActor(mainTable);
 	}
 	
@@ -141,25 +140,10 @@ public class MarketingScreen implements SimulationScreen
 	 * @return the NavigationPanel actor that was created.
 	 */
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		
-		// TODO add screens
-		navigationPanel.addButton("Products", null);
-		navigationPanel.addSubButton("Products", "Pre-Market", null);
-		navigationPanel.addSubButton("Products", "Current", null);
-		navigationPanel.addSubButton("Products", "Retired", null);
-		navigationPanel.addButton("Product Growth", null);
-		navigationPanel.addSubButton("Product Growth", "Supply", null);
-		navigationPanel.addSubButton("Product Growth", "Demand", null);
-		navigationPanel.addButton("Employment", null);
-		navigationPanel.addButton("Marketing", null);
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
+		@SuppressWarnings("unused")
+		ManagePanel navigation = new ManagePanel(game, stage);
 	}
 	
 	/**

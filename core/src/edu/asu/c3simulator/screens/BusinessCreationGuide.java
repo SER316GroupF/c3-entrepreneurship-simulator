@@ -1,6 +1,7 @@
 package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * Display a panel consisting of steps necessary to create a business and navigates
@@ -18,7 +19,7 @@ public class BusinessCreationGuide
 	{
 		resetAllGuideScreens();
 		//TODO add Industry screen
-		game.setScreen(new IndustryScreen(game));
+		game.setScreen(AllManagementScreens.INDUSTRY.getInstance());
 	}
 	
 	private void resetAllGuideScreens()
