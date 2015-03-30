@@ -42,6 +42,7 @@ public class ProductDesigns
 			Table newProduct = new Table();
 			Label productLabel = new Label(associatedProduct.getName(), skin);
 			Image productIcon = associatedProduct.getProductImage();
+			productIcon.clearListeners();
 			
 			newProduct.add(productIcon).size(100f).row();
 			newProduct.add(productLabel);
@@ -109,7 +110,7 @@ public class ProductDesigns
 				newProductPopupWindow.remove();
 			}
 		});
-		
+		newProductPopupWindow.clear();
 		newProductPopupWindow.add(productGridScroll).expand().fill().row();
 		newProductPopupWindow.add(exitButton).fillX();
 		stage.addActor(newProductPopupWindow);
@@ -123,11 +124,11 @@ public class ProductDesigns
 	private Product[] getAvailableProducts()
 	{
 		// TODO get products
-		Product[] products = { new Product("T-shirt 1", "default"),
-				new Product("T-shirt 2", "default"), new Product("Short 1", "default"),
-				new Product("Short 2", "default"), new Product("Hoodie 1", "default"),
-				new Product("Pants 1", "default"), new Product("Pants 2", "default"),
-				new Product("Pants 3", "default"), new Product("Pants 4", "default") };
+		Product[] products = { new Product("T-shirt 1"),
+				new Product("T-shirt 2"), new Product("Short 1"),
+				new Product("Short 2"), new Product("Hoodie 1"),
+				new Product("Pants 1"), new Product("Pants 2"),
+				new Product("Pants 3"), new Product("Pants 4") };
 		return products;
 	}
 	
