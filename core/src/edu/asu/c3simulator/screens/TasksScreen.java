@@ -43,8 +43,10 @@ public class TasksScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				BusinessCreationGuide.createNewBusiness();
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
+		
 		
 		doneButton.setPosition(stage.getWidth() - doneButton.getPrefWidth()
 				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));

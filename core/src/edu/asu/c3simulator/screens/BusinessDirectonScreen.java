@@ -84,7 +84,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to Funding Screen
-				game.setScreen(new FundingScreen(game));
+				game.setScreen(AllManagementScreens.FUNDING.getInstance());
 			}
 		});
 		
@@ -187,15 +187,11 @@ public class BusinessDirectonScreen implements SimulationScreen
 	 */
 	private Table createParagraph(String[] text)
 	{
-		// REFACTOR: Combine with #createDifficultyChoiceDescriptionHard
 		Table requestedParagraph = new Table();
 		
-		List<Label> lines = new LinkedList<>();
-		// REFACTOR: Load lines from file
 		for (String stringLine : text)
 		{
 			Label line = new Label(stringLine, skin);
-			lines.add(line);
 			line.setAlignment(Align.left);
 			requestedParagraph.add(line).left();
 			requestedParagraph.row();

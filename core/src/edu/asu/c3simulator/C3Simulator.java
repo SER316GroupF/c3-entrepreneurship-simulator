@@ -24,63 +24,65 @@ public class C3Simulator extends Game
 	public static ShapeRenderer rendererFilled;
 	public static ShapeRenderer rendererLine;
 	public static ShapeRenderer rendererPoint;
-	
+
 	private static C3Simulation simulation;
 	private static Player player;
-	
+
 	public C3Simulator()
 	{
+		// TODO: Enforce singleton
 		player = new PlayerTestingStub();
 		simulation = new Simulation(getPlayer(), 10000);
 	}
-	
+
 	public static Player getPlayer()
 	{
 		return player;
 	}
-	
+
 	public static C3Simulation getSimulation()
 	{
 		return simulation;
 	}
-	
+
 	public static void clearScreen()
 	{
 		int clearMask = GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT;
 		Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
 		Gdx.graphics.getGL20().glClear(clearMask);
 	}
-	
+
 	@Override
 	public void create()
 	{
+		// TODO: Enforce singleton
 		rendererFilled = new ShapeRenderer();
 		rendererLine = new ShapeRenderer();
 		rendererPoint = new ShapeRenderer();
 		Screen firstScreen = new DifficultySelectionScreen(this);
 		this.setScreen(firstScreen);
 	}
-	
+
 	@Override
 	public void render()
 	{
 		beginRenderers();
 		super.render();
 		endRenderers();
-		
+
 		update();
 	}
-	
+
 	private void update()
 	{
 		float delta = Gdx.graphics.getDeltaTime();
 		simulation.update(delta);
 	}
-	
+
 	/**
 	 * Readies {@value #rendererFilled}, {@value #rendererLine}, and
-	 * {@value #rendererPoint} for drawing. This should be called before each render
-	 * cycle.
+	 * {@value #rendererPoint} for drawing. This should be called before each
+	 * render cycle.
 	 */
 	private static void beginRenderers()
 	{
@@ -88,11 +90,11 @@ public class C3Simulator extends Game
 		rendererLine.begin(ShapeType.Line);
 		rendererPoint.begin(ShapeType.Point);
 	}
-	
+
 	/**
 	 * Concludes {@value #rendererFilled}, {@value #rendererLine}, and
-	 * {@value #rendererPoint}'s drawing cycles. This should be called after each render
-	 * cycle.
+	 * {@value #rendererPoint}'s drawing cycles. This should be called after
+	 * each render cycle.
 	 */
 	private static void endRenderers()
 	{

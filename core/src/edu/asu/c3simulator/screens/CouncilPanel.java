@@ -15,10 +15,6 @@ import edu.asu.c3simulator.widgets.NavigationPanel;
  */
 public class CouncilPanel
 {
-	private static final int DESIGN_WIDTH = 1280;
-	private static final int DESIGN_HEIGHT = 720;
-	float padding = 0.01f * DESIGN_HEIGHT;
-	private static NavigationPanel navigation;
 	private Skin skin;
 
 	public CouncilPanel(Game game, Stage stage)

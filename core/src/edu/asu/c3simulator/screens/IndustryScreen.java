@@ -42,7 +42,7 @@ public class IndustryScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to Direction Screen
-				game.setScreen(new BusinessDirectonScreen(game));
+				game.setScreen(AllManagementScreens.BUSINESS_DIRECTION.getInstance());
 			}
 		});
 		

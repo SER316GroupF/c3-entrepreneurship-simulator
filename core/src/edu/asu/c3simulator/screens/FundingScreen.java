@@ -42,7 +42,7 @@ public class FundingScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to Tasks Screen
-				game.setScreen(new TasksScreen(game));
+				game.setScreen(AllManagementScreens.TASKS.getInstance());
 			}
 		});
 		

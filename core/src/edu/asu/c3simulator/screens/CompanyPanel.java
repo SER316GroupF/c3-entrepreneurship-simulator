@@ -68,7 +68,7 @@ public class CompanyPanel implements SimulationScreen
 
 		// TODO add Corner Advisor
 		HomeButton home = new HomeButton(game);
-		
+
 		stage.addActor(home);
 		stage.addActor(mainTable);
 	}
@@ -219,8 +219,7 @@ public class CompanyPanel implements SimulationScreen
 	@Override
 	public void createNavigationPanel()
 	{
-		@SuppressWarnings(value = { "unused" })
-		CouncilPanel navigation = new CouncilPanel(game, stage);
+		new CouncilPanel(game, stage);
 	}
 
 	@Override

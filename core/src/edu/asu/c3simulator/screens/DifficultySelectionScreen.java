@@ -1,5 +1,7 @@
 package edu.asu.c3simulator.screens;
 
+import org.junit.experimental.theories.internal.AllMembersSupplier;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -58,6 +60,7 @@ public class DifficultySelectionScreen implements Screen
 	public DifficultySelectionScreen(Game game)
 	{
 		this.game = game;
+		AllManagementScreens.initialize(game);
 
 		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH,
 				DESIGN_HEIGHT);
@@ -87,7 +90,7 @@ public class DifficultySelectionScreen implements Screen
 			{
 				// TODO: Instantiate simulation
 				System.out.println("Easy");
-				game.setScreen(new MainHub(game));
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
 
@@ -99,7 +102,7 @@ public class DifficultySelectionScreen implements Screen
 			{
 				// TODO: Instantiate simulation
 				System.out.println("Hard");
-				game.setScreen(new MainHub(game));
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
 

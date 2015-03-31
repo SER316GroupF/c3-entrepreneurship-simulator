@@ -3,6 +3,8 @@ package edu.asu.c3simulator.screens;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import org.junit.experimental.theories.internal.AllMembersSupplier;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -146,6 +148,7 @@ public class MarketingWizard implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO add wizard results to data layer
+				game.setScreen(AllManagementScreens.MARKETING.getInstance());
 			}
 		});
 		

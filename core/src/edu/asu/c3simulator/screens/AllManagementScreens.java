@@ -19,7 +19,7 @@ import edu.asu.c3simulator.simulation.SimulationScreen;
  */
 public enum AllManagementScreens
 {
-	PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, PRODUCT_HISTORY, GROWTH_DEMAND, EMPLOYMENT, MARKETING, BUSINESS_DIRECTION, FUNDING, INDUSTRY, TASKS, COMPANY_PANEL, COMPLETED_TASKS, TASK_MANAGEMENT;
+	MAIN_HUB, PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, PRODUCT_HISTORY, GROWTH_DEMAND, EMPLOYMENT, MARKETING, BUSINESS_DIRECTION, FUNDING, INDUSTRY, TASKS, COMPANY_PANEL, COMPLETED_TASKS, TASK_MANAGEMENT;
 
 	/**
 	 * True if {@link #initialize(Game)} has been called. This value must be
@@ -35,6 +35,7 @@ public enum AllManagementScreens
 		if (!initialized)
 		{
 			initialized = true;
+			MAIN_HUB.instance = new MainHub(game);
 			PRE_MARKET.instance = new PreMarketProducts(game);
 			CURRENT_PRODUCTS.instance = new CurrentProducts(game);
 			RETIRED_PRODUCTS.instance = new RetiredProducts(game);
@@ -50,6 +51,7 @@ public enum AllManagementScreens
 			COMPANY_PANEL.instance = new CompanyPanel(game);
 			COMPLETED_TASKS.instance = new CompletedTasks(game);
 			TASK_MANAGEMENT.instance = new TaskManagementScreen(game);
+			((MainHub) MAIN_HUB.instance).initialize();
 			((PreMarketProducts) PRE_MARKET.instance).initialize();
 			((RetiredProducts) RETIRED_PRODUCTS.instance).initialize();
 			((CurrentProducts) CURRENT_PRODUCTS.instance).initialize();

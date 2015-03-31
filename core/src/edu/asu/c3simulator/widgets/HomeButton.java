@@ -9,10 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import edu.asu.c3simulator.screens.MainHub;
-//import edu.asu.c3simulator.screens.MainHub;
+import edu.asu.c3simulator.screens.AllManagementScreens;
 /**
- * This class creates a Home button actor, places it in the bottom left of the screen. Changes the screen to MainHub when clicked.
+ * Creates a Home button, places it in the bottom left of the screen. Changes the screen to MainHub when clicked.
  * 
 * @author Reigel, Justin 
 * 
@@ -38,7 +37,7 @@ public class HomeButton extends Table{
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				game.setScreen(new MainHub(game));
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
 	}

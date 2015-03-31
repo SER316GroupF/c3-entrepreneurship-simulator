@@ -43,9 +43,6 @@ public class CurrentProducts implements Screen
 	private Game game;
 	// private CornerAdvisor advisor;
 	private Table table;
-	private BitmapFont font = new BitmapFont(
-			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-	private ManagePanel manage;
 
 	public CurrentProducts(Game game)
 	{
@@ -87,7 +84,7 @@ public class CurrentProducts implements Screen
 	 */
 	public void initialize()
 	{
-		manage = new ManagePanel(game, stage);
+		new ManagePanel(game, stage);
 	}
 
 	/**

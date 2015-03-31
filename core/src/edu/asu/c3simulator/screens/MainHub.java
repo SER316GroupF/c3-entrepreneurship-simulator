@@ -45,6 +45,7 @@ public class MainHub implements Screen
 	private Table choices;
 	private Actor company;
 	private NavigationPanel navigation;
+	private float padding;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
 
@@ -64,19 +65,9 @@ public class MainHub implements Screen
 		choices = new Table();
 		company = Company();
 
-		AllManagementScreens.initialize(game);
+		
 
 		// advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
-		navigation = new NavigationPanel(game, skin);
-
-		navigation.addButton("Businesses", null);
-		navigation.addButton("Manage",
-				AllManagementScreens.PRE_MARKET.getInstance());
-		navigation.addButton("Council",
-				AllManagementScreens.COMPANY_PANEL.getInstance());
-		navigation.addSubButton("Businesses", "1.Create New", null);
-		navigation.addSubButton("Businesses", "2.Create New", null);
-		navigation.addSubButton("Businesses", "3.Create New", null);
 
 		Label playerLabel = new Label("Player", skin);
 		playerLabel.setPosition(40, 680);
@@ -84,18 +75,17 @@ public class MainHub implements Screen
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
-		float padding = 0.01f * DESIGN_HEIGHT;
+		padding = 0.01f * DESIGN_HEIGHT;
 		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
 		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
 		// padding;
 		// advisor.setPosition(advisorLeft, advisorBottom);
-		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
+		
 		System.out.println("Create new home screen");
 
 		stage.addActor(playerLabel);
 		// stage.addActor(advisor);
 		stage.addActor(company);
-		stage.addActor(navigation);
 		stage.addActor(Council());
 		// stage.addActor(playerInfo());
 
@@ -219,5 +209,22 @@ public class MainHub implements Screen
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
+	}
+
+	public void initialize()
+	{
+		navigation = new NavigationPanel(game, skin);
+
+		navigation.addButton("Businesses", null);
+		navigation.addButton("Manage",
+				AllManagementScreens.PRE_MARKET.getInstance());
+		navigation.addButton("Council",
+				AllManagementScreens.COMPANY_PANEL.getInstance());
+		navigation.addSubButton("Businesses", "1.Create New", AllManagementScreens.INDUSTRY.getInstance());
+		navigation.addSubButton("Businesses", "2.Create New", AllManagementScreens.INDUSTRY.getInstance());
+		navigation.addSubButton("Businesses", "3.Create New", AllManagementScreens.INDUSTRY.getInstance());
+		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
+		stage.addActor(navigation);
+		
 	}
 }
