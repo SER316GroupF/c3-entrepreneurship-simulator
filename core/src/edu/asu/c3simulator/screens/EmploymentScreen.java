@@ -14,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -27,13 +29,13 @@ import edu.asu.c3simulator.simulation.Employee.Position;
 import edu.asu.c3simulator.simulation.EmployeeFactory;
 
 /**
- * Employment Screen displays a panel of active employees hired by the currently
- * selected business. If an employee is selected, their information is displayed in
- * the Employee Model. The user has the option to set their base pay as well as
- * fire them. The user may also select New Employee and choose from a list of
- * randomly generated employees to hire.
+ * Employment Screen displays a panel of active employees hired by the currently selected
+ * business. If an employee is selected, their information is displayed in the Employee
+ * Model. The user has the option to set their base pay as well as fire them. The user may
+ * also select New Employee and choose from a list of randomly generated employees to
+ * hire.
  * 
- * @author Krogstad, Nick 
+ * @author Krogstad, Nick
  * 
  */
 public class EmploymentScreen implements Screen
@@ -61,10 +63,10 @@ public class EmploymentScreen implements Screen
 					+ employee.getPreferredHourlyWage() + " / hr");
 			employeeMorale.setText("Morale: " + employee.getMorale() * 100 + " %");
 			netEarnings.setText("Net Earnings: " + employee.getNetEarnings());
-			averageAnnualBonus.setText("Averale Annual Bonus: " + employee.getAverageAnnualBonus()
-					+ "%");
-			averageAnnualRaise.setText("Average Annual Raise: " + employee.getAverageAnnualRaise()
-					+ "%");
+			averageAnnualBonus.setText("Averale Annual Bonus: "
+					+ employee.getAverageAnnualBonus() + "%");
+			averageAnnualRaise.setText("Average Annual Raise: "
+					+ employee.getAverageAnnualRaise() + "%");
 			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
 			employeePayTable.setVisible(true);
 		}
@@ -76,21 +78,38 @@ public class EmploymentScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
-			newEmployeeOptionsPanel.clear();
-			//TODO: Do not keep number of employees generated magic
-			for(int employeesGenerated = 0; employeesGenerated < 3; employeesGenerated++)
+			newEmployeeOptionsWindow.clear();
+			Table availableNewEmployees = new Table();
+			
+			// TODO: Do not keep number of employees generated magic
+			for (int employeesGenerated = 0; employeesGenerated < 5; employeesGenerated++)
 			{
 				Employee employee = EmployeeFactory.getRandomEmployee();
-				Actor employeeLabel = addEmployee(employee, newEmployeeOptionsPanel, false);
-				employeeLabel.addListener(new HireEmployeeListener(employee));
+				availableNewEmployees.add(createNewEmployeeComponent(employee)).expand().fill().space(20).row();
+				// Actor employeeLabel = addEmployee(employee, newEmployeeOptionsPanel,
+				// false);
+				// employeeLabel.addListener(new HireEmployeeListener(employee));
 			}
+			
+			ScrollPane newEmployeeOptionsScroll = new ScrollPane(availableNewEmployees, skin);
+			TextButton cancel = new TextButton("Cancel", skin);
+			cancel.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					newEmployeeOptionsWindow.remove();
+				}
+			});
+			
+			newEmployeeOptionsWindow.add(newEmployeeOptionsScroll).expand().fill().row();
+			newEmployeeOptionsWindow.add(cancel).expandX().fillX();
+			stage.addActor(newEmployeeOptionsWindow);
 		}
 	}
 	
 	private class HireEmployeeListener extends ClickListener
 	{
 		private Employee employee;
-		private VerticalGroup employeePane;
 		
 		public HireEmployeeListener(Employee passedEmployee)
 		{
@@ -100,15 +119,15 @@ public class EmploymentScreen implements Screen
 		@Override
 		public void clicked(InputEvent event, float x, float y)
 		{
-			newEmployeeOptionsPanel.clear();
-			addEmployee(employee, employeePane);
+			addEmployee(employee, employeeTable);
+			newEmployeeOptionsWindow.remove();
 		}
 	}
 	
 	@SuppressWarnings("unused")
 	private class RemoveEmployeeListener extends ClickListener
 	{
-		//TODO
+		// TODO
 	}
 	
 	private static final int DESIGN_WIDTH = 1280;
@@ -128,7 +147,8 @@ public class EmploymentScreen implements Screen
 	private TextField employeePayField;
 	private Table employeePayTable;
 	private VerticalGroup newEmployeeOptionsPanel;
-	
+	private Window newEmployeeOptionsWindow;
+	private VerticalGroup employeeTable;
 	
 	@SuppressWarnings("unused")
 	private Game game;
@@ -159,10 +179,20 @@ public class EmploymentScreen implements Screen
 		roster.add(employeeModel).top().spaceRight(75);
 		roster.add(employeePane).top().spaceLeft(75);
 		
+		/** Add Documentation */
+		newEmployeeOptionsWindow = new Window("Employees for Hire", skin);
+		newEmployeeOptionsWindow.setSize(0.70f * stage.getWidth(),
+				0.80f * stage.getHeight());
+		newEmployeeOptionsWindow.setPosition(
+				stage.getWidth() / 2 - (0.70f * stage.getWidth()) / 2, stage.getHeight()
+						/ 2 - (0.80f * stage.getHeight()) / 2);
+		newEmployeeOptionsWindow.setMovable(false);
+		newEmployeeOptionsWindow.setResizable(false);
+		
 		roster.setTransform(true);
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		// TODO: Corner Advisor		
+		// TODO: Corner Advisor
 		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET_X, DESIGN_HEIGHT / 6);
 		employeePane.setSize(350, 400);
 		roster.setPosition(ROSTER_OFFSET_X, DESIGN_HEIGHT / 2);
@@ -173,8 +203,7 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Company creates a list of employees of the type Employee and
-	 * returns that list.
+	 * Company creates a list of employees of the type Employee and returns that list.
 	 * 
 	 * @return
 	 */
@@ -185,9 +214,10 @@ public class EmploymentScreen implements Screen
 			@Override
 			public List<Employee> getEmployees()
 			{
-				Employee employee1 = new Employee("Jason Richards", Position.MANAGER, 0.4f, 0.67f);
-				Employee employee2 = new Employee("Janet Wilmore", Position.PRODUCT_DESIGNER, 0.8f,
-						0.99f);
+				Employee employee1 = new Employee("Jason Richards", Position.MANAGER,
+						0.4f, 0.67f);
+				Employee employee2 = new Employee("Janet Wilmore",
+						Position.PRODUCT_DESIGNER, 0.8f, 0.99f);
 				
 				List<Employee> employees = new LinkedList<>();
 				employees.add(employee1);
@@ -199,21 +229,115 @@ public class EmploymentScreen implements Screen
 		};
 	}
 	
+	private Actor createNewEmployeeComponent(Employee newRandomEmployee)
+	{
+		Table newEmployeeComponent = new Table();
+		
+		/** Left side of New Employee Component */
+		VerticalGroup newEmployeeInformation = new VerticalGroup();
+		Label name = new Label("Name: " + newRandomEmployee.getName(), skin);
+		Label position = new Label("Position: " + newRandomEmployee.getPosition(), skin);
+		Label preferredHourlyWage = new Label("Preferred Hourly Wage: "
+				+ newRandomEmployee.getPreferredHourlyWage(), skin);
+		newEmployeeInformation.addActor(name);
+		newEmployeeInformation.addActor(position);
+		newEmployeeInformation.addActor(preferredHourlyWage);
+		
+		/** Right side of New Employee Component */
+		VerticalGroup newEmployeeInputs = new VerticalGroup();
+		Label morale = new Label("Morale: " + newRandomEmployee.getMorale(), skin);
+		Actor pay = createNewEmployeePay(newRandomEmployee, morale);
+		TextButton hire = new TextButton("Hire", skin);
+		hire.addListener(new HireEmployeeListener(newRandomEmployee));
+		newEmployeeInputs.addActor(pay);
+		newEmployeeInputs.addActor(morale);
+		newEmployeeInputs.addActor(hire);
+		
+		newEmployeeComponent.add(newEmployeeInformation).expand().fill();
+		newEmployeeComponent.add(newEmployeeInputs).expand().fill();
+		
+		return newEmployeeComponent;
+	}
+	
+	private class EmployeePayFieldListener implements TextField.TextFieldListener
+	{
+		private Employee newRandomEmployee;
+		private TextField employeePayField;
+		private Label morale;
+		
+		public EmployeePayFieldListener(Employee newRandomEmployee,
+				TextField employeePayField, Label morale)
+		{
+			this.newRandomEmployee = newRandomEmployee;
+			this.employeePayField = employeePayField;
+			this.morale = morale;
+		}
+		
+		@Override
+		public void keyTyped(TextField textField, char c)
+		{
+			String proposal = employeePayField.getText().trim();
+			int proposalValue = newRandomEmployee.getActualHourlyWage();
+			
+			if (proposal.length() <= 0)
+			{
+				proposalValue = 0;
+			}
+			
+			try
+			{
+				proposalValue = Integer.parseInt(proposal);
+				newRandomEmployee.setActualHourlyWage(proposalValue);
+				morale.setText("Morale: " + newRandomEmployee.getMorale() * 100 + " %");
+			}
+			catch (NumberFormatException exception)
+			{
+				// DO NOTHING
+			}
+			
+			String text = Integer.toString(proposalValue);
+			employeePayField.setText(text);
+			employeePayField.setCursorPosition(text.length());
+			
+		}
+		
+	}
+	
+	private Actor createNewEmployeePay(Employee newRandomEmployee, Label morale)
+	{
+		Table employeePayTable = new Table(skin);
+		Label payLabel = new Label("Pay: $", skin);
+		Label suffix = new Label(" / hr", skin);
+		TextField employeePayField = new TextField("", skin);
+		
+		employeePayField.setTextFieldListener(new EmployeePayFieldListener(
+				newRandomEmployee, employeePayField, morale));
+		
+		employeePayTable.add(payLabel);
+		employeePayTable.add(employeePayField);
+		employeePayTable.add(suffix);
+		// employeePayTable.setVisible(false);
+		return employeePayTable;
+	}
+	
 	/**
 	 * @return The Employee Pane, a list of everyone employed to the business.
 	 */
 	private Actor createEmployeePane()
 	{
 		String newEmp = "New Employee";
-		VerticalGroup employeeTable = new VerticalGroup();
-		ScrollPane employeeScrollPane = new ScrollPane(employeeTable, skin);
+		employeeTable = new VerticalGroup();
+		VerticalGroup updatedNewEmployee = new VerticalGroup();
+		
+		ScrollPane employeeScrollPane = new ScrollPane(updatedNewEmployee, skin);
 		
 		for (Employee employee : getCompanyContext().getEmployees())
 		{
 			addEmployee(employee, employeeTable);
 		}
 		
-		newEmployee(newEmp, employeeTable);
+		updatedNewEmployee.addActor(employeeTable);
+		newEmployee(newEmp, updatedNewEmployee);
 		
 		return employeeScrollPane;
 	}
@@ -223,13 +347,14 @@ public class EmploymentScreen implements Screen
 	 * <p>
 	 * Used as an intermediate function to construct the Employee Panel
 	 */
-	private Label addEmployee(Employee employee, VerticalGroup group, boolean addEmployeeListener)
+	private Label addEmployee(Employee employee, VerticalGroup group,
+			boolean addEmployeeListener)
 	{
 		Label label = new Label(employee.toString(), skin);
 		group.addActor(label);
 		label.setAlignment(Align.center);
 		
-		if(addEmployeeListener)
+		if (addEmployeeListener)
 		{
 			label.addListener(new EmployeeListener(employee, label));
 		}
@@ -239,8 +364,7 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Adds an Employee object to the Vertical Group and sets its visibility
-	 * to true
+	 * Adds an Employee object to the Vertical Group and sets its visibility to true
 	 * 
 	 * @param employee
 	 * @param group
@@ -252,19 +376,20 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * Placeholder for the "New Employee" button that will display a panel 
-	 * of randomly generated employees available for hire when clicked
+	 * Placeholder for the "New Employee" button that will display a panel of randomly
+	 * generated employees available for hire when clicked
 	 */
 	private void newEmployee(String newEmp, VerticalGroup group)
 	{
 		Label label = new Label(newEmp, skin);
+		label.addListener(new NewEmployeeButtonListener());
 		group.addActor(label);
 		label.setAlignment(Align.center);
 	}
 	
 	/**
-	 * Creates the Employee Pay Table that allows the user to input 
-	 * a desired hourly wage for the selected employee
+	 * Creates the Employee Pay Table that allows the user to input a desired hourly wage
+	 * for the selected employee
 	 */
 	private Actor createEmployeePay()
 	{

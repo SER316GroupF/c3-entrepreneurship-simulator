@@ -93,7 +93,6 @@ public class Employee
 		this.actualHourlyWage = actualHourlyWage;
 	}
 	
-	// TODO: Update Documentation
 	/**
 	 * Employee Morale is determined by the difference between the employees preferred
 	 * hourly wage and their actual hourly wage. The employee's preferred hourly wage is
@@ -169,19 +168,19 @@ public class Employee
 			@Override
 			public int getMinimumWageOfPosition(Position position)
 			{
-				return 11;
+				return 14;
 			}
 			
 			@Override
 			public int getMedianWageOfPosition(Position position)
 			{
-				return 15;
+				return 17;
 			}
 			
 			@Override
 			public int getMaximumWageOfPosition(Position position)
 			{
-				return 28;
+				return 20;
 			}
 			
 			@Override
