@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.asu.c3simulator.testing.stubs;
 
 import java.text.DecimalFormat;
@@ -10,7 +7,7 @@ import edu.asu.c3simulator.simulation.Product;
 
 /**
  * Stub to test the product interface
- * @author Justin
+ * @author Reigel, Justin
  *
  */
 public class ProductTestingStub implements Product
@@ -18,9 +15,6 @@ public class ProductTestingStub implements Product
 	private String name, laborer;
 	private float productionCost, materialCost, distributionCost, sellingPrice;
 	private int efficiency;
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getProduct()
-	 */
 	//TODO: fill out more testing methods where appropriate
 	@Override
 	public Product getProduct()
@@ -29,9 +23,6 @@ public class ProductTestingStub implements Product
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getProductName()
-	 */
 	@Override
 	public String getProductName()
 	{
@@ -39,9 +30,6 @@ public class ProductTestingStub implements Product
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getProductionCost()
-	 */
 	@Override
 	public float getProductionCost()
 	{
@@ -49,9 +37,6 @@ public class ProductTestingStub implements Product
 		return Float.valueOf(df.format(11.00));
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getMaterialCost()
-	 */
 	@Override
 	public float getMaterialCost()
 	{
@@ -59,9 +44,6 @@ public class ProductTestingStub implements Product
 		return Float.valueOf(df.format(8.50));
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getDistributionCost()
-	 */
 	@Override
 	public float getDistributionCost()
 	{
@@ -69,9 +51,6 @@ public class ProductTestingStub implements Product
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getSellingPrice()
-	 */
 	@Override
 	public float getSellingPrice()
 	{
@@ -79,18 +58,12 @@ public class ProductTestingStub implements Product
 		return Float.valueOf(df.format(16.50));
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getEfficiency()
-	 */
 	@Override
 	public int getEfficiency()
 	{
 		return 32;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getLabor()
-	 */
 	@Override
 	public String getLabor()
 	{
@@ -98,9 +71,6 @@ public class ProductTestingStub implements Product
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setProductName()
-	 */
 	@Override
 	public String setProductName()
 	{
@@ -108,9 +78,6 @@ public class ProductTestingStub implements Product
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setProductionCost()
-	 */
 	@Override
 	public void setProductionCost()
 	{
@@ -118,9 +85,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setMaterialCost()
-	 */
 	@Override
 	public void setMaterialCost()
 	{
@@ -128,9 +92,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setDistributionCost()
-	 */
 	@Override
 	public void setDistributionCost()
 	{
@@ -138,9 +99,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setSellingPrice()
-	 */
 	@Override
 	public void setSellingPrice()
 	{
@@ -148,9 +106,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setEfficiency()
-	 */
 	@Override
 	public void setEfficiency()
 	{
@@ -158,9 +113,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#setLabor()
-	 */
 	@Override
 	public void setLabor()
 	{
@@ -168,9 +120,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#retireProduct()
-	 */
 	@Override
 	public void retireProduct()
 	{
@@ -178,9 +127,6 @@ public class ProductTestingStub implements Product
 
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Product#getSimulation()
-	 */
 	@Override
 	public C3Simulation getSimulation()
 	{

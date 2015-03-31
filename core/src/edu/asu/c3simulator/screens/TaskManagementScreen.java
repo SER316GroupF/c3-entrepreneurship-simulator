@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
  * Creates and displays an instance of the Task Management class for the Council
@@ -32,9 +31,9 @@ public class TaskManagementScreen implements SimulationScreen
 				skin);
 
 		// TODO add Corner Advisor
-		HomeButton home = new HomeButton(game);
+		HomeButton homeButton = new HomeButton(game);
 
-		stage.addActor(home);
+		stage.addActor(homeButton);
 		stage.addActor(taskManagementComponents);
 	}
 

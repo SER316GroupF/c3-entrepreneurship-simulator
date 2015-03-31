@@ -16,10 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
-
-//import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 
 /**
  * This class displays the main hub, allowing the player to navigate to their
@@ -30,18 +27,15 @@ import edu.asu.c3simulator.widgets.NavigationPanel;
 public class MainHub implements Screen
 {
 
-	private static final String ADVISOR_TEXT = "This is a test of TextAreaX. This is intended to cover multiple lines at a width of 200px. This is the second extention";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
 
-	@SuppressWarnings("unused")
 	private Game game;
 
 	private Stage stage;
 	private Skin skin;
-	// private CornerAdvisor advisor;
 	private Table choices;
 	private Actor company;
 	private NavigationPanel navigation;
@@ -51,7 +45,6 @@ public class MainHub implements Screen
 
 	// TODO: uncomment advisor when advisor is implemented in master_testing or
 	// higher.
-	// public PlayerStatusDisplay player;
 
 	public MainHub(Game game)
 	{
@@ -63,11 +56,9 @@ public class MainHub implements Screen
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 
 		choices = new Table();
-		company = Company();
+		company = companyImage();
 
 		
-
-		// advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 
 		Label playerLabel = new Label("Player", skin);
 		playerLabel.setPosition(40, 680);
@@ -76,18 +67,11 @@ public class MainHub implements Screen
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
 		padding = 0.01f * DESIGN_HEIGHT;
-		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
-		// padding;
-		// advisor.setPosition(advisorLeft, advisorBottom);
-		
 		System.out.println("Create new home screen");
 
 		stage.addActor(playerLabel);
-		// stage.addActor(advisor);
 		stage.addActor(company);
-		stage.addActor(Council());
-		// stage.addActor(playerInfo());
+		stage.addActor(councilImage());
 
 	}
 
@@ -97,7 +81,7 @@ public class MainHub implements Screen
 	 * 
 	 * @return Table
 	 */
-	private Actor Company()
+	private Actor companyImage()
 	{
 		Table company = new Table();
 		Image companyIcon;
@@ -122,7 +106,7 @@ public class MainHub implements Screen
 	 * 
 	 * @return Table
 	 */
-	private Actor Council()
+	private Actor councilImage()
 	{
 		Table council = new Table();
 		Image companyIcon;
@@ -150,15 +134,8 @@ public class MainHub implements Screen
 	{
 		// TODO: Replace c3Simulation interface with actual backend, uncomment
 		// player
-		// status display when playerStatusDisplay reachest master_testing
-		/*
-		 * C3Simulation sim = new C3Simulation() { public String
-		 * getSimulationDate() { return ("Jan, Year: 1"); } };
-		 * PlayerStatusDisplay playerStatus = new PlayerStatusDisplay( new
-		 * PlayerImp("Plebian", 8000, 2000, sim));
-		 * 
-		 * playerStatus.setPosition(200, 600); return playerStatus;
-		 */
+		// status display when playerStatusDisplay reaches master_testing
+		 
 		return null;
 	}
 

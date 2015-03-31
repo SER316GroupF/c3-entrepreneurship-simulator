@@ -53,9 +53,9 @@ public class TasksScreen implements SimulationScreen
 		
 		// TODO add Corner Advisor
 		
-		HomeButton home = new HomeButton(game);
+		HomeButton homeButton = new HomeButton(game);
 		
-		stage.addActor(home);
+		stage.addActor(homeButton);
 		stage.addActor(doneButton);
 		stage.addActor(taskManagementComponents);
 	}

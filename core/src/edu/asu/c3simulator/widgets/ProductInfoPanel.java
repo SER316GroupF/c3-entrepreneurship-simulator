@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.asu.c3simulator.widgets;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,13 +28,13 @@ public class ProductInfoPanel
 		this.skin = skin;
 		testProduct = new ProductTestingStub();
 		productInfo = new Table(skin);
-		Label text = new Label("Production cost: $"
+		Label productionCostLabel = new Label("Production cost: $"
 				+ testProduct.getProductionCost(), skin);
-		productInfo.add(text).left().row();
-		Label text2 = new Label("Labor: ", skin);
-		productInfo.add(text2).left().row();
-		Label text3 = new Label("Design employee", skin);
-		productInfo.add(text3).left().row();
+		productInfo.add(productionCostLabel).left().row();
+		Label laborLabel = new Label("Labor: ", skin);
+		productInfo.add(laborLabel).left().row();
+		Label designEmployeeLabel = new Label("Design employee", skin);
+		productInfo.add(designEmployeeLabel).left().row();
 		// TODO: place real employees in dropdown box, add functionality when
 		// selected
 		SelectBox<String> businessSelectionBox = new SelectBox<String>(skin);
@@ -48,24 +45,24 @@ public class ProductInfoPanel
 		productInfo.add(businessSelectionBox).row();
 		productInfo.add("").row();
 
-		Label text4 = new Label("Materials: $" + testProduct.getMaterialCost(),
+		Label materialsLabel = new Label("Materials: $" + testProduct.getMaterialCost(),
 				skin);
-		productInfo.add(text4).left().row();
+		productInfo.add(materialsLabel).left().row();
 		productInfo.add("").row();
-		Label text6 = new Label("Efficiency: " + testProduct.getEfficiency()
+		Label efficiencyLabel = new Label("Efficiency: " + testProduct.getEfficiency()
 				+ "/hr", skin);
-		productInfo.add(text6).left().row();
+		productInfo.add(efficiencyLabel).left().row();
 		productInfo.add("").row();
-		Label text7 = new Label("Selling Price: $"
+		Label sellPriceLabel = new Label("Selling Price: $"
 				+ testProduct.getSellingPrice(), skin);
-		productInfo.add(text7).left().row();
+		productInfo.add(sellPriceLabel).left().row();
 		productInfo.add("").expand().row();
 	}
 
 	/**
-	 * adds product history to the panel
+	 * Turns the adds history of the product to the productInfoPanel
 	 */
-	public void historyPanel()
+	public void addHistoryPanel()
 	{
 		Label labelSold = new Label("Total sold: " + testProduct.getNumSold(),
 				skin);

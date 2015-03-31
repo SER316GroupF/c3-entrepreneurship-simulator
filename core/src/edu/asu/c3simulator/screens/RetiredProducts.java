@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -19,10 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
-//import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 
 /**
  * Management screen that provides the player with information and allows for
@@ -42,13 +39,9 @@ public class RetiredProducts implements Screen
 
 	private Stage stage;
 	private Skin skin;
-	// TODO: uncomment cornerAdvisor and playerStatusDisplay when they get to
+	// TODO: implement cornerAdvisor and playerStatusDisplay when they get to
 	// master testing.
-	// private CornerAdvisor advisor;
 	private Table table;
-	private BitmapFont font = new BitmapFont(
-			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-	private ManagePanel manage;
 
 	public RetiredProducts(Game game)
 	{
@@ -59,24 +52,15 @@ public class RetiredProducts implements Screen
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 
-		// advisor = new CornerAdvisor(ADVISOR_TEXT);
-
 		table = new Table();
 		table.setSize(900, 500);
 		table.add(ProductPane()).fill().expand();
 		table.setPosition(300, 50);
 		table.add(ProductInfo()).size(300, 500);
 
-		float padding = 0.01f * DESIGN_HEIGHT;
-		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
-		// padding;
-		// advisor.setPosition(advisorLeft, advisorBottom);
+		HomeButton homeButton = new HomeButton(game);
 
-		HomeButton home = new HomeButton(game);
-
-		stage.addActor(home);
-		// stage.addActor(advisor);
+		stage.addActor(homeButton);
 		stage.addActor(table);
 	}
 
@@ -86,7 +70,7 @@ public class RetiredProducts implements Screen
 	 */
 	public void initialize()
 	{
-		manage = new ManagePanel(game, stage);
+		new ManagePanel(game, stage);
 	}
 
 	/**

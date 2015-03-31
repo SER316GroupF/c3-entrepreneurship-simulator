@@ -15,15 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * Creates a button that in turn creates a popup window when clicked. The popup
  * window requires confirmation via button click before selling the company.
  * 
- * @author Justin
+ * @author Reigel, Justin
  *
  */
 public class SellCompanyButton extends Table
 {
 
-	private TextButton button;
-	private TextButtonStyle textButtonStyle;
-	private BitmapFont font;
+	private TextButton sellButton;
 	private Window window;
 
 	public SellCompanyButton(Game game, Skin skin)
@@ -35,7 +33,8 @@ public class SellCompanyButton extends Table
 			public void clicked(InputEvent event, float x, float y)
 			{
 				System.out.println("Continue!");
-				// TODO: Delete actual business
+				// TODO: Delete actual business When this SellCompany Button is
+				// clicked
 			}
 		});
 
@@ -44,21 +43,18 @@ public class SellCompanyButton extends Table
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				System.out.println("Cancel.");
 				if (window != null)
 				{
 					window.remove();
 				}
 			}
 		});
-		button = new TextButton("Sell", skin);
-		add(button);
+		sellButton = new TextButton("Sell", skin);
+		add(sellButton);
 		// TODO: change positioning to the appropriate position for its
 		// destination screen
 		this.setPosition(1100, 500);
-		font = new BitmapFont(
-				Gdx.files.internal("fonts/arial32_superSample.fnt"));
-		button.addListener(new ClickListener() {
+		sellButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{

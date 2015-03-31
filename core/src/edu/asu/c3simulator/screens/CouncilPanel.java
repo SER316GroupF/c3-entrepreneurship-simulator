@@ -25,6 +25,7 @@ public class CouncilPanel
 		navigationPanel.addButton("Company", null);
 		navigationPanel.addSubButton("Company", "Business",
 				AllManagementScreens.COMPANY_PANEL.getInstance());
+		//TODO: Link Assets Screen when it is created. 
 		navigationPanel.addSubButton("Company", "Assets", null);
 		navigationPanel.addButton("Tasks", null);
 		navigationPanel.addSubButton("Tasks", "Manage",

@@ -9,7 +9,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
 
@@ -35,14 +33,12 @@ import edu.asu.c3simulator.widgets.ProductInfoPanel;
  */
 public class CurrentProducts implements Screen
 {
-	private static final String ADVISOR_TEXT = "This is the Current Products screen";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private Stage stage;
 	private Skin skin;
 	private Game game;
-	// private CornerAdvisor advisor;
-	private Table table;
+	private Table productTable;
 
 	public CurrentProducts(Game game)
 	{
@@ -52,30 +48,19 @@ public class CurrentProducts implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		// TODO: uncomment advisor when advisor is implemented in master_testing
+		// TODO: implement advisor when advisor is implemented in master_testing
 		// or higher.
 
-		// advisor = new CornerAdvisor(ADVISOR_TEXT);
-		// creates and adds manage Panel to the current screen
-		// manage = new ManagePanel(game);
+		productTable = new Table();
+		productTable.setSize(900, 500);
+		productTable.add(productPane()).fill().expand();
+		productTable.setPosition(300, 50);
+		productTable.add(productInfo()).size(300, 500);
 
-		table = new Table();
-		table.setSize(900, 500);
-		table.add(ProductPane()).fill().expand();
-		table.setPosition(300, 50);
-		table.add(ProductInfo()).size(300, 500);
+		HomeButton homeButton = new HomeButton(game);
 
-		float padding = 0.01f * DESIGN_HEIGHT;
-		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
-		// padding;
-		// advisor.setPosition(advisorLeft, advisorBottom);
-
-		HomeButton home = new HomeButton(game);
-
-		stage.addActor(home);
-		// stage.addActor(advisor);
-		stage.addActor(table);
+		stage.addActor(homeButton);
+		stage.addActor(productTable);
 	}
 
 	/**
@@ -93,8 +78,9 @@ public class CurrentProducts implements Screen
 	 * 
 	 * @return Table
 	 */
-	private Actor ProductPane()
+	private Actor productPane()
 	{
+		// TODO: Display product info and update table when product is clicked.
 		TextButton text = new TextButton("Designs", skin);
 		text.setDisabled(true);
 		text.setColor(0.5f, 0.5f, 0.5f, 1.0f);
@@ -128,7 +114,7 @@ public class CurrentProducts implements Screen
 	 * 
 	 * @return Table
 	 */
-	private Actor ProductInfo()
+	private Actor productInfo()
 	{
 		// TODO: backend. remove product interface, implement actual product
 		// class,
@@ -155,20 +141,20 @@ public class CurrentProducts implements Screen
 		stage.dispose();
 		this.game = null;
 	}
-
+	
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
-
+	
 	@Override
 	public void pause()
 	{
-		throw new UnsupportedOperationException(
-				"The method is not implemented yet.");
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
@@ -176,20 +162,20 @@ public class CurrentProducts implements Screen
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
-
+	
 	@Override
 	public void resume()
 	{
-		throw new UnsupportedOperationException(
-				"The method is not implemented yet.");
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void show()
 	{

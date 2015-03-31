@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-//import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
 
@@ -28,17 +26,12 @@ import edu.asu.c3simulator.widgets.ProductInfoPanel;
  */
 public class ProductHistory implements Screen
 {
-	private static final String ADVISOR_TEXT = "This is a PreMarketProducts screen";
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private Stage stage;
 	private Skin skin;
 	private Game game;
-	// private CornerAdvisor advisor;
 	private Table table;
-	private BitmapFont font = new BitmapFont(
-			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-	private ManagePanel manage;
 
 	public ProductHistory(final Game game)
 	{
@@ -48,10 +41,8 @@ public class ProductHistory implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		// TODO: uncomment advisor when advisor is implemented in master_testing
+		// TODO: implement advisor when advisor is implemented in master_testing
 		// or higher.
-
-		// advisor = new CornerAdvisor(ADVISOR_TEXT);
 
 		table = new Table();
 		table.setSize(900, 500);
@@ -59,16 +50,9 @@ public class ProductHistory implements Screen
 		table.setPosition(300, 50);
 		table.add(ProductInfo()).size(300, 500);
 
-		float padding = 0.01f * DESIGN_HEIGHT;
-		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
-		// padding;
-		// advisor.setPosition(advisorLeft, advisorBottom);
+		HomeButton homeButton = new HomeButton(game);
 
-		HomeButton home = new HomeButton(game);
-
-		stage.addActor(home);
-		// stage.addActor(advisor);
+		stage.addActor(homeButton);
 		stage.addActor(table);
 	}
 
@@ -78,7 +62,7 @@ public class ProductHistory implements Screen
 	 */
 	public void initialize()
 	{
-		manage = new ManagePanel(game, stage);
+		new ManagePanel(game, stage);
 	}
 
 	/**
@@ -124,7 +108,7 @@ public class ProductHistory implements Screen
 		// replace selected employees in dropdown with real employees,
 		// refresh product info
 		ProductInfoPanel productInfoPanel = new ProductInfoPanel(skin);
-		productInfoPanel.historyPanel();
+		productInfoPanel.addHistoryPanel();
 		Table productInfo = productInfoPanel.getProductInfo();
 		// TODO: future implementation, perhaps add buttons.
 		ScrollPane productPane = new ScrollPane(productInfo.top(), skin);
@@ -147,6 +131,7 @@ public class ProductHistory implements Screen
 	@Override
 	public void pause()
 	{
+		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}
@@ -168,6 +153,7 @@ public class ProductHistory implements Screen
 	@Override
 	public void resume()
 	{
+		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}

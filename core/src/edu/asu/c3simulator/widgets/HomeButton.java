@@ -19,8 +19,8 @@ import edu.asu.c3simulator.screens.AllManagementScreens;
 public class HomeButton extends Table{
 	
 	private Image homeIcon;
-	public float homeLeft;
-	public float homeBottom;
+	private float homeLeft;
+	private float homeBottom;
 	
 	public HomeButton(final Game game)
 	{

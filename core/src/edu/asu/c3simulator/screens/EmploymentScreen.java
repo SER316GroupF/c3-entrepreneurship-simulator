@@ -23,6 +23,7 @@ import edu.asu.c3simulator.simulation.Company;
 import edu.asu.c3simulator.simulation.Employee;
 import edu.asu.c3simulator.simulation.EmployeeFactory;
 import edu.asu.c3simulator.testing.stubs.CompanyTestingStub;
+import edu.asu.c3simulator.widgets.HomeButton;
 
 /**
  * Contains a list of employees, an Employee Model (which displays a single employee's
@@ -50,7 +51,6 @@ public class EmploymentScreen implements Screen
 	 * clicked, the selected employee will be set as the selected employee, and their
 	 * information will be displayed in the employee model.
 	 */
-	private ManagePanel manage;
 	private class EmployeeListener extends ClickListener
 	{
 		private Employee employee;
@@ -231,7 +231,8 @@ public class EmploymentScreen implements Screen
 		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET_X, DESIGN_HEIGHT / 6);
 		employeePane.setSize(350, 400);
 		roster.setPosition(ROSTER_OFFSET_X, DESIGN_HEIGHT / 2);
-		
+		HomeButton homeButton = new HomeButton(game);
+		stage.addActor(homeButton);
 		stage.addActor(roster);
 		stage.addActor(employeePane);
 		
@@ -239,7 +240,7 @@ public class EmploymentScreen implements Screen
 	
 	public void initialize()
 	{
-		manage = new ManagePanel(game, stage);
+		new ManagePanel(game, stage);
 	}
 	
 	/**

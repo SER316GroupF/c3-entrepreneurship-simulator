@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Product;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
  * Display a list of all products created by the business. Give the user the
@@ -132,9 +131,9 @@ public class MarketingScreen implements SimulationScreen
 		Table mainTable = createMainTable();
 		mainTable.setPosition(stage.getWidth() - 0.01f * stage.getWidth()
 				- mainTable.getWidth(), 0.01f * stage.getHeight());
-		HomeButton home = new HomeButton(game);
+		HomeButton homeButton = new HomeButton(game);
 
-		stage.addActor(home);
+		stage.addActor(homeButton);
 		stage.addActor(mainTable);
 	}
 
