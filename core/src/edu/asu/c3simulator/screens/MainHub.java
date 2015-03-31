@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,10 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.util.PlayerImp;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+
 //import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
 
 /**
@@ -43,14 +41,16 @@ public class MainHub implements Screen
 
 	private Stage stage;
 	private Skin skin;
-	//private CornerAdvisor advisor;
+	// private CornerAdvisor advisor;
 	private Table choices;
 	private Actor company;
 	private NavigationPanel navigation;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-	//TODO: uncomment advisor when advisor is implemented in master_testing or higher.
-	//public PlayerStatusDisplay player;
+
+	// TODO: uncomment advisor when advisor is implemented in master_testing or
+	// higher.
+	// public PlayerStatusDisplay player;
 
 	public MainHub(Game game)
 	{
@@ -66,13 +66,14 @@ public class MainHub implements Screen
 
 		AllManagementScreens.initialize(game);
 
-		//advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
+		// advisor = new CornerAdvisor(ADVISOR_TEXT, Color.BLACK);
 		navigation = new NavigationPanel(game, skin);
 
 		navigation.addButton("Businesses", null);
 		navigation.addButton("Manage",
 				AllManagementScreens.PRE_MARKET.getInstance());
-		navigation.addButton("Council", AllManagementScreens.COMPANY_PANEL.getInstance());
+		navigation.addButton("Council",
+				AllManagementScreens.COMPANY_PANEL.getInstance());
 		navigation.addSubButton("Businesses", "1.Create New", null);
 		navigation.addSubButton("Businesses", "2.Create New", null);
 		navigation.addSubButton("Businesses", "3.Create New", null);
@@ -84,18 +85,19 @@ public class MainHub implements Screen
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
-		//float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		//float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		//advisor.setPosition(advisorLeft, advisorBottom);
+		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
+		// padding;
+		// advisor.setPosition(advisorLeft, advisorBottom);
 		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
 		System.out.println("Create new home screen");
 
 		stage.addActor(playerLabel);
-		//stage.addActor(advisor);
+		// stage.addActor(advisor);
 		stage.addActor(company);
 		stage.addActor(navigation);
 		stage.addActor(Council());
-		//stage.addActor(playerInfo());
+		// stage.addActor(playerInfo());
 
 	}
 
@@ -156,21 +158,17 @@ public class MainHub implements Screen
 	 */
 	private Actor playerInfo()
 	{
-		// TODO: Replace c3Simulation interface with actual backend, uncomment player
+		// TODO: Replace c3Simulation interface with actual backend, uncomment
+		// player
 		// status display when playerStatusDisplay reachest master_testing
 		/*
-		C3Simulation sim = new C3Simulation() {
-			public String getSimulationDate()
-			{
-				return ("Jan, Year: 1");
-			}
-		};
-		PlayerStatusDisplay playerStatus = new PlayerStatusDisplay(
-				new PlayerImp("Plebian", 8000, 2000, sim));
-
-		playerStatus.setPosition(200, 600);
-		return playerStatus;
-		*/
+		 * C3Simulation sim = new C3Simulation() { public String
+		 * getSimulationDate() { return ("Jan, Year: 1"); } };
+		 * PlayerStatusDisplay playerStatus = new PlayerStatusDisplay( new
+		 * PlayerImp("Plebian", 8000, 2000, sim));
+		 * 
+		 * playerStatus.setPosition(200, 600); return playerStatus;
+		 */
 		return null;
 	}
 

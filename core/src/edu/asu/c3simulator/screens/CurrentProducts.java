@@ -3,8 +3,6 @@
  */
 package edu.asu.c3simulator.screens;
 
-import java.text.DecimalFormat;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,9 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -26,13 +22,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.simulation.Product;
-import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
-import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
  * Management screen that provides the player with information and allows for
@@ -122,13 +114,6 @@ public class CurrentProducts implements Screen
 		productTable.add(new HomeButton(game));
 		productTable.row();
 		productTable.add(new HomeButton(game));
-		// button for creating new products
-		Table createNewTable = new Table();
-		FileHandle img = Gdx.files.internal("images/Create-new.png");
-		createNewTable.add(new Image(new Texture(img)));
-		createNewTable.row();
-		createNewTable.add(new Label("Create new", skin));
-		productTable.add(createNewTable);
 
 		ScrollPane chosenTasksScroll = new ScrollPane(productTable, skin);
 
@@ -148,7 +133,8 @@ public class CurrentProducts implements Screen
 	 */
 	private Actor ProductInfo()
 	{
-		// TODO: backend. remove product interface, implement actual product class,
+		// TODO: backend. remove product interface, implement actual product
+		// class,
 		// replace selected employees in dropdown with real employees,
 		// refresh product info
 		ProductInfoPanel productInfoPanel = new ProductInfoPanel(skin);
@@ -182,7 +168,6 @@ public class CurrentProducts implements Screen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}
@@ -204,7 +189,6 @@ public class CurrentProducts implements Screen
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}

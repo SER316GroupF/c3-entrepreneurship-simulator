@@ -1,13 +1,9 @@
-/**
- * 
- */
 package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
@@ -32,8 +28,10 @@ public class ManagePanel
 		// Main buttons for manage panel
 		navigation.addButton("Products", null);
 		navigation.addButton("Growth", null);
-		navigation.addButton("Employment", AllManagementScreens.EMPLOYMENT.getInstance());
-		navigation.addButton("Marketing", AllManagementScreens.MARKETING.getInstance());
+		navigation.addButton("Employment",
+				AllManagementScreens.EMPLOYMENT.getInstance());
+		navigation.addButton("Marketing",
+				AllManagementScreens.MARKETING.getInstance());
 		// Products Sub Buttons
 		navigation.addSubButton("Products", "Pre-Market",
 				AllManagementScreens.PRE_MARKET.getInstance());
@@ -46,11 +44,11 @@ public class ManagePanel
 		// Growth Sub Buttons
 		navigation.addSubButton("Growth", "Supply", null);
 		navigation.addSubButton("Growth", "Demand", null);
-		
-		navigation.setPosition(0.01f * stage.getWidth(), stage.getHeight() * .7f);
+
+		navigation.setPosition(0.01f * stage.getWidth(),
+				stage.getHeight() * .7f);
 
 		stage.addActor(navigation);
-		//TODO: Fix magic numbers
-		
+
 	}
 }

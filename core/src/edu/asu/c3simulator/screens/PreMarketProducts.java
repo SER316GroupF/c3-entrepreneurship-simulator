@@ -1,7 +1,5 @@
 package edu.asu.c3simulator.screens;
 
-import java.text.DecimalFormat;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,15 +22,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.simulation.Product;
-import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 import edu.asu.c3simulator.widgets.ProductDesigns;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
-import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
  * Management screen that provides the player with information and allows for
@@ -50,7 +42,7 @@ public class PreMarketProducts implements Screen
 	private Stage stage;
 	private Skin skin;
 	private Game game;
-	//private CornerAdvisor advisor;
+	// private CornerAdvisor advisor;
 	private Table table;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
@@ -64,9 +56,10 @@ public class PreMarketProducts implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		//TODO: uncomment advisor when advisor is implemented in master_testing or higher.
+		// TODO: uncomment advisor when advisor is implemented in master_testing
+		// or higher.
 
-		//advisor = new CornerAdvisor(ADVISOR_TEXT);
+		// advisor = new CornerAdvisor(ADVISOR_TEXT);
 		// creates and adds manage Panel to the current screen
 		// manage = new ManagePanel(game);
 
@@ -77,14 +70,15 @@ public class PreMarketProducts implements Screen
 		table.add(ProductInfo()).size(300, 500);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
-		//float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		//float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		//advisor.setPosition(advisorLeft, advisorBottom);
+		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
+		// padding;
+		// advisor.setPosition(advisorLeft, advisorBottom);
 
 		HomeButton home = new HomeButton(game);
 
 		stage.addActor(home);
-		//stage.addActor(advisor);
+		// stage.addActor(advisor);
 		stage.addActor(table);
 	}
 
@@ -108,15 +102,14 @@ public class PreMarketProducts implements Screen
 		TextButton text = new TextButton("Designs", skin);
 		text.setDisabled(true);
 		text.setColor(0.5f, 0.5f, 0.5f, 1.0f);
-		
-		
 
 		Table productTable = new Table();
 		Table testTable = new Table();
-		ProductDesigns newProductPopupWindow = new ProductDesigns(testTable, stage, skin);
+		ProductDesigns newProductPopupWindow = new ProductDesigns(testTable,
+				stage, skin);
 		// button for creating new products
 		Table createNewTable = new Table();
-		
+
 		FileHandle img = Gdx.files.internal("images/Create-new.png");
 		Image newProductButton = new Image(new Texture(img));
 		newProductButton.addListener(new ClickListener() {
@@ -125,7 +118,7 @@ public class PreMarketProducts implements Screen
 			{
 				newProductPopupWindow.displayProductDesignOptions();
 			}
-			});
+		});
 		productTable.add(testTable);
 		createNewTable.add(newProductButton);
 		createNewTable.row();
@@ -151,7 +144,8 @@ public class PreMarketProducts implements Screen
 	private Actor ProductInfo()
 	{
 
-		// TODO: backend. remove product interface, implement actual product class,
+		// TODO: backend. remove product interface, implement actual product
+		// class,
 		// replace selected employees in dropdown with real employees,
 		// refresh product info
 		ProductInfoPanel productInfoPanel = new ProductInfoPanel(skin);
@@ -187,7 +181,6 @@ public class PreMarketProducts implements Screen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}
@@ -209,7 +202,6 @@ public class PreMarketProducts implements Screen
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}

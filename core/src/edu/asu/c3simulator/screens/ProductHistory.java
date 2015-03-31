@@ -1,42 +1,27 @@
 package edu.asu.c3simulator.screens;
 
-import java.text.DecimalFormat;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.simulation.Product;
-import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
-import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
- * Management screen that provides the player with information and allows for
- * editing with pre market products.
+ * Management screen that provides the player with information about the history
+ * of past products.
  * 
  * @author Reigel, Justin
  * 
@@ -49,7 +34,7 @@ public class ProductHistory implements Screen
 	private Stage stage;
 	private Skin skin;
 	private Game game;
-	//private CornerAdvisor advisor;
+	// private CornerAdvisor advisor;
 	private Table table;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
@@ -63,11 +48,10 @@ public class ProductHistory implements Screen
 				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		//TODO: uncomment advisor when advisor is implemented in master_testing or higher.
+		// TODO: uncomment advisor when advisor is implemented in master_testing
+		// or higher.
 
-		//advisor = new CornerAdvisor(ADVISOR_TEXT);
-		// creates and adds manage Panel to the current screen
-		// manage = new ManagePanel(game);
+		// advisor = new CornerAdvisor(ADVISOR_TEXT);
 
 		table = new Table();
 		table.setSize(900, 500);
@@ -76,14 +60,15 @@ public class ProductHistory implements Screen
 		table.add(ProductInfo()).size(300, 500);
 
 		float padding = 0.01f * DESIGN_HEIGHT;
-		//float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
-		//float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() - padding;
-		//advisor.setPosition(advisorLeft, advisorBottom);
+		// float advisorLeft = DESIGN_WIDTH - advisor.getPrefWidth() - padding;
+		// float advisorBottom = DESIGN_HEIGHT - advisor.getPrefHeight() -
+		// padding;
+		// advisor.setPosition(advisorLeft, advisorBottom);
 
 		HomeButton home = new HomeButton(game);
 
 		stage.addActor(home);
-		//stage.addActor(advisor);
+		// stage.addActor(advisor);
 		stage.addActor(table);
 	}
 
@@ -97,8 +82,8 @@ public class ProductHistory implements Screen
 	}
 
 	/**
-	 * Creates a table of the pre market product icons in a panel that the can
-	 * be scrolled through.
+	 * Creates a table of the product history icons in a panel that the can be
+	 * scrolled through.
 	 * 
 	 * @return Table
 	 */
@@ -126,15 +111,16 @@ public class ProductHistory implements Screen
 	}
 
 	/**
-	 * Creates a table with detailed information about the pre market products
-	 * in a panel that the can be scrolled through.
+	 * Creates a table with detailed information about the product history in a
+	 * panel that the can be scrolled through.
 	 * 
 	 * @return Table
 	 */
 	private Actor ProductInfo()
 	{
 
-		// TODO: backend. remove product interface, implement actual product class,
+		// TODO: backend. remove product interface, implement actual product
+		// class,
 		// replace selected employees in dropdown with real employees,
 		// refresh product info
 		ProductInfoPanel productInfoPanel = new ProductInfoPanel(skin);
@@ -161,7 +147,6 @@ public class ProductHistory implements Screen
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}
@@ -183,7 +168,6 @@ public class ProductHistory implements Screen
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException(
 				"The method is not implemented yet.");
 	}

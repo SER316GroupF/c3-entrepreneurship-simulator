@@ -19,8 +19,7 @@ import edu.asu.c3simulator.simulation.SimulationScreen;
  */
 public enum AllManagementScreens
 {
-	PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, PRODUCT_HISTORY, GROWTH_DEMAND, 
-	EMPLOYMENT, MARKETING, BUSINESS_DIRECTION, FUNDING, INDUSTRY, TASKS, COMPANY_PANEL, COMPLETED_TASKS, TASK_MANAGEMENT;
+	PRE_MARKET, CURRENT_PRODUCTS, RETIRED_PRODUCTS, CURRENT_PRODUCTS_GROWTH, PRODUCT_HISTORY, GROWTH_DEMAND, EMPLOYMENT, MARKETING, BUSINESS_DIRECTION, FUNDING, INDUSTRY, TASKS, COMPANY_PANEL, COMPLETED_TASKS, TASK_MANAGEMENT;
 
 	/**
 	 * True if {@link #initialize(Game)} has been called. This value must be
@@ -44,7 +43,7 @@ public enum AllManagementScreens
 			GROWTH_DEMAND.instance = null;
 			EMPLOYMENT.instance = new EmploymentScreen(game);
 			MARKETING.instance = new MarketingScreen(game);
-			BUSINESS_DIRECTION.instance = new  BusinessDirectonScreen(game);
+			BUSINESS_DIRECTION.instance = new BusinessDirectonScreen(game);
 			FUNDING.instance = new FundingScreen(game);
 			INDUSTRY.instance = new IndustryScreen(game);
 			TASKS.instance = new TasksScreen(game);
@@ -57,14 +56,16 @@ public enum AllManagementScreens
 			((ProductHistory) PRODUCT_HISTORY.instance).initialize();
 			((EmploymentScreen) EMPLOYMENT.instance).initialize();
 			((SimulationScreen) MARKETING.instance).createNavigationPanel();
-			((SimulationScreen) BUSINESS_DIRECTION.instance).createNavigationPanel();
+			((SimulationScreen) BUSINESS_DIRECTION.instance)
+					.createNavigationPanel();
 			((SimulationScreen) FUNDING.instance).createNavigationPanel();
 			((SimulationScreen) INDUSTRY.instance).createNavigationPanel();
 			((SimulationScreen) TASKS.instance).createNavigationPanel();
 			((SimulationScreen) COMPANY_PANEL.instance).createNavigationPanel();
-			((SimulationScreen) COMPLETED_TASKS.instance).createNavigationPanel();
-			((SimulationScreen) TASK_MANAGEMENT.instance).createNavigationPanel();
-			
+			((SimulationScreen) COMPLETED_TASKS.instance)
+					.createNavigationPanel();
+			((SimulationScreen) TASK_MANAGEMENT.instance)
+					.createNavigationPanel();
 
 			// TODO: initialize more as they are created
 		}

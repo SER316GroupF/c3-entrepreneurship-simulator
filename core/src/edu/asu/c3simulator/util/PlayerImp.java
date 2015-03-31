@@ -8,29 +8,29 @@ import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 
 /**
- * @author Justin
+ * Implementation of the Player interface
+ * 
+ * @author Reigel, Justin
  *
  */
 
 public class PlayerImp implements Player
 {
 
-	private String status;
+	private SocioeconomicStatus status;
 	private int netWorth;
 	private int capital;
 	private C3Simulation simulation;
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Player#getStatus()
-	 */
-	public PlayerImp(String newStatus, int newNetWorth, int newCapital, C3Simulation newSimulation){
+	
+	public PlayerImp(SocioeconomicStatus newStatus, int newNetWorth, int newCapital, C3Simulation newSimulation){
 		status = newStatus;
 		netWorth = newNetWorth;
 		capital= newCapital;
 		simulation = newSimulation;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Player#getNetWorth()
+	/**
+	 * @return The net worth of the player in base units
 	 */
 	@Override
 	public int getNetWorth()
@@ -39,8 +39,8 @@ public class PlayerImp implements Player
 		return netWorth;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Player#getCapital()
+	/**
+	 * @return The amount of money the player owns as capital
 	 */
 	@Override
 	public int getCapital()
@@ -49,8 +49,8 @@ public class PlayerImp implements Player
 		return capital;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Player#getSimulation()
+	/**
+	 * @return Parent simulation to which this player belongs
 	 */
 	@Override
 	public C3Simulation getSimulation()
@@ -59,26 +59,31 @@ public class PlayerImp implements Player
 		return simulation;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.c3simulator.simulation.Player#registerObserver(edu.asu.c3simulator.util.Observer)
+	/**
+	 * @return Id of the player
 	 */
-	@Override
-	public void registerObserver(Observer<Player> observer)
-	{
-		// TODO Auto-generated method stub
-
-	}
 	@Override
 	public String getID()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	/**
+	 * @return Player status
+	 */
 	@Override
 	public SocioeconomicStatus getStatus()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return status;
+	}
+
+	@Override
+	public void registerObservationListener(
+			ObservationListener<? super Player> listener)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -23,8 +23,11 @@ public class ProductInfoPanel
 	Table productInfo;
 	Product testProduct;
 	Skin skin;
-	public ProductInfoPanel(Skin skin){
-		// TODO: remove product interface, implement actual product class, refresh product info
+
+	public ProductInfoPanel(Skin skin)
+	{
+		// TODO: remove product interface, implement actual product class,
+		// refresh product info
 		this.skin = skin;
 		testProduct = new ProductTestingStub();
 		productInfo = new Table(skin);
@@ -58,19 +61,25 @@ public class ProductInfoPanel
 		productInfo.add(text7).left().row();
 		productInfo.add("").expand().row();
 	}
-	//added lines for product history panel
-	public void historyPanel(){
+
+	/**
+	 * adds product history to the panel
+	 */
+	public void historyPanel()
+	{
 		Label labelSold = new Label("Total sold: " + testProduct.getNumSold(),
 				skin);
 		productInfo.add(labelSold).left().row();
 		productInfo.add("").row();
-		Label labelWorth = new Label("Total worth: $" + testProduct.getTotalWorth(),
-				skin);
+		Label labelWorth = new Label("Total worth: $"
+				+ testProduct.getTotalWorth(), skin);
 		productInfo.add(labelWorth).left().row();
 		productInfo.add("").row();
 		productInfo.add();
 	}
-	public Table getProductInfo(){
+
+	public Table getProductInfo()
+	{
 		return productInfo;
 	}
 
