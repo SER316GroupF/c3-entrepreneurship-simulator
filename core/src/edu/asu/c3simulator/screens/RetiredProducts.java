@@ -1,21 +1,16 @@
 package edu.asu.c3simulator.screens;
 
-import java.text.DecimalFormat;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,17 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import edu.asu.c3simulator.simulation.C3Simulation;
-import edu.asu.c3simulator.simulation.Player;
-import edu.asu.c3simulator.simulation.Product;
-import edu.asu.c3simulator.testing.stubs.ProductTestingStub;
-import edu.asu.c3simulator.util.PlayerImp;
 //import edu.asu.c3simulator.widgets.CornerAdvisor;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
 //import edu.asu.c3simulator.widgets.PlayerStatusDisplay;
-import edu.asu.c3simulator.widgets.SellCompany;
 
 /**
  * Management screen that provides the player with information and allows for
