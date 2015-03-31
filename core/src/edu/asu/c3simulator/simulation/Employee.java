@@ -1,9 +1,6 @@
 package edu.asu.c3simulator.simulation;
 
-import java.text.DateFormat;
-import java.util.Random;
-
-import edu.asu.c3simulator.C3Simulator;
+import edu.asu.c3simulator.testing.stubs.SimulationTestingStub;
 
 /**
  * The Employee class is used to store all of the attributes that an employee should have.
@@ -34,8 +31,9 @@ public class Employee
 	private float averageAnnualBonus;
 	private int netBonuses;
 	
-	/** Largest difference an employee will take before quitting, as a percentage. */
+	/** Largest pay difference an employee will take before quitting, as a percentage. */
 	private float wageTolerance;
+	
 	/** An employee's ambition to be paid higher based on their position. */
 	private float ambition;
 	
@@ -95,9 +93,11 @@ public class Employee
 	
 	/**
 	 * Employee Morale is determined by the difference between the employees preferred
-	 * hourly wage and their actual hourly wage. The employee's preferred hourly wage is
-	 * based on their wage tolerance. If the employees morale reaches 0 then they will
-	 * quit and be removed from the companie's active roster of employees.
+	 * hourly wage and their actual hourly wage, and affected by their wage tolerance. A
+	 * higher wage tolerance means they will generally maintain a higher moral, and will
+	 * not be affected as intensely by their actual wage being less than their preferred
+	 * wage. If the employees morale reaches 0 then they will quit and be removed from the
+	 * company's active roster of employees.
 	 * 
 	 * @return Morale expressed as a percentage between 0 and 1
 	 */
@@ -117,7 +117,6 @@ public class Employee
 		}
 		
 		return (1 - moraleDock);
-		
 	}
 	
 	/**
@@ -142,53 +141,9 @@ public class Employee
 	
 	private C3Simulation getSimulation()
 	{
-		return new C3Simulation() {
-			
-			@Override
-			public String getSimulationDateString(DateFormat format)
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public String getSimulationDateString(String format)
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public String getSimulationDateString()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public int getMinimumWageOfPosition(Position position)
-			{
-				return 14;
-			}
-			
-			@Override
-			public int getMedianWageOfPosition(Position position)
-			{
-				return 17;
-			}
-			
-			@Override
-			public int getMaximumWageOfPosition(Position position)
-			{
-				return 20;
-			}
-			
-			@Override
-			public int getAverageWageOfPosition(Position position)
-			{
-				return 17;
-			}
-		};
+
+		// TODO: replace with actual simulation
+		return new SimulationTestingStub();
 	}
 	
 	public int getNetEarnings()

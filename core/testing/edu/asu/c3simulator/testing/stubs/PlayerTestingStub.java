@@ -1,8 +1,9 @@
-package edu.asu.c3simulator.testing;
+package edu.asu.c3simulator.testing.stubs;
 
 import java.text.DateFormat;
 
 import edu.asu.c3simulator.simulation.C3Simulation;
+import edu.asu.c3simulator.simulation.Employee.Position;
 import edu.asu.c3simulator.simulation.Player;
 import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 import edu.asu.c3simulator.util.Observer;
@@ -51,6 +52,30 @@ public class PlayerTestingStub implements Player
 				// TODO Auto-generated method stub return null;
 				throw new UnsupportedOperationException(
 						"The method is not implemented yet.");
+			}
+			
+			@Override
+			public int getMinimumWageOfPosition(Position position)
+			{
+				return 11;
+			}
+			
+			@Override
+			public int getMedianWageOfPosition(Position position)
+			{
+				return 15;
+			}
+			
+			@Override
+			public int getMaximumWageOfPosition(Position position)
+			{
+				return 28;
+			}
+			
+			@Override
+			public int getAverageWageOfPosition(Position position)
+			{
+				return 17;
 			}
 		};
 	}

@@ -6,6 +6,20 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 project.ext.mainClassName = "edu.asu.c3simulator.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
+sourceSets {
+    test {
+        java {
+            srcDir 'testing'
+        }
+    }
+}
+
+dependencies {
+    testCompile "junit:junit:4.+"
+	testCompile files("../core/src")
+	testCompile files("../core/testing")
+}
+
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
