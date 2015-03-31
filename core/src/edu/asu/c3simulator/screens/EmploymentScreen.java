@@ -45,6 +45,7 @@ import edu.asu.c3simulator.testing.stubs.CompanyTestingStub;
  * @author Moore, Zachary
  * 
  */
+
 public class EmploymentScreen implements Screen
 {
 	/**
@@ -72,8 +73,9 @@ public class EmploymentScreen implements Screen
 			employeePosition.setText("Position: " + employee.getPosition());
 			employeePayField.setText("" + employee.getActualHourlyWage());
 			employeePreferredHourlyWage.setText("Income Preference: $"
-					+ employee.getPreferredHourlyWage() + " / hr");
-			employeeMorale.setText("Morale: " + employee.getMorale() * 100 + " %");
+					+ Math.round(employee.getPreferredHourlyWage()) + " / hr");
+			employeeMorale.setText("Morale: " + Math.round(employee.getMorale() * 100)
+					+ "%");
 			netEarnings.setText("Net Earnings: " + employee.getNetEarnings());
 			averageAnnualBonus.setText("Averale Annual Bonus: "
 					+ employee.getAverageAnnualBonus() + "%");
@@ -84,7 +86,10 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
-	@SuppressWarnings("unused")
+	/**
+	 * Displays a list of randomly generated employees in a window when the "New Employee"
+	 * button is selected.
+	 */
 	private class NewEmployeeButtonListener extends ClickListener
 	{
 		@Override
@@ -97,14 +102,13 @@ public class EmploymentScreen implements Screen
 			for (int employeesGenerated = 0; employeesGenerated < 5; employeesGenerated++)
 			{
 				Employee employee = EmployeeFactory.getRandomEmployee();
-				availableNewEmployees.add(createNewEmployeeComponent(employee)).expand().fill().space(20).row();
-				// Actor employeeLabel = addEmployee(employee, newEmployeeOptionsPanel,
-				// false);
-				// employeeLabel.addListener(new HireEmployeeListener(employee));
-
+				availableNewEmployees.add(createNewEmployeeComponent(employee)).expand()
+						.fill().space(20).row();
+				
 			}
 			
-			ScrollPane newEmployeeOptionsScroll = new ScrollPane(availableNewEmployees, skin);
+			ScrollPane newEmployeeOptionsScroll = new ScrollPane(availableNewEmployees,
+					skin);
 			TextButton cancel = new TextButton("Cancel", skin);
 			cancel.addListener(new ClickListener() {
 				@Override
@@ -121,11 +125,14 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * 
+	 * The Hire Employee Listener is used when the user selects "New Employee" and a
+	 * window is generated with a list of employees that are available for hire. Each
+	 * employee has the hire options which, once selected, will add them to the list of
+	 * hired employees on your active roster.
 	 * 
 	 * @author Krogstad, Nick
 	 * @author Moore, Zachary
-	 *
+	 * 
 	 */
 	private class HireEmployeeListener extends ClickListener
 	{
@@ -156,7 +163,7 @@ public class EmploymentScreen implements Screen
 	 * employee.
 	 * 
 	 * @author Moore, Zachary
-	 *
+	 * 
 	 */
 	private class WageFieldValidator implements TextFieldListener
 	{
@@ -210,10 +217,8 @@ public class EmploymentScreen implements Screen
 	private Label netEarnings;
 	private TextField employeePayField;
 	private Table employeePayTable;
-	private VerticalGroup newEmployeeOptionsPanel;
 	private Window newEmployeeOptionsWindow;
 	private VerticalGroup employeeTable;
-
 	
 	@SuppressWarnings("unused")
 	private Game game;
@@ -244,7 +249,10 @@ public class EmploymentScreen implements Screen
 		roster.add(employeeModel).top().spaceRight(75);
 		roster.add(employeePane).top().spaceLeft(75);
 		
-		/** Add Documentation */
+		/**
+		 * Sets size and position of the window that pops up when "New Employee is
+		 * selected
+		 */
 		newEmployeeOptionsWindow = new Window("Employees for Hire", skin);
 		newEmployeeOptionsWindow.setSize(0.70f * stage.getWidth(),
 				0.80f * stage.getHeight());
@@ -257,7 +265,6 @@ public class EmploymentScreen implements Screen
 		roster.setTransform(true);
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
 		
-		// TODO: Corner Advisor
 		employeePane.setPosition(DESIGN_WIDTH / 4 + ROSTER_OFFSET_X, DESIGN_HEIGHT / 6);
 		employeePane.setSize(350, 400);
 		roster.setPosition(ROSTER_OFFSET_X, DESIGN_HEIGHT / 2);
@@ -276,6 +283,14 @@ public class EmploymentScreen implements Screen
 		return new CompanyTestingStub();
 	}
 	
+	/**
+	 * @return Window containing a list of employees available for hire.
+	 * 
+	 *         The New Employee Component is a window consisting of a list of employees
+	 *         and information including name, position, morale, and a text box allowing
+	 *         the user to set their pay if hired. It also displays a hire button next to
+	 *         each employee (see: Employee Hire Button).
+	 */
 	private Actor createNewEmployeeComponent(Employee newRandomEmployee)
 	{
 		Table newEmployeeComponent = new Table();
@@ -284,15 +299,16 @@ public class EmploymentScreen implements Screen
 		VerticalGroup newEmployeeInformation = new VerticalGroup();
 		Label name = new Label("Name: " + newRandomEmployee.getName(), skin);
 		Label position = new Label("Position: " + newRandomEmployee.getPosition(), skin);
-		Label preferredHourlyWage = new Label("Preferred Hourly Wage: "
-				+ newRandomEmployee.getPreferredHourlyWage(), skin);
+		Label preferredHourlyWage = new Label("Preferred Hourly Wage: $"
+				+ Math.round(newRandomEmployee.getPreferredHourlyWage()), skin);
 		newEmployeeInformation.addActor(name);
 		newEmployeeInformation.addActor(position);
 		newEmployeeInformation.addActor(preferredHourlyWage);
 		
 		/** Right side of New Employee Component */
 		VerticalGroup newEmployeeInputs = new VerticalGroup();
-		Label morale = new Label("Morale: " + newRandomEmployee.getMorale(), skin);
+		Label morale = new Label("Morale: "
+				+ Math.round(newRandomEmployee.getMorale() * 100) + "%", skin);
 		Actor pay = createNewEmployeePay(newRandomEmployee, morale);
 		TextButton hire = new TextButton("Hire", skin);
 		hire.addListener(new HireEmployeeListener(newRandomEmployee));
@@ -306,6 +322,10 @@ public class EmploymentScreen implements Screen
 		return newEmployeeComponent;
 	}
 	
+	/**
+	 * The Employee Pay Field Listener will ensure that all fields that are affected by
+	 * the employee's actual wage will be updated when the actual wage is altered.
+	 */
 	private class EmployeePayFieldListener implements TextField.TextFieldListener
 	{
 		private Employee newRandomEmployee;
@@ -350,6 +370,12 @@ public class EmploymentScreen implements Screen
 		
 	}
 	
+	/**
+	 * @param newRandomEmployee
+	 * @param morale
+	 * @return Pay field that allows the user to set the potential new employee's actual
+	 *         pay prior to hiring.
+	 */
 	private Actor createNewEmployeePay(Employee newRandomEmployee, Label morale)
 	{
 		Table employeePayTable = new Table(skin);
@@ -363,7 +389,6 @@ public class EmploymentScreen implements Screen
 		employeePayTable.add(payLabel);
 		employeePayTable.add(employeePayField);
 		employeePayTable.add(suffix);
-		// employeePayTable.setVisible(false);
 		return employeePayTable;
 	}
 	
