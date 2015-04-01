@@ -92,9 +92,9 @@ public class BusinessDirectonScreen implements SimulationScreen
 				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));
 		
 		// TODO add Corner Advisor
-		HomeButton home = new HomeButton(game);
+		HomeButton homeButton = new HomeButton(game);
 		
-		stage.addActor(home);
+		stage.addActor(homeButton);
 		stage.addActor(continueButton);
 		stage.addActor(directions);
 	}
