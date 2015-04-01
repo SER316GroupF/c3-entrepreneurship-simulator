@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.widgets.HomeButton;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * This screen still requires implementation. It was created and added to show the
@@ -60,17 +60,8 @@ public class IndustryScreen implements SimulationScreen
 	@Override
 	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Industry", AllManagementScreens.INDUSTRY.getInstance());
-		navigationPanel.addButton("Direction", AllManagementScreens.BUSINESS_DIRECTION.getInstance());
-		navigationPanel.addButton("Funding", AllManagementScreens.FUNDING.getInstance());
-		navigationPanel.addButton("Tasks", AllManagementScreens.TASKS.getInstance());
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		stage.addActor(navigationPanel);
+		stage.addActor(NavigationPanelFactory.getBusinessCreationGuideNavigationPanel(
+				game, stage));
 	}
 	
 	@Override

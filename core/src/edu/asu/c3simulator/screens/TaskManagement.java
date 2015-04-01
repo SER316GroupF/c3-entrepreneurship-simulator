@@ -92,8 +92,7 @@ public class TaskManagement extends Table
 				Button checkedButton = chosenTasks.get(numberOfButtons - index);
 				if (checkedButton.isChecked())
 				{
-					if (displayedTasks.get(checkedButton).getType()
-							== Task.Type.ACTION_BASED)
+					if (displayedTasks.get(checkedButton).getType() == Task.Type.ACTION_BASED)
 					{
 						actionBasedTasksList.addActor(checkedButton);
 						actionBasedTasksGroup.add(checkedButton);

@@ -5,7 +5,6 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,17 +20,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 import edu.asu.c3simulator.widgets.ProductInfoPanel;
 
 /**
- * Management screen that provides the player with information and allows for
- * editing with current products.
+ * Management screen that provides the player with information and allows for editing with
+ * current products.
  * 
  * @author Reigel, Justin
  * 
  */
-public class CurrentProducts implements Screen
+public class CurrentProducts implements SimulationScreen
 {
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
@@ -39,42 +40,42 @@ public class CurrentProducts implements Screen
 	private Skin skin;
 	private Game game;
 	private Table productTable;
-
+	
 	public CurrentProducts(Game game)
 	{
 		this.game = game;
-
-		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH,
-				DESIGN_HEIGHT);
+		
+		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		// TODO: implement advisor when advisor is implemented in master_testing
 		// or higher.
-
+		
 		productTable = new Table();
 		productTable.setSize(900, 500);
 		productTable.add(productPane()).fill().expand();
 		productTable.setPosition(300, 50);
 		productTable.add(productInfo()).size(300, 500);
-
+		
 		HomeButton homeButton = new HomeButton(game);
-
+		
 		stage.addActor(homeButton);
 		stage.addActor(productTable);
 	}
-
+	
 	/**
-	 * Initializes management panel. Called during initialization to avoid
-	 * infinite loops with AllManagementScreens.
+	 * Initializes management panel. Called during initialization to avoid infinite loops
+	 * with AllManagementScreens.
 	 */
-	public void initialize()
+	@Override
+	public void createNavigationPanel()
 	{
-		new ManagePanel(game, stage);
+		stage.addActor(NavigationPanelFactory.getManagementNavigationPanel(game, stage));
 	}
-
+	
 	/**
-	 * Creates a table of the current product icons in a panel that the can be
-	 * scrolled through.
+	 * Creates a table of the current product icons in a panel that the can be scrolled
+	 * through.
 	 * 
 	 * @return Table
 	 */
@@ -84,7 +85,7 @@ public class CurrentProducts implements Screen
 		TextButton text = new TextButton("Designs", skin);
 		text.setDisabled(true);
 		text.setColor(0.5f, 0.5f, 0.5f, 1.0f);
-
+		
 		Table productTable = new Table();
 		// TODO: replace with real products and product icons.
 		productTable.add(new HomeButton(game));
@@ -97,9 +98,9 @@ public class CurrentProducts implements Screen
 		productTable.add(new HomeButton(game));
 		productTable.row();
 		productTable.add(new HomeButton(game));
-
+		
 		ScrollPane chosenTasksScroll = new ScrollPane(productTable, skin);
-
+		
 		Table leftSection = new Table();
 		leftSection.debug();
 		leftSection.add(text).fillX().align(Align.center);
@@ -107,10 +108,10 @@ public class CurrentProducts implements Screen
 		leftSection.add(chosenTasksScroll).expand().fill().center();
 		return leftSection;
 	}
-
+	
 	/**
-	 * Creates a table with detailed information about the current products in a
-	 * panel that the can be scrolled through.
+	 * Creates a table with detailed information about the current products in a panel
+	 * that the can be scrolled through.
 	 * 
 	 * @return Table
 	 */
@@ -134,7 +135,7 @@ public class CurrentProducts implements Screen
 		ScrollPane productPane = new ScrollPane(productInfo.top(), skin);
 		return productPane;
 	}
-
+	
 	@Override
 	public void dispose()
 	{
@@ -181,5 +182,5 @@ public class CurrentProducts implements Screen
 	{
 		Gdx.input.setInputProcessor(stage);
 	}
-
+	
 }

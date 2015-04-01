@@ -2,7 +2,6 @@ package edu.asu.c3simulator.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,8 +21,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.simulation.Company;
 import edu.asu.c3simulator.simulation.Employee;
 import edu.asu.c3simulator.simulation.EmployeeFactory;
+import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.testing.stubs.CompanyTestingStub;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * Contains a list of employees, an Employee Model (which displays a single employee's
@@ -44,7 +45,7 @@ import edu.asu.c3simulator.widgets.HomeButton;
  * @author Moore, Zachary
  * 
  */
-public class EmploymentScreen implements Screen
+public class EmploymentScreen implements SimulationScreen
 {
 	/**
 	 * To be added to an employee label in the list of employees. When the label is
@@ -55,7 +56,6 @@ public class EmploymentScreen implements Screen
 	{
 		private Employee employee;
 		private Label label;
-		
 		
 		public EmployeeListener(Employee employee, Label label)
 		{
@@ -238,9 +238,10 @@ public class EmploymentScreen implements Screen
 		
 	}
 	
-	public void initialize()
+	@Override
+	public void createNavigationPanel()
 	{
-		new ManagePanel(game, stage);
+		stage.addActor(NavigationPanelFactory.getManagementNavigationPanel(game, stage));
 	}
 	
 	/**

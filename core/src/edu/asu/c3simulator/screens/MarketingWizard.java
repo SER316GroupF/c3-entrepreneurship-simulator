@@ -3,8 +3,6 @@ package edu.asu.c3simulator.screens;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import org.junit.experimental.theories.internal.AllMembersSupplier;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

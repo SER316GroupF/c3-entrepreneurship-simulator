@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Product;
 import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * Display a list of all products created by the business. Give the user the
@@ -145,7 +146,7 @@ public class MarketingScreen implements SimulationScreen
 	@Override
 	public void createNavigationPanel()
 	{
-		new ManagePanel(game, stage);
+		stage.addActor(NavigationPanelFactory.getManagementNavigationPanel(game, stage));
 	}
 
 	/**
@@ -372,7 +373,7 @@ public class MarketingScreen implements SimulationScreen
 	{
 		// do nothing
 	}
-
+	
 	@Override
 	public void dispose()
 	{

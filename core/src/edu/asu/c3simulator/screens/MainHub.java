@@ -19,21 +19,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import edu.asu.c3simulator.widgets.NavigationPanel;
 
 /**
- * This class displays the main hub, allowing the player to navigate to their
- * Businesses. Located after: DifficultySelection, and or HomeButton.
+ * This class displays the main hub, allowing the player to navigate to their Businesses.
+ * Located after: DifficultySelection, and or HomeButton.
  * 
  * @author Reigel, Justin
  */
 public class MainHub implements Screen
 {
-
+	
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
-
+	
 	private Game game;
-
+	
 	private Stage stage;
 	private Skin skin;
 	private Table choices;
@@ -42,42 +42,39 @@ public class MainHub implements Screen
 	private float padding;
 	private BitmapFont font = new BitmapFont(
 			Gdx.files.internal("fonts/arial32_superSample.fnt"));
-
+	
 	// TODO: uncomment advisor when advisor is implemented in master_testing or
 	// higher.
-
+	
 	public MainHub(Game game)
 	{
 		this.game = game;
-
-		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH,
-				DESIGN_HEIGHT);
+		
+		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-
+		
 		choices = new Table();
 		company = companyImage();
-
 		
-
 		Label playerLabel = new Label("Player", skin);
 		playerLabel.setPosition(40, 680);
-
+		
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
-
+		
 		padding = 0.01f * DESIGN_HEIGHT;
 		System.out.println("Create new home screen");
-
+		
 		stage.addActor(playerLabel);
 		stage.addActor(company);
 		stage.addActor(councilImage());
-
+		
 	}
-
+	
 	/**
-	 * Creates the business image in the middle of the screen. (Note: image is
-	 * not meant to be clickable)
+	 * Creates the business image in the middle of the screen. (Note: image is not meant
+	 * to be clickable)
 	 * 
 	 * @return Table
 	 */
@@ -96,13 +93,13 @@ public class MainHub implements Screen
 		companyLeft = DESIGN_WIDTH * 8 / 10 - companyIcon.getPrefWidth() / 2;
 		companyBottom = companyIcon.getHeight() * 4 / 5;
 		company.setPosition(companyLeft, companyBottom);
-
+		
 		return company;
 	}
-
+	
 	/**
-	 * Creates the council image in the bottom left of the screen. (Note: not
-	 * meant to be clickable)
+	 * Creates the council image in the bottom left of the screen. (Note: not meant to be
+	 * clickable)
 	 * 
 	 * @return Table
 	 */
@@ -120,13 +117,12 @@ public class MainHub implements Screen
 		councilLeft = companyIcon.getPrefWidth() / 2 + 50;
 		councilBottom = companyIcon.getHeight();
 		council.setPosition(councilLeft, councilBottom);
-
+		
 		return council;
 	}
-
+	
 	/**
-	 * Creates an instance of player status display in the upper left corner of
-	 * the screen
+	 * Creates an instance of player status display in the upper left corner of the screen
 	 * 
 	 * @return Table
 	 */
@@ -135,31 +131,30 @@ public class MainHub implements Screen
 		// TODO: Replace c3Simulation interface with actual backend, uncomment
 		// player
 		// status display when playerStatusDisplay reaches master_testing
-		 
+		
 		return null;
 	}
-
+	
 	@Override
 	public void dispose()
 	{
 		stage.dispose();
 		this.game = null;
 	}
-
+	
 	@Override
 	public void hide()
 	{
 		Gdx.input.setInputProcessor(null);
 	}
-
+	
 	@Override
 	public void pause()
 	{
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException(
-				"The method is not implemented yet.");
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
@@ -167,39 +162,39 @@ public class MainHub implements Screen
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
 	}
-
+	
 	@Override
 	public void resume()
 	{
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException(
-				"The method is not implemented yet.");
+		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
-
+	
 	@Override
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
 	}
-
+	
 	public void initialize()
 	{
 		navigation = new NavigationPanel(game, skin);
-
+		
 		navigation.addButton("Businesses", null);
-		navigation.addButton("Manage",
-				AllManagementScreens.PRE_MARKET.getInstance());
-		navigation.addButton("Council",
-				AllManagementScreens.COMPANY_PANEL.getInstance());
-		navigation.addSubButton("Businesses", "1.Create New", AllManagementScreens.INDUSTRY.getInstance());
-		navigation.addSubButton("Businesses", "2.Create New", AllManagementScreens.INDUSTRY.getInstance());
-		navigation.addSubButton("Businesses", "3.Create New", AllManagementScreens.INDUSTRY.getInstance());
+		navigation.addButton("Manage", AllManagementScreens.PRE_MARKET.getInstance());
+		navigation.addButton("Council", AllManagementScreens.COMPANY_PANEL.getInstance());
+		navigation.addSubButton("Businesses", "1.Create New",
+				AllManagementScreens.INDUSTRY.getInstance());
+		navigation.addSubButton("Businesses", "2.Create New",
+				AllManagementScreens.INDUSTRY.getInstance());
+		navigation.addSubButton("Businesses", "3.Create New",
+				AllManagementScreens.INDUSTRY.getInstance());
 		navigation.setPosition(navigation.getWidth() / 2 - padding, 500);
 		stage.addActor(navigation);
 		
