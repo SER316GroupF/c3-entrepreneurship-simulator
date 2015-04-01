@@ -6,13 +6,14 @@ import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 
 /**
  * Implementation of the Player interface Provides detail about various player
- * attributes that are needed for PlayerStatusDisplay. This class will be refactored and replaced in the future. 
+ * attributes that are needed for PlayerStatusDisplay. This class will be
+ * refactored and replaced in the future.
  * 
  * @author Reigel, Justin
  *
- *@version V0.1
+ * @version V0.1
  */
-//TODO Rename and replace with a refactored version in the future.
+// TODO Rename and replace with a refactored version in the future.
 public class PlayerInterfaceImplementation implements Player
 {
 	private SocioeconomicStatus status;
@@ -20,9 +21,9 @@ public class PlayerInterfaceImplementation implements Player
 	private int capital;
 	private C3Simulation simulation;
 
-	//TODO Decide how the live data layer will be handled
-	public PlayerInterfaceImplementation(SocioeconomicStatus newStatus, int newNetWorth,
-			int newCapital, C3Simulation newSimulation)
+	// TODO Decide how the live data layer will be handled
+	public PlayerInterfaceImplementation(SocioeconomicStatus newStatus,
+			int newNetWorth, int newCapital, C3Simulation newSimulation)
 	{
 		status = newStatus;
 		netWorth = newNetWorth;
