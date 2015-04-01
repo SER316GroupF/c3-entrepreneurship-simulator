@@ -126,6 +126,14 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
+	/**
+	 * Listener that displays a window when the "Employee Bonus" button is selected.
+	 * Includes a text field where the user can input an amount of money to give as a
+	 * bonus to the selected employee.
+	 * 
+	 * @author nickkrogstad
+	 * 
+	 */
 	private class EmployeeBonusListener extends ClickListener
 	{
 		@Override
@@ -289,7 +297,9 @@ public class EmploymentScreen implements Screen
 		newEmployeeOptionsWindow.setResizable(false);
 		
 		/**
-		 * TODO: Documentation
+		 * Sets size and position of the window that pops up when "Employee Bonus" is
+		 * selected. Window provides the option to input a bonus to give to the selected
+		 * employee.
 		 */
 		employeeBonusWindow = new Window("Employee Bonus", skin);
 		employeeBonusWindow.setSize(0.30f * stage.getWidth(), 0.30f * stage.getHeight());
@@ -364,9 +374,14 @@ public class EmploymentScreen implements Screen
 		return newEmployeeComponent;
 	}
 	
+	/**
+	 * @param selectedEmployee
+	 *            The currently selected employee that will be receiving the bonus
+	 * @return Table consisting of a TextField and Label
+	 */
 	private Actor createEmployeeBonusWindow(Employee selectedEmployee)
 	{
-		Table employeeBonus = new Table();
+		Table employeeBonusTable = new Table();
 		
 		VerticalGroup employeeBonusInformation = new VerticalGroup();
 		Label bonus = new Label("Choose an amount: ", skin);
@@ -376,9 +391,9 @@ public class EmploymentScreen implements Screen
 		employeeBonusInformation.addActor(pay);
 		bonus.setAlignment(Align.right);
 		
-		employeeBonus.add(employeeBonusInformation).expand().fill();
+		employeeBonusTable.add(employeeBonusInformation).expand().fill();
 		
-		return employeeBonus;
+		return employeeBonusTable;
 	}
 	
 	/**
@@ -428,13 +443,16 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
+	/**
+	 * Ensures that all fields that are affected by the employee's net bonuses are updated
+	 * when the net bonus is altered.
+	 */
 	private class NetBonusPayFieldListener implements TextField.TextFieldListener
 	{
 		private Employee selectedEmployee;
 		private TextField bonusPayField;
 		
-		public NetBonusPayFieldListener(Employee selectedEmployee,
-				TextField bonusPayField)
+		public NetBonusPayFieldListener(Employee selectedEmployee, TextField bonusPayField)
 		{
 			this.selectedEmployee = selectedEmployee;
 			this.bonusPayField = bonusPayField;
@@ -494,14 +512,20 @@ public class EmploymentScreen implements Screen
 		return employeePayTable;
 	}
 	
+	/**
+	 * @param netBonuses
+	 *            Component of an employee that is directly affected when entering an
+	 *            amount into the pay field for bonuses
+	 * @return The pay field that is displayed in the Employee Bonus Window.
+	 */
 	private Actor createBonusPayField(Employee employee, Label netBonuses)
 	{
 		Table employeePayTable = new Table(skin);
 		Label payLabel = new Label("$", skin);
 		TextField employeePayField = new TextField("", skin);
 		
-		employeePayField.setTextFieldListener(new NetBonusPayFieldListener(
-				employee, employeePayField));
+		employeePayField.setTextFieldListener(new NetBonusPayFieldListener(employee,
+				employeePayField));
 		
 		employeePayTable.add(payLabel);
 		employeePayTable.add(employeePayField);
