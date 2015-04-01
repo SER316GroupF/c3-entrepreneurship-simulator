@@ -45,7 +45,6 @@ import edu.asu.c3simulator.testing.stubs.CompanyTestingStub;
  * @author Moore, Zachary
  * 
  */
-
 public class EmploymentScreen implements Screen
 {
 	/**
@@ -102,9 +101,9 @@ public class EmploymentScreen implements Screen
 			for (int employeesGenerated = 0; employeesGenerated < 5; employeesGenerated++)
 			{
 				Employee employee = EmployeeFactory.getRandomEmployee();
-				availableNewEmployees.add(createNewEmployeeComponent(employee)).expand()
-						.fill().space(20).row();
-				
+				Actor employeeComponent = createNewEmployeeComponent(employee);
+				availableNewEmployees.add(employeeComponent).expand().fill().space(20)
+						.row();
 			}
 			
 			ScrollPane newEmployeeOptionsScroll = new ScrollPane(availableNewEmployees,
@@ -232,6 +231,7 @@ public class EmploymentScreen implements Screen
 	 * Employment Screen.
 	 * 
 	 * @param game
+	 *            Will be used to call {@link Game#setScreen(Screen)} when transitioning
 	 */
 	public EmploymentScreen(Game game)
 	{
@@ -251,7 +251,7 @@ public class EmploymentScreen implements Screen
 		
 		/**
 		 * Sets size and position of the window that pops up when "New Employee is
-		 * selected
+		 * selected. Window provides options for new employees available for hire.
 		 */
 		newEmployeeOptionsWindow = new Window("Employees for Hire", skin);
 		newEmployeeOptionsWindow.setSize(0.70f * stage.getWidth(),
@@ -284,18 +284,21 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * @return Window containing a list of employees available for hire.
+	 * The New Employee Component is a window consisting of a list of employees and
+	 * information including name, position, morale, and a text box allowing the user to
+	 * set their pay if hired. It also displays a hire button next to each employee (see:
+	 * Employee Hire Button).
 	 * 
-	 *         The New Employee Component is a window consisting of a list of employees
-	 *         and information including name, position, morale, and a text box allowing
-	 *         the user to set their pay if hired. It also displays a hire button next to
-	 *         each employee (see: Employee Hire Button).
+	 * @return Window containing a list of employees available for hire.
 	 */
 	private Actor createNewEmployeeComponent(Employee newRandomEmployee)
 	{
 		Table newEmployeeComponent = new Table();
 		
-		/** Left side of New Employee Component */
+		/**
+		 * Left side of New Employee Component; includes elements that are not defined by
+		 * the user's interactions.
+		 */
 		VerticalGroup newEmployeeInformation = new VerticalGroup();
 		Label name = new Label("Name: " + newRandomEmployee.getName(), skin);
 		Label position = new Label("Position: " + newRandomEmployee.getPosition(), skin);
@@ -305,11 +308,14 @@ public class EmploymentScreen implements Screen
 		newEmployeeInformation.addActor(position);
 		newEmployeeInformation.addActor(preferredHourlyWage);
 		
-		/** Right side of New Employee Component */
+		/**
+		 * Right side of New Employee Component; includes elements that are affected by
+		 * the user's interactions.
+		 */
 		VerticalGroup newEmployeeInputs = new VerticalGroup();
 		Label morale = new Label("Morale: "
 				+ Math.round(newRandomEmployee.getMorale() * 100) + "%", skin);
-		Actor pay = createNewEmployeePay(newRandomEmployee, morale);
+		Actor pay = createNewEmployeePayField(newRandomEmployee, morale);
 		TextButton hire = new TextButton("Hire", skin);
 		hire.addListener(new HireEmployeeListener(newRandomEmployee));
 		newEmployeeInputs.addActor(pay);
@@ -323,8 +329,8 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * The Employee Pay Field Listener will ensure that all fields that are affected by
-	 * the employee's actual wage will be updated when the actual wage is altered.
+	 * Ensures that all fields that are affected by the employee's actual wage will be
+	 * updated when the actual wage is altered.
 	 */
 	private class EmployeePayFieldListener implements TextField.TextFieldListener
 	{
@@ -372,11 +378,15 @@ public class EmploymentScreen implements Screen
 	
 	/**
 	 * @param newRandomEmployee
+	 *            Contains randomly generated components including: name, position, wage
+	 *            tolerance, and ambition
 	 * @param morale
+	 *            Component of an employee that is directly affected by the user's
+	 *            decision for actual hourly wage.
 	 * @return Pay field that allows the user to set the potential new employee's actual
 	 *         pay prior to hiring.
 	 */
-	private Actor createNewEmployeePay(Employee newRandomEmployee, Label morale)
+	private Actor createNewEmployeePayField(Employee newRandomEmployee, Label morale)
 	{
 		Table employeePayTable = new Table(skin);
 		Label payLabel = new Label("Pay: $", skin);

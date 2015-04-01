@@ -1,6 +1,5 @@
 package edu.asu.c3simulator.simulation;
 
-
 import edu.asu.c3simulator.testing.stubs.SimulationTestingStub;
 
 /**
@@ -104,7 +103,7 @@ public class Employee
 	 */
 	public float getMorale()
 	{
-	
+		
 		float maxPayDelta = (actualHourlyWage * wageTolerance);
 		float payDelta = getPreferredHourlyWage() - actualHourlyWage;
 		float moraleDock = payDelta / maxPayDelta;
@@ -119,7 +118,7 @@ public class Employee
 		}
 		
 		return (1 - moraleDock);
-
+		
 	}
 	
 	/**
@@ -144,7 +143,7 @@ public class Employee
 	
 	private C3Simulation getSimulation()
 	{
-
+		
 		// TODO: replace with actual simulation
 		return new SimulationTestingStub();
 	}

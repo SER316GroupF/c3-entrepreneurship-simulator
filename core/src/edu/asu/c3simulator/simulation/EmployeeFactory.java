@@ -4,17 +4,18 @@ import java.util.Random;
 
 import edu.asu.c3simulator.simulation.Employee.Position;
 
-
 /**
- * Employee Factory is used to generate employees with random qualities
- * including name, position, wage tolerance, and ambition.
+ * Used to generate employees with random qualities including name, position, wage
+ * tolerance, and ambition.
  * 
  * @author nickkrogstad
- *
+ * 
  */
 public class EmployeeFactory
 {
-	 /** @return A randomly selected name generated for an employee */
+	/**
+	 * @return A randomly selected name generated for an employee TODO: Load from file
+	 */
 	public static String getRandomName()
 	{
 		String[] firstName = { "Nicholas", "Colton", "Sawyer", "Frankie", "Jennifer",
@@ -32,7 +33,6 @@ public class EmployeeFactory
 		return randomEmployeeName;
 	}
 	
-	
 	/** @return Randomly selected position based on the four available positions. */
 	public static Position getRandomPosition()
 	{
@@ -41,8 +41,6 @@ public class EmployeeFactory
 		Position position = positions[randomPositions];
 		return position;
 	}
-	
-	
 	
 	/** @return An employee with its randomly generated qualities. */
 	public static Employee getRandomEmployee()
