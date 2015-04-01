@@ -81,9 +81,10 @@ public class EmploymentScreen implements Screen
 					+ employee.getAverageAnnualBonus() + "%");
 			averageAnnualRaise.setText("Average Annual Raise: "
 					+ employee.getAverageAnnualRaise() + "%");
-			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
+			netBonuses.setText("Net Bonuses: $" + employee.getNetBonuses());
 			employeePayTable.setVisible(true);
 			fireEmployee.setVisible(true);
+			bonus.setVisible(true);
 		}
 	}
 	
@@ -123,6 +124,29 @@ public class EmploymentScreen implements Screen
 			newEmployeeOptionsWindow.add(cancel).expandX().fillX();
 			stage.addActor(newEmployeeOptionsWindow);
 		}
+	}
+	
+	private class EmployeeBonusListener extends ClickListener
+	{
+		@Override
+		public void clicked(InputEvent event, float x, float y)
+		{
+			Actor employeeBonus = createEmployeeBonusWindow(selectedEmployee);
+			TextButton cancel = new TextButton("Cancel", skin);
+			cancel.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y)
+				{
+					employeeBonusWindow.remove();
+					employeeBonusWindow.clear();
+				}
+			});
+			
+			employeeBonusWindow.add(employeeBonus).expand().fill().space(30).row();
+			employeeBonusWindow.add(cancel).expandX().fillX();
+			stage.addActor(employeeBonusWindow);
+		}
+		
 	}
 	
 	/**
@@ -213,9 +237,11 @@ public class EmploymentScreen implements Screen
 	private TextField employeePayField;
 	private Table employeePayTable;
 	private Window newEmployeeOptionsWindow;
+	private Window employeeBonusWindow;
 	private VerticalGroup employeeTable;
 	private CompanyTestingStub companyTestingStub;
 	private TextButton fireEmployee;
+	private TextButton bonus;
 	
 	@SuppressWarnings("unused")
 	private Game game;
@@ -261,6 +287,16 @@ public class EmploymentScreen implements Screen
 						/ 2 - (0.80f * stage.getHeight()) / 2);
 		newEmployeeOptionsWindow.setMovable(false);
 		newEmployeeOptionsWindow.setResizable(false);
+		
+		/**
+		 * TODO: Documentation
+		 */
+		employeeBonusWindow = new Window("Employee Bonus", skin);
+		employeeBonusWindow.setSize(0.30f * stage.getWidth(), 0.30f * stage.getHeight());
+		employeeBonusWindow.setPosition(stage.getWidth() / 2 - (0.30f * stage.getWidth())
+				/ 2, stage.getHeight() / 2 - (0.30f * stage.getHeight()) / 2);
+		employeeBonusWindow.setMovable(true);
+		employeeBonusWindow.setResizable(false);
 		
 		roster.setTransform(true);
 		roster.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
@@ -328,6 +364,23 @@ public class EmploymentScreen implements Screen
 		return newEmployeeComponent;
 	}
 	
+	private Actor createEmployeeBonusWindow(Employee selectedEmployee)
+	{
+		Table employeeBonus = new Table();
+		
+		VerticalGroup employeeBonusInformation = new VerticalGroup();
+		Label bonus = new Label("Choose an amount: ", skin);
+		Actor pay = createBonusPayField(selectedEmployee, netBonuses);
+		
+		employeeBonusInformation.addActor(bonus);
+		employeeBonusInformation.addActor(pay);
+		bonus.setAlignment(Align.right);
+		
+		employeeBonus.add(employeeBonusInformation).expand().fill();
+		
+		return employeeBonus;
+	}
+	
 	/**
 	 * Ensures that all fields that are affected by the employee's actual wage will be
 	 * updated when the actual wage is altered.
@@ -373,7 +426,46 @@ public class EmploymentScreen implements Screen
 			employeePayField.setCursorPosition(text.length());
 			
 		}
+	}
+	
+	private class NetBonusPayFieldListener implements TextField.TextFieldListener
+	{
+		private Employee selectedEmployee;
+		private TextField bonusPayField;
 		
+		public NetBonusPayFieldListener(Employee selectedEmployee,
+				TextField bonusPayField)
+		{
+			this.selectedEmployee = selectedEmployee;
+			this.bonusPayField = bonusPayField;
+		}
+		
+		@Override
+		public void keyTyped(TextField textField, char c)
+		{
+			String proposal = bonusPayField.getText().trim();
+			int proposalValue = selectedEmployee.getNetBonuses();
+			
+			if (proposal.length() <= 0)
+			{
+				proposalValue = 0;
+			}
+			
+			try
+			{
+				proposalValue = Integer.parseInt(proposal);
+				selectedEmployee.setNetBonuses(proposalValue);
+			}
+			catch (NumberFormatException exception)
+			{
+				// DO NOTHING
+			}
+			
+			String text = Integer.toString(proposalValue);
+			bonusPayField.setText(text);
+			bonusPayField.setCursorPosition(text.length());
+			
+		}
 	}
 	
 	/**
@@ -399,6 +491,20 @@ public class EmploymentScreen implements Screen
 		employeePayTable.add(payLabel);
 		employeePayTable.add(employeePayField);
 		employeePayTable.add(suffix);
+		return employeePayTable;
+	}
+	
+	private Actor createBonusPayField(Employee employee, Label netBonuses)
+	{
+		Table employeePayTable = new Table(skin);
+		Label payLabel = new Label("$", skin);
+		TextField employeePayField = new TextField("", skin);
+		
+		employeePayField.setTextFieldListener(new NetBonusPayFieldListener(
+				employee, employeePayField));
+		
+		employeePayTable.add(payLabel);
+		employeePayTable.add(employeePayField);
 		return employeePayTable;
 	}
 	
@@ -460,7 +566,6 @@ public class EmploymentScreen implements Screen
 		}
 		
 		return label;
-		
 	}
 	
 	/**
@@ -544,6 +649,10 @@ public class EmploymentScreen implements Screen
 			}
 		});
 		
+		bonus = new TextButton("Employee Bonus", skin);
+		bonus.addListener(new EmployeeBonusListener());
+		
+		bonus.setVisible(false);
 		fireEmployee.setVisible(false);
 		VerticalGroup employeeModel = new VerticalGroup();
 		employeeModel.addActor(employeeName);
@@ -556,6 +665,7 @@ public class EmploymentScreen implements Screen
 		employeeModel.addActor(averageAnnualRaise);
 		employeeModel.addActor(netEarnings);
 		employeeModel.addActor(fireEmployee);
+		employeeModel.addActor(bonus);
 		
 		return employeeModel;
 	}
@@ -568,6 +678,7 @@ public class EmploymentScreen implements Screen
 	{
 		employeePayTable.setVisible(false);
 		fireEmployee.setVisible(false);
+		bonus.setVisible(false);
 		employeeName.setText("");
 		employeePosition.setText("");
 		employeePreferredHourlyWage.setText("");
