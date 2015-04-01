@@ -12,21 +12,38 @@ import edu.asu.c3simulator.simulation.Employee.Position;
  * 
  * @author Krogstad, Nick
  * @author Moore, Zachary
- *
+ * 
  */
+
 public class CompanyTestingStub implements Company
 {
-	@Override
-	public List<Employee> getEmployees()
+	List<Employee> employees;
+	
+	public CompanyTestingStub()
 	{
+		employees = new LinkedList<>();
+		
 		Employee employee1 = new Employee("Jason Richards", Position.MANAGER, 0.4f, 0.67f);
 		Employee employee2 = new Employee("Janet Wilmore", Position.PRODUCT_DESIGNER,
 				0.8f, 0.99f);
 		
-		List<Employee> employees = new LinkedList<>();
 		employees.add(employee1);
 		employees.add(employee2);
-		
+	}
+	
+	@Override
+	public List<Employee> getEmployees()
+	{
 		return employees;
+	}
+	
+	public void addEmployee(Employee employee)
+	{
+		employees.add(employee);
+	}
+	
+	public void removeEmployee(Employee employee)
+	{
+		employees.remove(employee);
 	}
 }

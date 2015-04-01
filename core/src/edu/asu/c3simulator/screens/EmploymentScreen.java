@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -82,6 +83,7 @@ public class EmploymentScreen implements Screen
 					+ employee.getAverageAnnualRaise() + "%");
 			netBonuses.setText("Net Bonuses: " + employee.getNetBonuses());
 			employeePayTable.setVisible(true);
+			fireEmployee.setVisible(true);
 		}
 	}
 	
@@ -124,10 +126,9 @@ public class EmploymentScreen implements Screen
 	}
 	
 	/**
-	 * The Hire Employee Listener is used when the user selects "New Employee" and a
-	 * window is generated with a list of employees that are available for hire. Each
-	 * employee has the hire options which, once selected, will add them to the list of
-	 * hired employees on your active roster.
+	 * Used when the user selects "New Employee" and a window is generated with a list of
+	 * employees that are available for hire. Each employee has the hire options which,
+	 * once selected, will add them to the list of hired employees on your active roster.
 	 * 
 	 * @author Krogstad, Nick
 	 * @author Moore, Zachary
@@ -146,6 +147,7 @@ public class EmploymentScreen implements Screen
 		public void clicked(InputEvent event, float x, float y)
 		{
 			addEmployee(employee, employeeTable);
+			((CompanyTestingStub) getCompanyContext()).addEmployee(employee);
 			newEmployeeOptionsWindow.remove();
 		}
 	}
@@ -218,6 +220,8 @@ public class EmploymentScreen implements Screen
 	private Table employeePayTable;
 	private Window newEmployeeOptionsWindow;
 	private VerticalGroup employeeTable;
+	private CompanyTestingStub companyTestingStub;
+	private TextButton fireEmployee;
 	
 	@SuppressWarnings("unused")
 	private Game game;
@@ -240,6 +244,8 @@ public class EmploymentScreen implements Screen
 		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		
+		companyTestingStub = new CompanyTestingStub();
 		
 		Table roster = new Table();
 		
@@ -280,7 +286,7 @@ public class EmploymentScreen implements Screen
 	public Company getCompanyContext()
 	{
 		// TODO: return based on actual context, not a placeholder
-		return new CompanyTestingStub();
+		return companyTestingStub;
 	}
 	
 	/**
@@ -424,6 +430,17 @@ public class EmploymentScreen implements Screen
 		return employeeScrollPane;
 	}
 	
+	public void removeEmployee(Employee employee)
+	{
+		((CompanyTestingStub) getCompanyContext()).removeEmployee(employee);
+		employeeTable.clear();
+		
+		for (Employee employee1 : getCompanyContext().getEmployees())
+		{
+			addEmployee(employee1, employeeTable);
+		}
+	}
+	
 	/**
 	 * Adds an employee to the provided vertical group
 	 * <p>
@@ -514,6 +531,17 @@ public class EmploymentScreen implements Screen
 		averageAnnualRaise.setAlignment(Align.left);
 		netEarnings.setAlignment(Align.left);
 		
+		fireEmployee = new TextButton("Fire Employee", skin);
+		fireEmployee.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				removeEmployee(selectedEmployee);
+				clearEmployeeModel();
+			}
+		});
+		
+		fireEmployee.setVisible(false);
 		VerticalGroup employeeModel = new VerticalGroup();
 		employeeModel.addActor(employeeName);
 		employeeModel.addActor(employeePosition);
@@ -524,8 +552,23 @@ public class EmploymentScreen implements Screen
 		employeeModel.addActor(averageAnnualBonus);
 		employeeModel.addActor(averageAnnualRaise);
 		employeeModel.addActor(netEarnings);
+		employeeModel.addActor(fireEmployee);
 		
 		return employeeModel;
+	}
+	
+	private void clearEmployeeModel()
+	{
+		employeePayTable.setVisible(false);
+		fireEmployee.setVisible(false);
+		employeeName.setText("");
+		employeePosition.setText("");
+		employeePreferredHourlyWage.setText("");
+		employeeMorale.setText("");
+		netBonuses.setText("");
+		averageAnnualBonus.setText("");
+		averageAnnualRaise.setText("");
+		netEarnings.setText("");
 	}
 	
 	@Override
