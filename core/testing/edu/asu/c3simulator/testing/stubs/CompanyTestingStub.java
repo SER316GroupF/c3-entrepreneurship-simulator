@@ -37,11 +37,23 @@ public class CompanyTestingStub implements Company
 		return employees;
 	}
 	
+	/**
+	 * Adds an employee to a list containing all active employees.
+	 * 
+	 * @param employee
+	 *            The currently selected employee
+	 */
 	public void addEmployee(Employee employee)
 	{
 		employees.add(employee);
 	}
 	
+	/**
+	 * Removes an employee from the list containing all active employees.
+	 * 
+	 * @param employee
+	 *            The currently selected employee
+	 */
 	public void removeEmployee(Employee employee)
 	{
 		employees.remove(employee);

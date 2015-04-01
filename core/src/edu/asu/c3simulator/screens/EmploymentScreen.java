@@ -196,12 +196,6 @@ public class EmploymentScreen implements Screen
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private class RemoveEmployeeListener extends ClickListener
-	{
-		// TODO
-	}
-	
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
@@ -430,6 +424,13 @@ public class EmploymentScreen implements Screen
 		return employeeScrollPane;
 	}
 	
+	/**
+	 * Removes the currently selected employee from the active list of hired employees in
+	 * Employee Pane.
+	 * 
+	 * @param employee
+	 *            The currently selected employee
+	 */
 	public void removeEmployee(Employee employee)
 	{
 		((CompanyTestingStub) getCompanyContext()).removeEmployee(employee);
@@ -510,6 +511,8 @@ public class EmploymentScreen implements Screen
 	 * Creates the Employee Model, which displays all of the components of an employee
 	 * including: Name, Position, Pay, Pay Preference, Morale, Net Salary, Average Annual
 	 * Bonus, Average Annual Raise, and Net Bonuses
+	 * 
+	 * @return Employee Model with all of its components
 	 */
 	private Actor createEmployeeModel()
 	{
@@ -557,6 +560,10 @@ public class EmploymentScreen implements Screen
 		return employeeModel;
 	}
 	
+	/**
+	 * Clears the Employee Model (the information displayed when you select an employee)
+	 * when you fire the employee that is currently selected.
+	 */
 	private void clearEmployeeModel()
 	{
 		employeePayTable.setVisible(false);
