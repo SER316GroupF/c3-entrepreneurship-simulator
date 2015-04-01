@@ -6,12 +6,13 @@ import edu.asu.c3simulator.simulation.SocioeconomicStatus;
 
 /**
  * Implementation of the Player interface Provides detail about various player
- * attributes that are needed for PlayerStatusDisplay
+ * attributes that are needed for PlayerStatusDisplay. This class will be refactored and replaced in the future. 
  * 
  * @author Reigel, Justin
  *
+ *@version V0.1
  */
-
+//TODO Rename and replace with a refactored version in the future.
 public class PlayerInterfaceImplementation implements Player
 {
 	private SocioeconomicStatus status;
@@ -19,6 +20,7 @@ public class PlayerInterfaceImplementation implements Player
 	private int capital;
 	private C3Simulation simulation;
 
+	//TODO Decide how the live data layer will be handled
 	public PlayerInterfaceImplementation(SocioeconomicStatus newStatus, int newNetWorth,
 			int newCapital, C3Simulation newSimulation)
 	{
@@ -28,9 +30,6 @@ public class PlayerInterfaceImplementation implements Player
 		simulation = newSimulation;
 	}
 
-	/**
-	 * @return The net worth of the player in base units
-	 */
 	@Override
 	public int getNetWorth()
 	{
@@ -38,9 +37,6 @@ public class PlayerInterfaceImplementation implements Player
 		return netWorth;
 	}
 
-	/**
-	 * @return The amount of money the player owns as capital
-	 */
 	@Override
 	public int getCapital()
 	{
@@ -48,9 +44,6 @@ public class PlayerInterfaceImplementation implements Player
 		return capital;
 	}
 
-	/**
-	 * @return Parent simulation to which this player belongs
-	 */
 	@Override
 	public C3Simulation getSimulation()
 	{
@@ -58,9 +51,6 @@ public class PlayerInterfaceImplementation implements Player
 		return simulation;
 	}
 
-	/**
-	 * @return Id of the player
-	 */
 	@Override
 	public String getID()
 	{
@@ -68,9 +58,6 @@ public class PlayerInterfaceImplementation implements Player
 		return null;
 	}
 
-	/**
-	 * @return Player status
-	 */
 	@Override
 	public SocioeconomicStatus getStatus()
 	{
