@@ -19,11 +19,6 @@ sourceSets {
 
 dependencies {
     testCompile "junit:junit:4.+"
-	testCompile files("../core/src")
-	testCompile files("../core/testing")
-	
-	compile files("../core/src")
-	compile files("../core/testing")
 }
 
 task run(dependsOn: classes, type: JavaExec) {
