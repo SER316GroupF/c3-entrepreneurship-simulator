@@ -32,7 +32,26 @@ public class SellCompanyButton extends Table
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				System.out.println("Continue!");
+				window.remove();
+				Window soldWindow = new Window("Company was sold", skin);
+
+				TextButton confirmationButton = new TextButton("Ok", skin);
+				confirmationButton.addListener(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y)
+					{
+						soldWindow.remove();
+					}
+				});
+
+				soldWindow.add("").expand().row();
+				soldWindow.add(confirmationButton).bottom()
+						.height(soldWindow.getPadTop());
+				soldWindow.setPosition(200f, 200f);
+				soldWindow.setSize(400f, 100f);
+				soldWindow.setColor(1f, 1f, 1f, 1f);
+				soldWindow.setResizable(false);
+				getStage().addActor(soldWindow);
 				// TODO: Delete actual business When this SellCompany Button is
 				// clicked
 			}
@@ -63,13 +82,12 @@ public class SellCompanyButton extends Table
 				window.row().fill().expandX();
 				window.add(
 						"This will permanently sell your business\n and you will not be able to "
-								+ "but it back.\n Are you sure you would like to continue? ")
+								+ "get it back.\n Are you sure you would like to continue? ")
 						.row();
-				Table t = new Table();
-				t.add(continueButton).height(window.getPadTop());
-				t.add(cancelButton).height(window.getPadTop());
-				window.add(t);
-				// window.setDebug(true);
+				Table windowButtons = new Table();
+				windowButtons.add(continueButton).height(window.getPadTop());
+				windowButtons.add(cancelButton).height(window.getPadTop());
+				window.add(windowButtons);
 				window.getButtonTable().right().bottom();
 				window.setPosition(200f, 200f);
 				window.setSize(550f, 200f);

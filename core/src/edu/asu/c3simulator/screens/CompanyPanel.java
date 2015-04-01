@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.widgets.HomeButton;
 import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.SellCompanyButton;
 
 /**
  * This class displays the company - businesses tab in the council section of
@@ -170,8 +173,7 @@ public class CompanyPanel implements SimulationScreen
 		// TODO add rename and sell button created by teammates
 
 		TextButton renameButton = new TextButton("Rename", skin);
-		TextButton sellButton = new TextButton("Sell", skin);
-
+		SellCompanyButton sellButton = new SellCompanyButton(game, skin);
 		businessButtons.addActor(renameButton);
 		businessButtons.addActor(sellButton);
 		businessButtons.align(Align.center);
