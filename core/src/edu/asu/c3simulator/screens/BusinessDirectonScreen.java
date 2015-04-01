@@ -1,8 +1,5 @@
 package edu.asu.c3simulator.screens;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,7 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * Displays two options for general company goals and highlights selected option.
@@ -83,7 +81,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to Funding Screen
-				game.setScreen(new FundingScreen(game));
+				game.setScreen(AllManagementScreens.FUNDING.getInstance());
 			}
 		});
 		
@@ -91,11 +89,9 @@ public class BusinessDirectonScreen implements SimulationScreen
 				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
+		HomeButton homeButton = new HomeButton(game);
 		
-		NavigationPanel navigationPanel = createNavigationPanel();
-		
-		stage.addActor(navigationPanel);
+		stage.addActor(homeButton);
 		stage.addActor(continueButton);
 		stage.addActor(directions);
 	}
@@ -110,24 +106,14 @@ public class BusinessDirectonScreen implements SimulationScreen
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Industry", null);
-		navigationPanel.addButton("Direction", null);
-		navigationPanel.addButton("Funding", null);
-		navigationPanel.addButton("Tasks", null);
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getBusinessCreationGuideNavigationPanel(
+				game, stage));
 	}
 	
 	/**
-	 * Create the long term labels and button that will be displayed in the
-	 * screen.
+	 * Create the long term labels and button that will be displayed in the screen.
 	 * 
 	 * @return the GUI that was created.
 	 */
@@ -152,8 +138,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 	}
 	
 	/**
-	 * Create the short term labels and button that will be displayed in the
-	 * screen.
+	 * Create the short term labels and button that will be displayed in the screen.
 	 * 
 	 * @return the GUI that was created.
 	 */
@@ -179,8 +164,7 @@ public class BusinessDirectonScreen implements SimulationScreen
 	}
 	
 	/**
-	 * Create the paragraph that will be displayed and organize it in a
-	 * table.
+	 * Create the paragraph that will be displayed and organize it in a table.
 	 * 
 	 * @param text
 	 *            a string array of the text that will create the table.
@@ -188,15 +172,11 @@ public class BusinessDirectonScreen implements SimulationScreen
 	 */
 	private Table createParagraph(String[] text)
 	{
-		// REFACTOR: Combine with #createDifficultyChoiceDescriptionHard
 		Table requestedParagraph = new Table();
 		
-		List<Label> lines = new LinkedList<>();
-		// REFACTOR: Load lines from file
 		for (String stringLine : text)
 		{
 			Label line = new Label(stringLine, skin);
-			lines.add(line);
 			line.setAlignment(Align.left);
 			requestedParagraph.add(line).left();
 			requestedParagraph.row();

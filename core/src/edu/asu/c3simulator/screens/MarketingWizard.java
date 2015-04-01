@@ -146,6 +146,7 @@ public class MarketingWizard implements Screen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO add wizard results to data layer
+				game.setScreen(AllManagementScreens.MARKETING.getInstance());
 			}
 		});
 		

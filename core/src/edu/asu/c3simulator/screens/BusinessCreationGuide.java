@@ -16,20 +16,19 @@ public class BusinessCreationGuide
 	
 	public BusinessCreationGuide(Game game)
 	{
-		resetAllGuideScreens();
-		//TODO add Industry screen
-		game.setScreen(new IndustryScreen(game));
+		
 	}
 	
-	private void resetAllGuideScreens()
+	private static void resetAllGuideScreens()
 	{
 		// TODO reset all screens
-		//ex. BusinessDirectionScreen.resetSelection();
+		// ex. BusinessDirectionScreen.resetSelection();
 	}
 	
 	public static void createNewBusiness()
 	{
 		// TODO: Get Selections and create new Business
 		// TODO: Transition to main hub
+		resetAllGuideScreens();
 	}
 }

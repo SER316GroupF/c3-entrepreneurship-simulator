@@ -17,7 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
+import edu.asu.c3simulator.widgets.SellCompanyButton;
 
 /**
  * This class displays the company - businesses tab in the council section of the game.
@@ -64,12 +66,9 @@ public class CompanyPanel implements SimulationScreen
 				stage.getHeight() / 2 - mainTable.getHeight() / 2);
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
+		HomeButton home = new HomeButton(game);
 		
-		// TODO add screens
-		NavigationPanel navigationPanel = createNavigationPanel();
-		
-		stage.addActor(navigationPanel);
+		stage.addActor(home);
 		stage.addActor(mainTable);
 	}
 	
@@ -169,8 +168,7 @@ public class CompanyPanel implements SimulationScreen
 		// TODO add rename and sell button created by teammates
 		
 		TextButton renameButton = new TextButton("Rename", skin);
-		TextButton sellButton = new TextButton("Sell", skin);
-		
+		SellCompanyButton sellButton = new SellCompanyButton(game, skin);
 		businessButtons.addActor(renameButton);
 		businessButtons.addActor(sellButton);
 		businessButtons.align(Align.center);
@@ -216,21 +214,9 @@ public class CompanyPanel implements SimulationScreen
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Company", null);
-		navigationPanel.addSubButton("Company", "Business", null);
-		navigationPanel.addSubButton("Company", "Assets", null);
-		navigationPanel.addButton("Tasks", null);
-		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", null);
-		navigationPanel.showSubButtonsFor("Company");
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getCouncilNavigationPanel(game, stage));
 	}
 	
 	@Override

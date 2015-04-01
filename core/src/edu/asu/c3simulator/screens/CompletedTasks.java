@@ -16,7 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Task;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * This class displays a screen that shows a list of completed tasks divided into two
@@ -78,14 +79,11 @@ public class CompletedTasks implements SimulationScreen
 				stage.getHeight() / 2 - mainTable.getHeight() / 2);
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
-		
-		// TODO add screens
-		NavigationPanel navigationPanel = createNavigationPanel();
+		HomeButton home = new HomeButton(game);
 		
 		updateCompletedTasks();
 		
-		stage.addActor(navigationPanel);
+		stage.addActor(home);
 		stage.addActor(mainTable);
 	}
 	
@@ -117,14 +115,15 @@ public class CompletedTasks implements SimulationScreen
 	 * @return an ArrayList of the completed tasks that are going to be displayed.
 	 */
 	private ArrayList<Task> getCompletedTasks()
-	{	
+	{
 		String[] actionBasedList = { "task 1.1", "task 2.1", "task 3.1", "task 4.1",
 				"task 5.1", "task 6.1", "task 7.1", "task 8.1", "task 9.1", "task 10.1",
 				"task 11.1", "task 12.1", "task 13.1", "task 14.1", "task 15.1" };
 		String[] nonActionBasedList = { "task 1.2", "task 2.2", "task 3.2", "task 4.2",
 				"task 5.2", "task 6.2", "task 7.2", "task 8.2", "task 9.2", "task 10.2" };
 		
-		// TODO replace with functional code that request completed tasks from company
+		// TODO replace with functional code that request completed tasks from
+		// company
 		// datta layer when tasks are implemented.
 		
 		ArrayList<Task> availableTasks = new ArrayList<Task>();
@@ -139,21 +138,9 @@ public class CompletedTasks implements SimulationScreen
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Company", null);
-		navigationPanel.addSubButton("Company", "Business", null);
-		navigationPanel.addSubButton("Company", "Assets", null);
-		navigationPanel.addButton("Tasks", null);
-		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", null);
-		navigationPanel.showSubButtonsFor("Tasks");
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getCouncilNavigationPanel(game, stage));
 	}
 	
 	@Override

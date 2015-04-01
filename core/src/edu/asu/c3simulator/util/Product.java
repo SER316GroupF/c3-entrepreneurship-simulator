@@ -15,15 +15,18 @@ public class Product
 	private Image productImage;
 	private String name;
 	private static final String DEFAULT_IMAGE_PATH = "images/placeholder-t_shirt-icon.png";
+	private String imagePath;
 	
 	public Product(String productName, String imagePath)
 	{
+		this.imagePath = imagePath;
 		this.name = productName;
 		this.productImage = getImage(imagePath);
 	}
 	
 	public Product(String productName)
 	{
+		this.imagePath = DEFAULT_IMAGE_PATH;
 		this.name = productName;
 		this.productImage = getImage(DEFAULT_IMAGE_PATH);
 	}
@@ -44,7 +47,7 @@ public class Product
 	
 	public Image getProductImage()
 	{
-		return productImage;
+		return getImage(imagePath);
 	}
 	
 	public void setProductImage(Image productImage)

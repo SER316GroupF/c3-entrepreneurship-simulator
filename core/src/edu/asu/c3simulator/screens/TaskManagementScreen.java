@@ -7,7 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * Creates and displays an instance of the Task Management class for the Council Section.
@@ -29,31 +30,16 @@ public class TaskManagementScreen implements SimulationScreen
 		TaskManagement taskManagementComponents = new TaskManagement(stage, skin);
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
+		HomeButton homeButton = new HomeButton(game);
 		
-		NavigationPanel navigationPanel = createNavigationPanel();
-		
-		stage.addActor(navigationPanel);
+		stage.addActor(homeButton);
 		stage.addActor(taskManagementComponents);
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Company", null);
-		navigationPanel.addSubButton("Company", "Business", null);
-		navigationPanel.addSubButton("Company", "Assets", null);
-		navigationPanel.addButton("Tasks", null);
-		navigationPanel.addSubButton("Tasks", "Manage", null);
-		navigationPanel.addSubButton("Tasks", "Completed", null);
-		navigationPanel.showSubButtonsFor("Tasks");
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getCouncilNavigationPanel(game, stage));
 	}
 	
 	@Override

@@ -13,7 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
 import edu.asu.c3simulator.util.Task;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * This screen creates and displays an instance of the Task Management class for the last
@@ -42,6 +43,7 @@ public class TasksScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				BusinessCreationGuide.createNewBusiness();
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
 		
@@ -49,11 +51,10 @@ public class TasksScreen implements SimulationScreen
 				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
 		
-		NavigationPanel navigationPanel = createNavigationPanel();
+		HomeButton homeButton = new HomeButton(game);
 		
-		stage.addActor(navigationPanel);
+		stage.addActor(homeButton);
 		stage.addActor(doneButton);
 		stage.addActor(taskManagementComponents);
 	}
@@ -70,19 +71,10 @@ public class TasksScreen implements SimulationScreen
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Industry", null);
-		navigationPanel.addButton("Direction", null);
-		navigationPanel.addButton("Funding", null);
-		navigationPanel.addButton("Tasks", null);
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getBusinessCreationGuideNavigationPanel(
+				game, stage));
 	}
 	
 	@Override

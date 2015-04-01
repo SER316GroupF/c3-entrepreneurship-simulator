@@ -1,5 +1,7 @@
 package edu.asu.c3simulator.screens;
 
+import org.junit.experimental.theories.internal.AllMembersSupplier;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,9 +19,9 @@ import edu.asu.c3simulator.C3Simulator;
 import edu.asu.c3simulator.widgets.WidgetFactory;
 
 /**
- * Allows the user to select the game difficulty. Each available difficulty is displayed
- * along with the details of the difficulty. Clicking an option will transition the player
- * to the main hub
+ * Allows the user to select the game difficulty. Each available difficulty is
+ * displayed along with the details of the difficulty. Clicking an option will
+ * transition the player to the main hub
  * 
  * @author Moore, Zachary
  * 
@@ -32,79 +34,87 @@ public class DifficultySelectionScreen implements Screen
 	 */
 	private static final int DESIGN_WIDTH = 1280;
 	private static final int DESIGN_HEIGHT = 720;
-	
+
 	/** Convenience constants */
 	private static final int DESIGN_SCREEN_CENTER_X = DESIGN_WIDTH / 2;
 	private static final int DESIGN_SCREEN_CENTER_Y = DESIGN_HEIGHT / 2;
-	
+
 	/** Used to transition to other game screens */
 	@SuppressWarnings("unused")
 	private Game game;
-	
-	/** Handles all components of this screen (rendering, updating, resizing, etc) */
+
+	/**
+	 * Handles all components of this screen (rendering, updating, resizing,
+	 * etc)
+	 */
 	private Stage stage;
-	
+
 	/** Specifies textures to use for default widgets such as Buttons and Labels */
 	private Skin skin;
-	
+
 	/**
 	 * @param game
-	 *            Will be used to call {@link Game#setScreen(Screen)} when transitioning
+	 *            Will be used to call {@link Game#setScreen(Screen)} when
+	 *            transitioning
 	 */
 	public DifficultySelectionScreen(Game game)
 	{
 		this.game = game;
-		
-		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH, DESIGN_HEIGHT);
+		AllManagementScreens.initialize(game);
+
+		Viewport stageViewport = new StretchViewport(DESIGN_WIDTH,
+				DESIGN_HEIGHT);
 		this.stage = new Stage(stageViewport);
 		this.skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		
+
 		Table choices = new Table();
-		
+
 		// REFACTOR: load from file
-		String[] descriptionEasy = new String[] { "$8 000 startup", "Tips Display",
-				"Modified Competition" };
+		String[] descriptionEasy = new String[] { "$8 000 startup",
+				"Tips Display", "Modified Competition" };
 		String[] descriptionHard = new String[] { "$2 000 startup",
 				"Realistic Competition" };
-		
+
 		FileHandle skinHandle = Gdx.files.internal("skins/default/uiskin.json");
 		WidgetFactory factory = new WidgetFactory(skinHandle);
 		Actor difficultyChoiceEasy = factory.createVerticalListTitled("Easy",
 				descriptionEasy);
 		Actor difficultyChoiceHard = factory.createVerticalListTitled("Hard",
 				descriptionHard);
-		
-		// REFACTOR: Generalize these listeners, and/or outsource them to a factory
+
+		// REFACTOR: Generalize these listeners, and/or outsource them to a
+		// factory
 		difficultyChoiceEasy.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Easy");
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
-		
-		// REFACTOR: Generalize these listeners, and/or outsource them to a factory
+
+		// REFACTOR: Generalize these listeners, and/or outsource them to a
+		// factory
 		difficultyChoiceHard.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO: Transition to main hub
 				// TODO: Instantiate simulation
 				System.out.println("Hard");
+				game.setScreen(AllManagementScreens.MAIN_HUB.getInstance());
 			}
 		});
-		
+
 		choices.add(difficultyChoiceEasy).top();
 		choices.add(difficultyChoiceHard).top().spaceLeft(75);
-		
+
 		choices.setTransform(true);
 		choices.setPosition(DESIGN_SCREEN_CENTER_X, DESIGN_SCREEN_CENTER_Y);
-		
+
 		stage.addActor(choices);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -116,7 +126,7 @@ public class DifficultySelectionScreen implements Screen
 		stage.dispose();
 		this.game = null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -128,7 +138,7 @@ public class DifficultySelectionScreen implements Screen
 		// Do not register input if this screen is not active
 		Gdx.input.setInputProcessor(null);
 	}
-	
+
 	/*
 	 * (non-Javadoc) Disables input detection for this screen
 	 * 
@@ -139,7 +149,7 @@ public class DifficultySelectionScreen implements Screen
 	{
 		Gdx.input.setInputProcessor(null);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -152,7 +162,7 @@ public class DifficultySelectionScreen implements Screen
 		stage.act(delta);
 		stage.draw();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -163,7 +173,7 @@ public class DifficultySelectionScreen implements Screen
 	{
 		stage.getViewport().update(width, height);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -174,7 +184,7 @@ public class DifficultySelectionScreen implements Screen
 	{
 		Gdx.input.setInputProcessor(stage);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -185,5 +195,5 @@ public class DifficultySelectionScreen implements Screen
 	{
 		Gdx.input.setInputProcessor(stage);
 	}
-	
+
 }

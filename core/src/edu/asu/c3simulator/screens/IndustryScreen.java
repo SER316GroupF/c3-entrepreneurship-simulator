@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.asu.c3simulator.simulation.SimulationScreen;
-import edu.asu.c3simulator.widgets.NavigationPanel;
+import edu.asu.c3simulator.widgets.HomeButton;
+import edu.asu.c3simulator.widgets.NavigationPanelFactory;
 
 /**
  * This screen still requires implementation. It was created and added to show the
@@ -41,7 +42,7 @@ public class IndustryScreen implements SimulationScreen
 			public void clicked(InputEvent event, float x, float y)
 			{
 				// TODO: Transition to Direction Screen
-				game.setScreen(new BusinessDirectonScreen(game));
+				game.setScreen(AllManagementScreens.BUSINESS_DIRECTION.getInstance());
 			}
 		});
 		
@@ -49,29 +50,18 @@ public class IndustryScreen implements SimulationScreen
 				- (0.01f * stage.getWidth()), (0.01f * stage.getWidth()));
 		
 		// TODO add Corner Advisor
-		// TODO add Home Button
+		HomeButton homeButton = new HomeButton(game);
 		
-		NavigationPanel navigationPanel = createNavigationPanel();
-		
-		stage.addActor(navigationPanel);
+		stage.addActor(homeButton);
 		stage.addActor(continueButton);
 		stage.addActor(ScreenDiscription);
 	}
 	
 	@Override
-	public NavigationPanel createNavigationPanel()
+	public void createNavigationPanel()
 	{
-		// TODO add screens
-		NavigationPanel navigationPanel = new NavigationPanel(game, skin);
-		navigationPanel.addButton("Industry", null);
-		navigationPanel.addButton("Direction", null);
-		navigationPanel.addButton("Funding", null);
-		navigationPanel.addButton("Tasks", null);
-		
-		navigationPanel.setPosition(0.01f * stage.getWidth(), stage.getHeight()
-				- (0.3f * stage.getHeight()));
-		
-		return navigationPanel;
+		stage.addActor(NavigationPanelFactory.getBusinessCreationGuideNavigationPanel(
+				game, stage));
 	}
 	
 	@Override
